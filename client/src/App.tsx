@@ -1,23 +1,26 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import SockJS from "sockjs-client";
+import Stompp from "stompjs";
 
 function App() {
   const [count, setCount] = useState(0)
-  const sock = new SockJS("http://localhost:8080/ws");
-  sock.onopen = function() {
-    sock.send("test");
-  };
+  const [sock] = useState<WebSocket>(new SockJS("http://localhost:8080/ws"));
+  const [stompClient, setStompClient] = useState<Stompp.Client | null>(null);
 
-  sock.onmessage = function(e) {
-    console.log("message", e.data);
-  };
+  useEffect(() => {
+    const stompClient = Stompp.over(sock);
+    stompClient.connect({}, () => {
+      console.log("connected");
+      setStompClient(stompClient);
+    });
+  }, [sock]);
 
-  sock.onclose = function() {
-    console.log("close");
-  };
+  useEffect(() => {
+    stompClient?.send("/app/hello", {}, JSON.stringify({ name: "John" }));
+  }, [stompClient]);
 
   return (
     <>
