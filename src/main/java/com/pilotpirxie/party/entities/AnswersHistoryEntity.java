@@ -33,6 +33,10 @@ public class AnswersHistoryEntity {
     @JoinColumn(name = "answer_id")
     private AnswerEntity answer;
 
+    @ManyToOne
+    @JoinColumn(name = "game_id", insertable = false, updatable = false)
+    private GameEntity game;
+
     @Column(name = "answer_url")
     private String answerUrl;
 
