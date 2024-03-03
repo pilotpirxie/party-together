@@ -5,16 +5,9 @@ CREATE TABLE "game" (
   "timer_to" timestamp NOT NULL,
   "time_to_answer" int NOT NULL,
   "time_to_draw" int NOT NULL,
+  "game_question_ids" uuid[] NOT NULL,
   "created_at" timestamp NOT NULL,
   "updated_at" timestamp NOT NULL
-);
-
-CREATE TABLE "game_questions" (
-  "game_id" uuid NOT NULL,
-  "question_id" uuid NOT NULL,
-  "created_at" timestamp NOT NULL,
-  "updated_at" timestamp NOT NULL,
-  PRIMARY KEY ("game_id", "question_id")
 );
 
 CREATE TABLE "users" (
@@ -85,6 +78,3 @@ ALTER TABLE "answers_history" ADD FOREIGN KEY ("game_id") REFERENCES "game" ("id
 
 ALTER TABLE "answers_history" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "game_questions" ADD FOREIGN KEY ("question_id") REFERENCES "questions" ("id");
-
-ALTER TABLE "game_questions" ADD FOREIGN KEY ("game_id") REFERENCES "game" ("id");

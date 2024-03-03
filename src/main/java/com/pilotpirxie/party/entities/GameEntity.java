@@ -1,12 +1,15 @@
 package com.pilotpirxie.party.entities;
 
+import com.vladmihalcea.hibernate.type.array.UUIDArrayType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -44,8 +47,9 @@ public class GameEntity {
     @OneToMany(mappedBy = "game")
     private Set<UserEntity> users;
 
-    @OneToMany(mappedBy = "game")
-    private Set<GameQuestionEntity> gameQuestions;
+    @Type(UUIDArrayType.class)
+    @Column(name = "game_question_ids", columnDefinition = "uuid[]")
+    private List<UUID> gameQuestionIds;
 
     @OneToMany(mappedBy = "game")
     private Set<AnswersHistoryEntity> answerHistories;
