@@ -9,6 +9,7 @@ import java.util.List;
 public record JoinedEvent(
     GameDto game,
     List<QuestionDto> questions,
-    List<UserDto> users
+    List<UserDto> users,
+    UserDto currentUser
 ) {
 }
