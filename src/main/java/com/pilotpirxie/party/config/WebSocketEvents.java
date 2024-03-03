@@ -1,4 +1,4 @@
-package com.pilotpirxie.party;
+package com.pilotpirxie.party.config;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;

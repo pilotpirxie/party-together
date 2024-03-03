@@ -7,13 +7,22 @@ export type OutgoingMessage = {
   payload: {
     nickname: string;
     avatar: number;
-    gameId: string;
+    code: string;
   },
+} | {
+  type: "Ping",
+  payload: object
 }
 
-function registerIncomingEventsHandler(stomp: Client) {
-  stomp.subscribe("/topic/game", (message) => {
-    console.log(message);
+function registerIncomingEventsHandler(stomp: Client, gameId: string) {
+  stomp.subscribe(`/topic/${gameId}/UsersState`, (message) => {
+    const payload = JSON.parse(message.body);
+    console.log("UsersState", payload);
+  });
+
+  stomp.subscribe(`/topic/${gameId}/Ping`, (message) => {
+    const payload = JSON.parse(message.body);
+    console.log("Ping", payload);
   });
 }
 
@@ -36,7 +45,11 @@ export function useSocket(): SocketHook {
       onConnect: () => {
         dispatch(setStompClient(newStompClient));
 
-        registerIncomingEventsHandler(newStompClient);
+        newStompClient.subscribe("/user/queue/Joined", (message) => {
+          const payload = JSON.parse(message.body);
+
+          registerIncomingEventsHandler(newStompClient, payload.game.id)
+        });
       }
     });
 
@@ -50,7 +63,7 @@ export function useSocket(): SocketHook {
 
   const sendMessage = (message: OutgoingMessage, headers?: StompHeaders) => {
     stompClient?.publish({
-      destination: "/app/game/" + message.type,
+      destination: "/app/" + message.type,
       headers,
       body: JSON.stringify(message.payload),
     });

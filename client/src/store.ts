@@ -7,7 +7,9 @@ export const store = configureStore({
     config: configReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(),
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(),
 });
 
 export type AppDispatch = typeof store.dispatch;
