@@ -17,6 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class QuestionEntity {
     @Id
+    @GeneratedValue
     @Column(name = "id")
     private UUID id;
 

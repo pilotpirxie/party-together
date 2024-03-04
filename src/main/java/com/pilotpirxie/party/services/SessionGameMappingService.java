@@ -24,6 +24,5 @@ public class SessionGameMappingService {
     public void cleanUpStaleSessions() {
         var now = java.time.LocalDateTime.now();
         sessionGameMap.entrySet().removeIf(entry -> entry.getValue().createdAt().isBefore(now.minusHours(6)));
-        System.out.println("Cleaned up stale sessions");
     }
 }

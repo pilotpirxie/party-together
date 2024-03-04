@@ -20,6 +20,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -83,9 +84,9 @@ public class GameController {
             var newGame = new GameEntity();
             newGame.setCode(event.code());
             newGame.setQuestionIndex(0);
-            newGame.setTimerTo(null);
-            newGame.setTimeToAnswer(0);
-            newGame.setTimeToDraw(0);
+            newGame.setTimerTo(LocalDateTime.now());
+            newGame.setTimeToAnswer(60);
+            newGame.setTimeToDraw(120);
             newGame.setCreatedAt(java.time.LocalDateTime.now());
             newGame.setUpdatedAt(java.time.LocalDateTime.now());
             newGame.setGameQuestionIds(gameQuestionIds);
