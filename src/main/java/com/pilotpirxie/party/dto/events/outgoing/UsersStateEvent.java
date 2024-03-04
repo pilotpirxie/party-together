@@ -1,4 +1,4 @@
-package com.pilotpirxie.party.events.outgoing;
+package com.pilotpirxie.party.dto.events.outgoing;
 
 import com.pilotpirxie.party.dto.UserDto;
 

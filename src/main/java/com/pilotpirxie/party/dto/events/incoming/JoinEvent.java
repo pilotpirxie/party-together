@@ -1,4 +1,4 @@
-package com.pilotpirxie.party.events.incoming;
+package com.pilotpirxie.party.dto.events.incoming;
 
 public record JoinEvent(
     String nickname,

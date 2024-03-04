@@ -47,6 +47,7 @@ export function useSocket(): SocketHook {
 
         newStompClient.subscribe("/user/queue/Joined", (message) => {
           const payload = JSON.parse(message.body);
+          console.log("Joined", payload);
 
           registerIncomingEventsHandler(newStompClient, payload.game.id)
         });

@@ -1,7 +1,7 @@
 package com.pilotpirxie.party.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.pilotpirxie.party.config.LocalDateTimeToUTCStringSerializer;
 
 import java.time.LocalDateTime;
 
@@ -9,12 +9,12 @@ public record GameDto(
     String id,
     String code,
     int questionIndex,
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonSerialize(using = LocalDateTimeToUTCStringSerializer.class)
     LocalDateTime timerTo,
     int timeToAnswer,
     int timeToDraw,
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonSerialize(using = LocalDateTimeToUTCStringSerializer.class)
     LocalDateTime createdAt,
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonSerialize(using = LocalDateTimeToUTCStringSerializer.class)
     LocalDateTime updatedAt
 ) {}
