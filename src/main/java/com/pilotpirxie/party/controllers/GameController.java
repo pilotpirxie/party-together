@@ -2,7 +2,6 @@ package com.pilotpirxie.party.controllers;
 
 import com.pilotpirxie.party.dto.AnswerDto;
 import com.pilotpirxie.party.dto.QuestionDto;
-import com.pilotpirxie.party.dto.events.common.PingEvent;
 import com.pilotpirxie.party.dto.events.incoming.JoinEvent;
 import com.pilotpirxie.party.dto.events.outgoing.JoinedEvent;
 import com.pilotpirxie.party.dto.events.outgoing.UsersStateEvent;
@@ -140,13 +139,5 @@ public class GameController {
 
         var usersStateEvent = new UsersStateEvent(usersListDto);
         gameMessagingService.broadcastToGame(game.getId().toString(), "UsersState", usersStateEvent);
-    }
-
-    @MessageMapping("/Ping")
-    public void pingGame(@Payload PingEvent event, SimpMessageHeaderAccessor headerAccessor) {
-        System.out.println("Pinging game");
-
-        var gameId = gameMessagingService.getGameId(headerAccessor.getSessionId());
-        gameMessagingService.broadcastToGame(gameId, "Ping", new PingEvent());
     }
 }

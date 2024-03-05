@@ -1,7 +1,19 @@
+import { Category, Game, Question, User } from "../data/model.ts";
 import { Client } from "@stomp/stompjs";
-import { UsersStateEvent } from "./events/incoming.ts";
 import { AppDispatch } from "../data/store.ts";
 import { setUsers } from "../data/gameSlice.ts";
+
+export type JoinedEvent = {
+  game: Game;
+  questions: Question[];
+  categories: Category[];
+  users: User[];
+  currentUser: User;
+};
+
+export type UsersStateEvent = {
+  users: User[];
+};
 
 export function registerIncomingEventsHandler({
   stomp,

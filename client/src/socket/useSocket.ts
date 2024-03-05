@@ -1,7 +1,7 @@
 import { Client, StompHeaders } from "@stomp/stompjs";
 import { useAppDispatch, useAppSelector } from "../data/store.ts";
 import { setIsSocketConnected, setStompClient } from "../data/configSlice.ts";
-import { JoinedEvent } from "./events/incoming.ts";
+import { JoinedEvent, registerIncomingEventsHandler } from "./incoming.ts";
 import {
   clearGame,
   setCategories,
@@ -10,8 +10,7 @@ import {
   setQuestions,
   setUsers,
 } from "../data/gameSlice.ts";
-import { registerIncomingEventsHandler } from "./incomingEventsHandler.ts";
-import { OutgoingMessage } from "./events/outgoing.ts";
+import { OutgoingMessage } from "./outgoing.ts";
 
 type SocketHook = {
   connect: () => void;
