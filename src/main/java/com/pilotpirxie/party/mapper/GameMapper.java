@@ -14,6 +14,7 @@ public class GameMapper {
             entity.getCode(),
             entity.getQuestionIndex(),
             entity.getCurrentCategoryId() != null ? entity.getCurrentCategoryId().toString() : null,
+            entity.getState().toString(),
             entity.getTimerTo(),
             entity.getTimeToAnswer(),
             entity.getTimeToDraw(),

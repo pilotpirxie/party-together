@@ -13,12 +13,14 @@ const initialState: GameState = {
   game: {
     timeToDraw: 0,
     timeToAnswer: 0,
-    timerTo: new Date(),
+    timerTo: null,
     questionIndex: 0,
+    currentCategoryId: null,
+    state: "WAITING",
     code: "",
     id: "",
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
   questions: [],
   categories: [],
@@ -28,10 +30,10 @@ const initialState: GameState = {
     sessionId: "",
     gameId: "",
     nickname: "",
-    avatar: "",
+    avatar: 0,
     isReady: false,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   }
 }
 

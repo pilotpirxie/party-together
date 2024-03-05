@@ -1,3 +1,4 @@
+
 export type Category = {
   id:           string;
   language:     string;
@@ -14,26 +15,28 @@ export type User = {
   sessionId: string;
   gameId:    string;
   nickname:  string;
-  avatar:    string;
+  avatar:    number;
   isReady:   boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type Game = {
-  id:            string;
-  code:          string;
-  questionIndex: number;
-  timerTo:       Date;
-  timeToAnswer:  number;
-  timeToDraw:    number;
-  createdAt:     Date;
-  updatedAt:     Date;
+  id:                string;
+  code:              string;
+  questionIndex:     number;
+  currentCategoryId: null | string;
+  state:             string;
+  timerTo:           null | string;
+  timeToAnswer:      number;
+  timeToDraw:        number;
+  createdAt:         string;
+  updatedAt:         string;
 }
 
 export type Question = {
   id:         string;
-  type:       number;
+  type:       QuestionType;
   categoryId: string;
   content:    string;
   answers:    Answer[];
@@ -43,5 +46,6 @@ export type Answer = {
   id:         string;
   content:    string;
   questionId: string;
-  isCorrect:  boolean;
 }
+
+export type QuestionType = "WHAT" | "WHO" | "DRAWING";

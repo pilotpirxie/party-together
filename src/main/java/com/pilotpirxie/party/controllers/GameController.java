@@ -101,23 +101,25 @@ public class GameController {
         newUser.setReady(false);
         userRepository.save(newUser);
 
-        // get all users in game
-        // get current user
-        // get game state
-        // get questions and answers
-        // create big event with all the data
-        // send to user
-
         var users = userRepository.findByGameId(game.getId());
-        var currentUser = users.stream().filter(user -> user.getSessionId().equals(headerAccessor.getSessionId())).findFirst().get();
+        var currentUser = users
+            .stream()
+            .filter(user -> user.getSessionId().equals(headerAccessor.getSessionId()))
+            .findFirst()
+            .get();
+
         var questions = questionRepository.findAllById(game.getGameQuestionIds());
         var answers = answerRepository.findAllByQuestionIdIn(game.getGameQuestionIds());
 
         var questionsListDto = new ArrayList<QuestionDto>();
         var categoryIds = new HashSet<UUID>();
         for (var question : questions) {
-            Set<AnswerDto> questionAnswers = answers.stream().filter(answer -> answer.getQuestion().getId().equals(question.getId())).collect(Collectors.toSet())
-                .stream().map(AnswerMapper::toDto).collect(Collectors.toSet());
+            Set<AnswerDto> questionAnswers = answers
+                .stream()
+                .filter(answer -> answer.getQuestion().getId().equals(question.getId()))
+                .map(AnswerMapper::toDto)
+                .collect(Collectors.toSet());
+
             questionsListDto.add(QuestionMapper.toDto(question, questionAnswers));
             categoryIds.add(question.getCategory().getId());
         }
