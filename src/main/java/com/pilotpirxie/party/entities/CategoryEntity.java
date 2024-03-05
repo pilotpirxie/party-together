@@ -18,33 +18,33 @@ import java.util.UUID;
 public class CategoryEntity {
     @Id
     @GeneratedValue
-    @Column(name = "id")
+    @Column()
     private UUID id;
 
-    @Column(name = "language", nullable = false)
+    @Column(nullable = false)
     private String language;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(nullable = false)
     private String description;
 
-    @Column(name = "background", nullable = false)
+    @Column(nullable = false)
     private String background;
 
-    @Column(name = "primary_color", nullable = false)
+    @Column(nullable = false)
     private String primaryColor;
 
-    @Column(name = "font_family", nullable = false)
+    @Column(nullable = false)
     private String fontFamily;
 
-    @Column(name = "audio", nullable = false)
+    @Column(nullable = false)
     private String audio;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 }

@@ -20,15 +20,23 @@ import java.util.UUID;
 public class GameEntity {
     @Id
     @GeneratedValue
+    @Column()
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String code;
 
     @Column(nullable = false)
     private Integer questionIndex;
 
+    @Column()
+    private UUID currentCategoryId;
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    private GameState state;
+
+    @Column()
     private LocalDateTime timerTo;
 
     @Column(nullable = false)

@@ -4,7 +4,7 @@ import java.util.Set;
 
 public record QuestionDto(
     String id,
-    int type,
+    String type,
     String categoryId,
     String content,
     Set<AnswerDto> answers

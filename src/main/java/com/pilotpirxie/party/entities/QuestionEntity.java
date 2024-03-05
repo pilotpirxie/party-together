@@ -18,22 +18,23 @@ import java.util.UUID;
 public class QuestionEntity {
     @Id
     @GeneratedValue
-    @Column(name = "id")
+    @Column()
     private UUID id;
 
-    @Column(name = "type", nullable = false)
-    private int type;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private QuestionType type;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
-    @Column(name = "content", nullable = false)
+    @Column(nullable = false)
     private String content;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 }

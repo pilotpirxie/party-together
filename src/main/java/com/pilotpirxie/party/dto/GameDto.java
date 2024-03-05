@@ -9,6 +9,7 @@ public record GameDto(
     String id,
     String code,
     int questionIndex,
+    String currentCategoryId,
     @JsonSerialize(using = LocalDateTimeToUTCStringSerializer.class)
     LocalDateTime timerTo,
     int timeToAnswer,

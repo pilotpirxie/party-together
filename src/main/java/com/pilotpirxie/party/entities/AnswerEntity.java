@@ -18,22 +18,19 @@ import java.util.UUID;
 public class AnswerEntity {
     @Id
     @GeneratedValue
-    @Column(name = "id")
+    @Column()
     private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
     private QuestionEntity question;
 
-    @Column(name = "content", nullable = false)
+    @Column(nullable = false)
     private String content;
 
-    @Column(name = "is_correct", nullable = false)
-    private boolean isCorrect;
-
-    @Column(name = "created_at", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 }

@@ -1,14 +1,13 @@
 package com.pilotpirxie.party.controllers;
 
-import com.pilotpirxie.party.dto.*;
+import com.pilotpirxie.party.dto.AnswerDto;
+import com.pilotpirxie.party.dto.QuestionDto;
 import com.pilotpirxie.party.dto.events.common.PingEvent;
 import com.pilotpirxie.party.dto.events.incoming.JoinEvent;
 import com.pilotpirxie.party.dto.events.outgoing.JoinedEvent;
 import com.pilotpirxie.party.dto.events.outgoing.UsersStateEvent;
-import com.pilotpirxie.party.entities.CategoryEntity;
-import com.pilotpirxie.party.entities.GameEntity;
-import com.pilotpirxie.party.entities.QuestionEntity;
-import com.pilotpirxie.party.entities.UserEntity;
+import com.pilotpirxie.party.entities.*;
+import com.pilotpirxie.party.mapper.*;
 import com.pilotpirxie.party.repositories.*;
 import com.pilotpirxie.party.services.GameMessagingService;
 import com.pilotpirxie.party.services.SessionGameMappingService;
@@ -17,7 +16,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -81,12 +79,12 @@ public class GameController {
             var newGame = new GameEntity();
             newGame.setCode(event.code());
             newGame.setQuestionIndex(0);
-            newGame.setTimerTo(LocalDateTime.now());
             newGame.setTimeToAnswer(60);
             newGame.setTimeToDraw(120);
             newGame.setCreatedAt(java.time.LocalDateTime.now());
             newGame.setUpdatedAt(java.time.LocalDateTime.now());
             newGame.setGameQuestionIds(gameQuestionIds);
+            newGame.setState(GameState.WAITING);
             gameRepository.save(newGame);
         }
 
@@ -96,7 +94,7 @@ public class GameController {
         var newUser = new UserEntity();
         newUser.setSessionId(headerAccessor.getSessionId());
         newUser.setNickname(event.nickname());
-        newUser.setAvatar(event.avatar().toString());
+        newUser.setAvatar(event.avatar());
         newUser.setCreatedAt(java.time.LocalDateTime.now());
         newUser.setUpdatedAt(java.time.LocalDateTime.now());
         newUser.setGame(game);
@@ -119,18 +117,17 @@ public class GameController {
         var categoryIds = new HashSet<UUID>();
         for (var question : questions) {
             Set<AnswerDto> questionAnswers = answers.stream().filter(answer -> answer.getQuestion().getId().equals(question.getId())).collect(Collectors.toSet())
-                .stream().map(answer -> new AnswerDto(answer.getId().toString(), answer.getContent(), answer.getQuestion().getId().toString(), answer.isCorrect())).collect(Collectors.toSet());
-            System.out.println(question.getContent());
-            questionsListDto.add(new QuestionDto(question.getId().toString(), question.getType(), question.getCategory().getId().toString(), question.getContent(), questionAnswers));
+                .stream().map(AnswerMapper::toDto).collect(Collectors.toSet());
+            questionsListDto.add(QuestionMapper.toDto(question, questionAnswers));
             categoryIds.add(question.getCategory().getId());
         }
 
         var categories = categoryRepository.findAllByIdIn(categoryIds);
-        var categoriesListDto = new ArrayList<>(categories).stream().map(category -> new CategoryDto(category.getId().toString(), category.getLanguage(), category.getName(), category.getDescription(), category.getBackground(), category.getAudio(), category.getPrimaryColor(), category.getFontFamily())).toList();
+        var categoriesListDto = new ArrayList<>(categories).stream().map(CategoryMapper::toDto).toList();
 
-        var gameDto = new GameDto(game.getId().toString(), game.getCode(), game.getQuestionIndex(), game.getTimerTo(), game.getTimeToAnswer(), game.getTimeToDraw(), game.getCreatedAt(), game.getUpdatedAt());
-        var usersListDto = new ArrayList<>(users).stream().map(user -> new UserDto(user.getId().toString(), user.getSessionId(), user.getGame().getId().toString(), user.getNickname(), user.getAvatar(), user.isReady(), user.getCreatedAt(), user.getUpdatedAt())).toList();
-        var currentUserDto = new UserDto(currentUser.getId().toString(), currentUser.getSessionId(), currentUser.getGame().getId().toString(), currentUser.getNickname(), currentUser.getAvatar(), currentUser.isReady(), currentUser.getCreatedAt(), currentUser.getUpdatedAt());
+        var gameDto = GameMapper.toDto(game);
+        var usersListDto = new ArrayList<>(users).stream().map(UserMapper::toDto).toList();
+        var currentUserDto = UserMapper.toDto(currentUser);
 
         var joinedEvent = new JoinedEvent(gameDto, questionsListDto, categoriesListDto, usersListDto, currentUserDto);
         gameMessagingService.sendToUser(headerAccessor.getSessionId(), "Joined", joinedEvent);

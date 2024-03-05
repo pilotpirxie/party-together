@@ -10,7 +10,7 @@ public record UserDto(
     String sessionId,
     String gameId,
     String nickname,
-    String avatar,
+    Integer avatar,
     boolean isReady,
     @JsonSerialize(using = LocalDateTimeToUTCStringSerializer.class)
     LocalDateTime createdAt,

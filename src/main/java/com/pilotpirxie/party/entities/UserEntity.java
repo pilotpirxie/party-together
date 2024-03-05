@@ -18,28 +18,28 @@ import java.util.UUID;
 public class UserEntity {
     @Id
     @GeneratedValue
-    @Column(name = "id")
+    @Column()
     private UUID id;
 
-    @Column(name = "session_id", nullable = false)
+    @Column(nullable = false)
     private String sessionId;
 
     @ManyToOne
     @JoinColumn(name = "game_id", nullable = false)
     private GameEntity game;
 
-    @Column(name = "nickname", nullable = false)
+    @Column( nullable = false)
     private String nickname;
 
-    @Column(name = "avatar", nullable = false)
-    private String avatar;
+    @Column(nullable = false)
+    private Integer avatar;
 
-    @Column(name = "is_ready", nullable = false)
+    @Column(nullable = false)
     private boolean isReady;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 }

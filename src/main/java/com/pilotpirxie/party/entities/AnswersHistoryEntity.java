@@ -18,15 +18,15 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AnswersHistoryEntity {
     @Id
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private UUID userId;
 
     @Id
-    @Column(name = "game_id")
+    @Column(name = "game_id", nullable = false)
     private UUID gameId;
 
     @Id
-    @Column(name = "question_id")
+    @Column(name = "question_id", nullable = false)
     private UUID questionId;
 
     @ManyToOne
@@ -34,18 +34,15 @@ public class AnswersHistoryEntity {
     private AnswerEntity answer;
 
     @ManyToOne
-    @JoinColumn(name = "game_id", insertable = false, updatable = false)
+    @JoinColumn(name = "game_id")
     private GameEntity game;
 
-    @Column(name = "answer_url")
+    @Column()
     private String answerUrl;
 
-    @Column(name = "points", nullable = false)
-    private int points;
-
-    @Column(name = "created_at", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 }
