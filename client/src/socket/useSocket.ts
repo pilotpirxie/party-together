@@ -1,46 +1,33 @@
-import {Client, StompHeaders} from '@stomp/stompjs';
-import {useAppDispatch, useAppSelector} from "../data/store.ts";
-import {setIsSocketConnected, setStompClient} from "../data/configSlice.ts";
-import {JoinedEvent} from "./events/incoming.ts";
-import {setCategories, setCurrentUser, setGame, setQuestions, setUsers} from "../data/gameSlice.ts";
-
-export type OutgoingMessage = {
-  type: "Join",
-  payload: {
-    nickname: string;
-    avatar: number;
-    code: string;
-  },
-} | {
-  type: "Ping",
-  payload: object
-}
-
-function registerIncomingEventsHandler(stomp: Client, gameId: string) {
-  stomp.subscribe(`/topic/${gameId}/UsersState`, (message) => {
-    const payload = JSON.parse(message.body);
-    console.log("UsersState", payload);
-  });
-
-  stomp.subscribe(`/topic/${gameId}/Ping`, (message) => {
-    const payload = JSON.parse(message.body);
-    console.log("Ping", payload);
-  });
-}
+import { Client, StompHeaders } from "@stomp/stompjs";
+import { useAppDispatch, useAppSelector } from "../data/store.ts";
+import { setIsSocketConnected, setStompClient } from "../data/configSlice.ts";
+import { JoinedEvent } from "./events/incoming.ts";
+import {
+  clearGame,
+  setCategories,
+  setCurrentUser,
+  setGame,
+  setQuestions,
+  setUsers,
+} from "../data/gameSlice.ts";
+import { registerIncomingEventsHandler } from "./incomingEventsHandler.ts";
+import { OutgoingMessage } from "./events/outgoing.ts";
 
 type SocketHook = {
   connect: () => void;
   disconnect: () => void;
   sendMessage: (message: OutgoingMessage, headers?: StompHeaders) => void;
   stompClient: Client | null;
-}
+};
 
 export function useSocket(): SocketHook {
   const stompClient = useAppSelector((state) => state.config.stompClient);
   const dispatch = useAppDispatch();
 
-  const connect = () => {
-    if (stompClient?.connected) return;
+  const connect = async () => {
+    if (stompClient?.connected) {
+      await stompClient.deactivate();
+    }
 
     const newStompClient = new Client({
       brokerURL: "ws://localhost:8080/ws",
@@ -57,18 +44,27 @@ export function useSocket(): SocketHook {
           dispatch(setCurrentUser(payload.currentUser));
           dispatch(setCategories(payload.categories));
           dispatch(setQuestions(payload.questions));
-          registerIncomingEventsHandler(newStompClient, payload.game.id)
+
+          registerIncomingEventsHandler({
+            stomp: newStompClient,
+            gameId: payload.game.id.toString(),
+            dispatch,
+          });
         });
-      }
+      },
     });
 
     newStompClient.activate();
-  }
+    newStompClient.onDisconnect = () => {
+      dispatch(setIsSocketConnected(false));
+      dispatch(clearGame());
+    };
+  };
 
   const disconnect = () => {
     stompClient?.deactivate();
     dispatch(setStompClient(null));
-  }
+  };
 
   const sendMessage = (message: OutgoingMessage, headers?: StompHeaders) => {
     stompClient?.publish({
@@ -76,7 +72,7 @@ export function useSocket(): SocketHook {
       headers,
       body: JSON.stringify(message.payload),
     });
-  }
+  };
 
   return { connect, disconnect, sendMessage, stompClient };
 }

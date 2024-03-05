@@ -1,51 +1,50 @@
-
 export type Category = {
-  id:           string;
-  language:     string;
-  name:         string;
-  description:  string;
-  background:   string;
-  audio:        string;
+  id: string;
+  language: string;
+  name: string;
+  description: string;
+  background: string;
+  audio: string;
   primaryColor: string;
-  fontFamily:   string;
-}
+  fontFamily: string;
+};
 
 export type User = {
-  id:        string;
+  id: string;
   sessionId: string;
-  gameId:    string;
-  nickname:  string;
-  avatar:    number;
-  isReady:   boolean;
+  gameId: string;
+  nickname: string;
+  avatar: number;
+  isReady: boolean;
   createdAt: string;
   updatedAt: string;
-}
+};
 
 export type Game = {
-  id:                string;
-  code:              string;
-  questionIndex:     number;
+  id: string;
+  code: string;
+  questionIndex: number;
   currentCategoryId: null | string;
-  state:             string;
-  timerTo:           null | string;
-  timeToAnswer:      number;
-  timeToDraw:        number;
-  createdAt:         string;
-  updatedAt:         string;
-}
+  state: string;
+  timerTo: null | string;
+  timeToAnswer: number;
+  timeToDraw: number;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type Question = {
-  id:         string;
-  type:       QuestionType;
+  id: string;
+  type: QuestionType;
   categoryId: string;
-  content:    string;
-  answers:    Answer[];
-}
+  content: string;
+  answers: Answer[];
+};
 
 export type Answer = {
-  id:         string;
-  content:    string;
+  id: string;
+  content: string;
   questionId: string;
-}
+};
 
 export type QuestionType = "WHAT" | "WHO" | "DRAWING";

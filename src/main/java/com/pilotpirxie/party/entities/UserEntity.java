@@ -38,6 +38,9 @@ public class UserEntity {
     private boolean isReady;
 
     @Column(nullable = false)
+    private boolean connected;
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)

@@ -91,15 +91,19 @@ public class GameController {
         var game = gameExists.orElseGet(() -> gameRepository.findByCode(event.code()).get());
         sessionGameMappingService.mapSessionToGame(headerAccessor.getSessionId(), game.getId().toString());
 
-        var newUser = new UserEntity();
-        newUser.setSessionId(headerAccessor.getSessionId());
-        newUser.setNickname(event.nickname());
-        newUser.setAvatar(event.avatar());
-        newUser.setCreatedAt(java.time.LocalDateTime.now());
-        newUser.setUpdatedAt(java.time.LocalDateTime.now());
-        newUser.setGame(game);
-        newUser.setReady(false);
-        userRepository.save(newUser);
+        var userWithCurrentSession = userRepository.findBySessionId(headerAccessor.getSessionId());
+        if (userWithCurrentSession.isEmpty()) {
+            var newUser = new UserEntity();
+            newUser.setSessionId(headerAccessor.getSessionId());
+            newUser.setNickname(event.nickname());
+            newUser.setAvatar(event.avatar());
+            newUser.setCreatedAt(java.time.LocalDateTime.now());
+            newUser.setUpdatedAt(java.time.LocalDateTime.now());
+            newUser.setGame(game);
+            newUser.setReady(false);
+            newUser.setConnected(true);
+            userRepository.save(newUser);
+        }
 
         var users = userRepository.findByGameId(game.getId());
         var currentUser = users
@@ -128,7 +132,7 @@ public class GameController {
         var categoriesListDto = new ArrayList<>(categories).stream().map(CategoryMapper::toDto).toList();
 
         var gameDto = GameMapper.toDto(game);
-        var usersListDto = new ArrayList<>(users).stream().map(UserMapper::toDto).toList();
+        var usersListDto = new ArrayList<>(users).stream().filter(UserEntity::isConnected).map(UserMapper::toDto).toList();
         var currentUserDto = UserMapper.toDto(currentUser);
 
         var joinedEvent = new JoinedEvent(gameDto, questionsListDto, categoriesListDto, usersListDto, currentUserDto);

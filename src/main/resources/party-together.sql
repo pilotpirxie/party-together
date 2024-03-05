@@ -19,6 +19,7 @@ CREATE TABLE "users" (
   "nickname" varchar NOT NULL,
   "avatar" int NOT NULL,
   "is_ready" bool NOT NULL,
+  "connected" bool NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT now(),
   "updated_at" timestamp NOT NULL DEFAULT now()
 );

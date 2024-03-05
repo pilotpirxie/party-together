@@ -1,13 +1,13 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Category, Game, Question, User} from "./model.ts";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Category, Game, Question, User } from "./model.ts";
 
 export type GameState = {
   game: Game;
   questions: Question[];
-  categories:  Category[];
-  users:       User[];
+  categories: Category[];
+  users: User[];
   currentUser: User;
-}
+};
 
 const initialState: GameState = {
   game: {
@@ -34,14 +34,14 @@ const initialState: GameState = {
     isReady: false,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-  }
-}
+  },
+};
 
 const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    setGame: (state, {payload}: PayloadAction<Game>) => {
+    setGame: (state, { payload }: PayloadAction<Game>) => {
       state.game = payload;
     },
     clearGame: (state) => {
@@ -51,20 +51,27 @@ const gameSlice = createSlice({
       state.users = initialState.users;
       state.currentUser = initialState.currentUser;
     },
-    setQuestions: (state, {payload}: PayloadAction<Question[]>) => {
+    setQuestions: (state, { payload }: PayloadAction<Question[]>) => {
       state.questions = payload;
     },
-    setCategories: (state, {payload}: PayloadAction<Category[]>) => {
+    setCategories: (state, { payload }: PayloadAction<Category[]>) => {
       state.categories = payload;
     },
-    setUsers: (state, {payload}: PayloadAction<User[]>) => {
+    setUsers: (state, { payload }: PayloadAction<User[]>) => {
       state.users = payload;
     },
-    setCurrentUser: (state, {payload}: PayloadAction<User>) => {
+    setCurrentUser: (state, { payload }: PayloadAction<User>) => {
       state.currentUser = payload;
     },
   },
 });
 
-export const { setGame, clearGame, setCurrentUser, setUsers, setCategories, setQuestions } = gameSlice.actions;
+export const {
+  setGame,
+  clearGame,
+  setCurrentUser,
+  setUsers,
+  setCategories,
+  setQuestions,
+} = gameSlice.actions;
 export const gameReducer = gameSlice.reducer;
