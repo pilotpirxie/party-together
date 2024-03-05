@@ -88,7 +88,7 @@ public class GameController {
             gameRepository.save(newGame);
         }
 
-        var game = gameExists.orElseGet(() -> gameRepository.findByCode(event.code()).get());
+        var game = gameExists.orElseGet(() -> gameRepository.findByCode(event.code()).orElseThrow());
         sessionGameMappingService.mapSessionToGame(headerAccessor.getSessionId(), game.getId().toString());
 
         var userWithCurrentSession = userRepository.findBySessionId(headerAccessor.getSessionId());
@@ -110,7 +110,7 @@ public class GameController {
             .stream()
             .filter(user -> user.getSessionId().equals(headerAccessor.getSessionId()))
             .findFirst()
-            .get();
+            .orElseThrow();
 
         var questions = questionRepository.findAllById(game.getGameQuestionIds());
         var answers = answerRepository.findAllByQuestionIdIn(game.getGameQuestionIds());
