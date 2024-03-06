@@ -7,4 +7,12 @@ export type JoinEvent = {
   };
 };
 
-export type OutgoingMessage = JoinEvent;
+export type ToggleReadyEvent = {
+  type: "ToggleReady";
+};
+
+export type StartGameEvent = {
+  type: "StartGame";
+};
+
+export type OutgoingMessage = JoinEvent | ToggleReadyEvent | StartGameEvent;

@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface QuestionRepository extends CrudRepository<QuestionEntity, UUID>{
     Set<QuestionEntity> findByCategoryId(UUID categoryId);
+    Set<QuestionEntity> findAllByCategoryIdIn(Set<UUID> categoryIds);
 }

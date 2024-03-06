@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +19,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@BatchSize(size = 50)
 public class GameEntity {
     @Id
     @GeneratedValue
@@ -45,18 +48,14 @@ public class GameEntity {
     @Column(nullable = false)
     private Integer timeToDraw;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "game")
-    private Set<UserEntity> users;
-
     @Column(name = "game_question_ids")
     private List<UUID> gameQuestionIds;
 
-    @OneToMany(mappedBy = "game")
-    private Set<AnswersHistoryEntity> answerHistories;
+    @Column(nullable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
 }

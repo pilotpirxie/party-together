@@ -59,6 +59,12 @@ const gameSlice = createSlice({
     },
     setUsers: (state, { payload }: PayloadAction<User[]>) => {
       state.users = payload;
+
+      if (state.currentUser.id) {
+        state.currentUser =
+          payload.find((user) => user.id === state.currentUser.id) ||
+          state.currentUser;
+      }
     },
     setCurrentUser: (state, { payload }: PayloadAction<User>) => {
       state.currentUser = payload;

@@ -3,6 +3,7 @@ package com.pilotpirxie.party.controllers;
 import com.pilotpirxie.party.dto.AnswerDto;
 import com.pilotpirxie.party.dto.QuestionDto;
 import com.pilotpirxie.party.dto.events.incoming.JoinEvent;
+import com.pilotpirxie.party.dto.events.outgoing.GameStateEvent;
 import com.pilotpirxie.party.dto.events.outgoing.JoinedEvent;
 import com.pilotpirxie.party.dto.events.outgoing.UsersStateEvent;
 import com.pilotpirxie.party.entities.*;
@@ -64,11 +65,15 @@ public class GameController {
             List<CategoryEntity> randomCategories = categoriesList.subList(0, Math.min(categoriesList.size(), 4));
 
             var questions = new ArrayList<QuestionEntity>();
+            var allQuestions = questionRepository.findAllByCategoryIdIn(randomCategories.stream().map(CategoryEntity::getId).collect(Collectors.toSet()));
+
             for (var category : randomCategories) {
-                var categoryQuestions = questionRepository.findByCategoryId(category.getId());
-                var categoryQuestionsList = new ArrayList<>(categoryQuestions);
-                Collections.shuffle(categoryQuestionsList);
-                questions.addAll(categoryQuestionsList.subList(0, Math.min(categoryQuestionsList.size(), 5)));
+                var categoryQuestions = allQuestions
+                    .stream()
+                    .filter(question -> question.getCategoryId().equals(category.getId()))
+                    .collect(Collectors.toList());
+                Collections.shuffle(categoryQuestions);
+                questions.addAll(categoryQuestions.subList(0, Math.min(categoryQuestions.size(), 5)));
             }
 
             var gameQuestionIds = new ArrayList<UUID>();
@@ -105,7 +110,7 @@ public class GameController {
             newUser.setAvatar(event.avatar());
             newUser.setCreatedAt(java.time.LocalDateTime.now());
             newUser.setUpdatedAt(java.time.LocalDateTime.now());
-            newUser.setGame(game);
+            newUser.setGameId(game.getId());
             newUser.setReady(false);
             newUser.setConnected(true);
             userRepository.save(newUser);
@@ -126,12 +131,12 @@ public class GameController {
         for (var question : questions) {
             Set<AnswerDto> questionAnswers = answers
                 .stream()
-                .filter(answer -> answer.getQuestion().getId().equals(question.getId()))
+                .filter(answer -> answer.getQuestionId().equals(question.getId()))
                 .map(AnswerMapper::toDto)
                 .collect(Collectors.toSet());
 
             questionsListDto.add(QuestionMapper.toDto(question, questionAnswers));
-            categoryIds.add(question.getCategory().getId());
+            categoryIds.add(question.getCategoryId());
         }
 
         var categories = categoryRepository.findAllByIdIn(categoryIds);
@@ -146,5 +151,36 @@ public class GameController {
 
         var usersStateEvent = new UsersStateEvent(usersListDto);
         gameMessagingService.broadcastToGame(game.getId().toString(), "UsersState", usersStateEvent);
+    }
+
+    @MessageMapping("/ToggleReady")
+    public void toggleReady(SimpMessageHeaderAccessor headerAccessor) {
+        var user = userRepository.findBySessionId(headerAccessor.getSessionId()).orElseThrow();
+        user.setReady(!user.isReady());
+        userRepository.save(user);
+
+        var gameId = user.getGameId();
+        var users = userRepository.findAllByGameId(gameId);
+        var usersListDto = new ArrayList<>(users).stream().filter(UserEntity::isConnected).map(UserMapper::toDto).toList();
+
+        var usersStateEvent = new UsersStateEvent(usersListDto);
+        gameMessagingService.broadcastToGame(gameId.toString(), "UsersState", usersStateEvent);
+    }
+
+    @MessageMapping("/StartGame")
+    public void startGame(SimpMessageHeaderAccessor headerAccessor) {
+        var user = userRepository.findBySessionId(headerAccessor.getSessionId()).orElseThrow();
+        var game = gameRepository.findById(user.getGameId()).orElseThrow();
+        game.setState(GameState.CATEGORY);
+        gameRepository.save(game);
+
+        var users = userRepository.findAllByGameId(game.getId());
+        var usersListDto = new ArrayList<>(users).stream().filter(UserEntity::isConnected).map(UserMapper::toDto).toList();
+
+        var usersStateEvent = new UsersStateEvent(usersListDto);
+        gameMessagingService.broadcastToGame(game.getId().toString(), "UsersState", usersStateEvent);
+
+        var gameDto = new GameStateEvent(GameMapper.toDto(game));
+        gameMessagingService.broadcastToGame(game.getId().toString(), "GameState", gameDto);
     }
 }

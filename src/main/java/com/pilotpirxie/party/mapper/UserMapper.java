@@ -12,7 +12,7 @@ public class UserMapper {
         return new UserDto(
             entity.getId().toString(),
             entity.getSessionId(),
-            entity.getGame() != null ? entity.getGame().getId().toString() : null,
+            entity.getGameId().toString(),
             entity.getNickname(),
             entity.getAvatar(),
             entity.isReady(),

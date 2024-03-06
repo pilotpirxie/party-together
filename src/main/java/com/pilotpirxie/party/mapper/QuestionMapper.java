@@ -15,7 +15,7 @@ public class QuestionMapper {
         return new QuestionDto(
             entity.getId().toString(),
             entity.getType().toString(),
-            entity.getCategory() != null ? entity.getCategory().getId().toString() : null,
+            entity.getCategoryId().toString(),
             entity.getContent(),
             answers
         );

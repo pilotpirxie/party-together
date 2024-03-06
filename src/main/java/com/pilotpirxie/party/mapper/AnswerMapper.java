@@ -12,7 +12,7 @@ public class AnswerMapper {
         return new AnswerDto(
             entity.getId().toString(),
             entity.getContent(),
-            entity.getQuestion() != null ? entity.getQuestion().getId().toString() : null
+            entity.getQuestionId().toString()
         );
     }
 }

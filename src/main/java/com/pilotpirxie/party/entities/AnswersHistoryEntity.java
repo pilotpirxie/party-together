@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -16,6 +19,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@BatchSize(size = 50)
 public class AnswersHistoryEntity {
     @Id
     @Column(name = "user_id", nullable = false)
@@ -29,20 +33,17 @@ public class AnswersHistoryEntity {
     @Column(name = "question_id", nullable = false)
     private UUID questionId;
 
-    @ManyToOne
-    @JoinColumn(name = "answer_id")
-    private AnswerEntity answer;
-
-    @ManyToOne
-    @JoinColumn(name = "game_id")
-    private GameEntity game;
+    @Column(name = "answer_id", nullable = false)
+    private UUID answerId;
 
     @Column()
     private String answerUrl;
 
+    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 }
