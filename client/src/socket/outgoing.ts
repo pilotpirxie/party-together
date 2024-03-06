@@ -15,4 +15,15 @@ export type StartGameEvent = {
   type: "StartGame";
 };
 
-export type OutgoingMessage = JoinEvent | ToggleReadyEvent | StartGameEvent;
+export type ContinueToQuestionEvent = {
+  type: "ContinueToQuestion";
+  payload: {
+    nextQuestionIndex: number;
+  };
+};
+
+export type OutgoingMessage =
+  | JoinEvent
+  | ToggleReadyEvent
+  | StartGameEvent
+  | ContinueToQuestionEvent;

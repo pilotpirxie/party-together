@@ -167,4 +167,27 @@ public class GameService {
         var gameDto = GameMapper.toDto(game);
         gameMessaging.broadcastToGame(game.getId().toString(), "GameState", new GameStateEvent(gameDto));
     }
+
+    public void changeQuestionIndex(UUID gameId, int newQuestionIndex) {
+        var game = gameRepository.findById(gameId).orElseThrow();
+
+        var oldQuestion = questionRepository
+            .findById(game.getGameQuestionIds().get(game.getQuestionIndex()))
+            .orElseThrow();
+        var newQuestion = questionRepository
+            .findById(game.getGameQuestionIds().get(newQuestionIndex))
+            .orElseThrow();
+        var categoryChanged = !oldQuestion.getCategoryId().equals(newQuestion.getCategoryId());
+        if (categoryChanged) {
+            game.setState(GameState.CATEGORY);
+        }
+        game.setQuestionIndex(newQuestionIndex);
+        gameRepository.save(game);
+    }
+
+    public void setGameState(UUID gameId, GameState state) {
+        var game = gameRepository.findById(gameId).orElseThrow();
+        game.setState(state);
+        gameRepository.save(game);
+    }
 }

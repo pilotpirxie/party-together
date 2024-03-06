@@ -1,6 +1,8 @@
 package com.pilotpirxie.party.controllers;
 
+import com.pilotpirxie.party.dto.events.incoming.ContinueToQuestionEvent;
 import com.pilotpirxie.party.dto.events.incoming.JoinEvent;
+import com.pilotpirxie.party.entities.GameState;
 import com.pilotpirxie.party.services.GameService;
 import com.pilotpirxie.party.services.SessionGameMappingService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -42,6 +44,14 @@ public class GameController {
     public void startGame(SimpMessageHeaderAccessor headerAccessor) {
         var sessionGame = sessionGameMappingService.getGameId(headerAccessor.getSessionId());
         gameService.startGame(sessionGame.gameId());
+        gameService.sendGameState(sessionGame.gameId());
+    }
+
+    @MessageMapping("/ContinueToQuestion")
+    public void continueToQuestion(@Payload ContinueToQuestionEvent event, SimpMessageHeaderAccessor headerAccessor) {
+        var sessionGame = sessionGameMappingService.getGameId(headerAccessor.getSessionId());
+        gameService.changeQuestionIndex(sessionGame.gameId(), event.nextQuestionIndex());
+        gameService.setGameState(sessionGame.gameId(), GameState.QUESTION);
         gameService.sendGameState(sessionGame.gameId());
     }
 }

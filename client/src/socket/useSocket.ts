@@ -77,7 +77,7 @@ export function useSocket(): SocketHook {
     stompClient?.publish({
       destination: "/app/" + message.type,
       headers,
-      body: JSON.stringify(message.payload),
+      body: "payload" in message ? JSON.stringify(message.payload) : undefined,
     });
   };
 
