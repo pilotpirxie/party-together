@@ -1,8 +1,9 @@
 package com.pilotpirxie.party.services;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record SessionGame (
-    String gameId,
+    UUID gameId,
     LocalDateTime createdAt
 ) {}

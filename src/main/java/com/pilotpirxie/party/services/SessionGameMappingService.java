@@ -2,13 +2,14 @@ package com.pilotpirxie.party.services;
 
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class SessionGameMappingService {
     private final ConcurrentHashMap<String, SessionGame> sessionGameMap = new ConcurrentHashMap<>();
 
-    public void mapSessionToGame(String sessionId, String gameId) {
+    public void mapSessionToGame(String sessionId, UUID gameId) {
         var now = java.time.LocalDateTime.now();
         sessionGameMap.put(sessionId, new SessionGame(gameId, now));
     }
