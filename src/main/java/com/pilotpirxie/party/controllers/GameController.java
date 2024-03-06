@@ -53,7 +53,8 @@ public class GameController {
         System.out.println("Joining game");
         System.out.println(event);
 
-        var gameExists = gameRepository.findByCode(event.code());
+        Optional<GameEntity> gameExists = event.code().isEmpty() ? Optional.empty() : gameRepository.findByCode(event.code());
+
         if (gameExists.isEmpty()) {
             var categories = categoryRepository.findAll();
             List<CategoryEntity> categoriesList = StreamSupport
@@ -75,8 +76,13 @@ public class GameController {
                 gameQuestionIds.add(question.getId());
             }
 
+            var randomCode = UUID.randomUUID().toString().substring(0, 6);
+            while (gameRepository.findByCode(randomCode).isPresent()) {
+                randomCode = UUID.randomUUID().toString().substring(0, 6);
+            }
+
             var newGame = new GameEntity();
-            newGame.setCode(event.code());
+            newGame.setCode(randomCode);
             newGame.setQuestionIndex(0);
             newGame.setTimeToAnswer(60);
             newGame.setTimeToDraw(120);
@@ -85,9 +91,10 @@ public class GameController {
             newGame.setGameQuestionIds(gameQuestionIds);
             newGame.setState(GameState.WAITING);
             gameRepository.save(newGame);
+            gameExists = Optional.of(newGame);
         }
 
-        var game = gameExists.orElseGet(() -> gameRepository.findByCode(event.code()).orElseThrow());
+        var game = gameExists.orElseThrow();
         sessionGameMappingService.mapSessionToGame(headerAccessor.getSessionId(), game.getId().toString());
 
         var userWithCurrentSession = userRepository.findBySessionId(headerAccessor.getSessionId());
@@ -104,7 +111,7 @@ public class GameController {
             userRepository.save(newUser);
         }
 
-        var users = userRepository.findByGameId(game.getId());
+        var users = userRepository.findAllByGameId(game.getId());
         var currentUser = users
             .stream()
             .filter(user -> user.getSessionId().equals(headerAccessor.getSessionId()))

@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface UserRepository extends CrudRepository<UserEntity, UUID>{
-    Set<UserEntity> findByGameId(UUID gameId);
+    Set<UserEntity> findAllByGameId(UUID gameId);
     Optional<UserEntity> findBySessionId(String sessionId);
     Set<UserEntity> findAllBySessionId(String sessionId);
 }

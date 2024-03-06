@@ -11,10 +11,12 @@ import {
   setUsers,
 } from "../data/gameSlice.ts";
 import { OutgoingMessage } from "./outgoing.ts";
+import { useNavigate } from "react-router-dom";
+
+type ConnectType = { nickname: string; avatar: number; code: string };
 
 type SocketHook = {
-  connect: () => void;
-  disconnect: () => void;
+  connect: (connect: ConnectType) => void;
   sendMessage: (message: OutgoingMessage, headers?: StompHeaders) => void;
   stompClient: Client | null;
 };
@@ -22,8 +24,9 @@ type SocketHook = {
 export function useSocket(): SocketHook {
   const stompClient = useAppSelector((state) => state.config.stompClient);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const connect = async () => {
+  const connect = async ({ nickname, code, avatar }: ConnectType) => {
     if (stompClient?.connected) {
       await stompClient.deactivate();
     }
@@ -35,7 +38,6 @@ export function useSocket(): SocketHook {
 
         newStompClient.subscribe("/user/queue/Joined", (message) => {
           const payload = JSON.parse(message.body) as JoinedEvent;
-          console.log("Joined", JSON.stringify(payload));
 
           dispatch(setGame(payload.game));
           dispatch(setIsSocketConnected(true));
@@ -49,6 +51,17 @@ export function useSocket(): SocketHook {
             gameId: payload.game.id.toString(),
             dispatch,
           });
+          navigate(`/game/${payload.game.code}`);
+        });
+
+        newStompClient?.publish({
+          destination: "/app/Join",
+          headers: {},
+          body: JSON.stringify({
+            nickname,
+            code,
+            avatar,
+          }),
         });
       },
     });
@@ -60,11 +73,6 @@ export function useSocket(): SocketHook {
     };
   };
 
-  const disconnect = () => {
-    stompClient?.deactivate();
-    dispatch(setStompClient(null));
-  };
-
   const sendMessage = (message: OutgoingMessage, headers?: StompHeaders) => {
     stompClient?.publish({
       destination: "/app/" + message.type,
@@ -73,5 +81,5 @@ export function useSocket(): SocketHook {
     });
   };
 
-  return { connect, disconnect, sendMessage, stompClient };
+  return { connect, sendMessage, stompClient };
 }

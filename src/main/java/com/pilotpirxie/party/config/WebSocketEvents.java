@@ -40,7 +40,7 @@ public class WebSocketEvents {
             userRepository.save(user);
 
             var gameId = user.getGame().getId();
-            var usersListDto = userRepository.findByGameId(gameId).stream().filter(UserEntity::isConnected).map(UserMapper::toDto).toList();
+            var usersListDto = userRepository.findAllByGameId(gameId).stream().filter(UserEntity::isConnected).map(UserMapper::toDto).toList();
             var usersStateEvent = new UsersStateEvent(usersListDto);
             gameMessagingService.broadcastToGame(gameId.toString(), "UsersState", usersStateEvent);
         }

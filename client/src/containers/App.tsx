@@ -1,26 +1,34 @@
-import { useSocket } from "../../socket/useSocket.ts";
-import { useState } from "react";
+import { useSocket } from "../socket/useSocket.ts";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 function App() {
-  const [nickname, setNickname] = useState("");
+  const [nickname, setNickname] = useState(
+    "Player" + Math.floor(Math.random() * 100),
+  );
   const [avatar, setAvatar] = useState(0);
   const [code, setCode] = useState("");
 
-  const { connect, disconnect, sendMessage, stompClient } = useSocket();
+  const { connect, stompClient } = useSocket();
+  const location = useLocation();
 
   const handleSendMessage = () => {
-    sendMessage({ type: "Join", payload: { nickname, avatar, code } }, {});
+    connect({
+      nickname,
+      avatar,
+      code,
+    });
   };
 
-  const handlePing = () => {
-    sendMessage({ type: "Ping", payload: {} }, {});
-  };
+  useEffect(() => {
+    if (location.state?.code) {
+      setCode(location.state.code);
+    }
+  }, [location.state]);
 
   return (
     <div>
       <h1>{stompClient?.connected ? "Connected" : "Not connected"}</h1>
-      <button onClick={() => connect()}>Join</button>
-      <button onClick={() => disconnect()}>Disconnect</button>
       <br />
       <input
         type="text"
@@ -38,7 +46,6 @@ function App() {
         onChange={(e) => setCode(e.target.value)}
       />
       <button onClick={handleSendMessage}>Send</button>
-      <button onClick={handlePing}>Ping</button>
     </div>
   );
 }
