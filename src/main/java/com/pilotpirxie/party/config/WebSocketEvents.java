@@ -4,7 +4,6 @@ import com.pilotpirxie.party.dto.events.outgoing.UsersStateEvent;
 import com.pilotpirxie.party.entities.UserEntity;
 import com.pilotpirxie.party.mapper.UserMapper;
 import com.pilotpirxie.party.repositories.UserRepository;
-import com.pilotpirxie.party.services.GameMessagingService;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
@@ -13,11 +12,11 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 @Component
 public class WebSocketEvents {
-    private final GameMessagingService gameMessagingService;
+    private final GameMessaging gameMessaging;
     private final UserRepository userRepository;
 
-    public WebSocketEvents(GameMessagingService gameMessagingService, UserRepository userRepository) {
-        this.gameMessagingService = gameMessagingService;
+    public WebSocketEvents(GameMessaging gameMessaging, UserRepository userRepository) {
+        this.gameMessaging = gameMessaging;
         this.userRepository = userRepository;
     }
 
@@ -42,7 +41,7 @@ public class WebSocketEvents {
             var gameId = user.getGameId();
             var usersListDto = userRepository.findAllByGameId(gameId).stream().filter(UserEntity::isConnected).map(UserMapper::toDto).toList();
             var usersStateEvent = new UsersStateEvent(usersListDto);
-            gameMessagingService.broadcastToGame(gameId.toString(), "UsersState", usersStateEvent);
+            gameMessaging.broadcastToGame(gameId.toString(), "UsersState", usersStateEvent);
         }
     }
 }

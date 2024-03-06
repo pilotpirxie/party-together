@@ -13,7 +13,6 @@ public class GameMapper {
             entity.getId().toString(),
             entity.getCode(),
             entity.getQuestionIndex(),
-            entity.getCurrentCategoryId() != null ? entity.getCurrentCategoryId().toString() : null,
             entity.getState().toString(),
             entity.getTimerTo(),
             entity.getTimeToAnswer(),

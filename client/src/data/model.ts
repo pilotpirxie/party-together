@@ -24,7 +24,6 @@ export type Game = {
   id: string;
   code: string;
   questionIndex: number;
-  currentCategoryId: null | string;
   state: "WAITING" | "QUESTION" | "CATEGORY" | "RESULT" | "FINISHED";
   timerTo: null | string;
   timeToAnswer: number;

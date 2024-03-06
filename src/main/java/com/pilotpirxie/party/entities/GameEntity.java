@@ -32,9 +32,6 @@ public class GameEntity {
     @Column(nullable = false)
     private Integer questionIndex;
 
-    @Column()
-    private UUID currentCategoryId;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private GameState state;
@@ -48,8 +45,11 @@ public class GameEntity {
     @Column(nullable = false)
     private Integer timeToDraw;
 
-    @Column(name = "game_question_ids")
+    @Column(name = "game_question_ids", nullable = false)
     private List<UUID> gameQuestionIds;
+
+    @Column(name = "game_category_ids", nullable = false)
+    private List<UUID> gameCategoryIds;
 
     @Column(nullable = false)
     @CreationTimestamp

@@ -1,4 +1,4 @@
-package com.pilotpirxie.party.services;
+package com.pilotpirxie.party.config;
 
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageType;
@@ -6,10 +6,10 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GameMessagingServiceImpl implements GameMessagingService {
+public class WebSocketGameMessaging implements GameMessaging {
     private final SimpMessagingTemplate messagingTemplate;
 
-    public GameMessagingServiceImpl(SimpMessagingTemplate messagingTemplate) {
+    public WebSocketGameMessaging(SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
     }
 
@@ -25,12 +25,7 @@ public class GameMessagingServiceImpl implements GameMessagingService {
         headerAccessor.setSessionId(sessionId);
         headerAccessor.setLeaveMutable(true);
 
+        System.out.println("Sending to /queue/" + sessionId + "/" + topic + " message: " + message);
         messagingTemplate.convertAndSendToUser(sessionId, "/queue/" + topic, message, headerAccessor.getMessageHeaders());
-    }
-
-    @Override
-    public String getGameId(String sessionId) {
-        // implement this method
-        return "";
     }
 }

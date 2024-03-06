@@ -1,7 +1,6 @@
-package com.pilotpirxie.party.services;
+package com.pilotpirxie.party.config;
 
-public interface GameMessagingService {
+public interface GameMessaging {
     void broadcastToGame(String gameId, String topic, Object message);
     void sendToUser(String sessionId, String topic, Object message);
-    String getGameId(String sessionId);
 }

@@ -2,12 +2,12 @@ CREATE TABLE "game" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "code" varchar NOT NULL UNIQUE,
   "question_index" int NOT NULL,
-  "current_category_id" uuid,
   "state" varchar NOT NULL,
   "timer_to" timestamp,
   "time_to_answer" int NOT NULL,
   "time_to_draw" int NOT NULL,
   "game_question_ids" uuid[] NOT NULL,
+  "game_category_ids" uuid[] NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT now(),
   "updated_at" timestamp NOT NULL DEFAULT now()
 );

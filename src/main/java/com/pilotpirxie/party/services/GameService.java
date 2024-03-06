@@ -1,5 +1,6 @@
 package com.pilotpirxie.party.services;
 
+import com.pilotpirxie.party.config.GameMessaging;
 import com.pilotpirxie.party.dto.AnswerDto;
 import com.pilotpirxie.party.dto.QuestionDto;
 import com.pilotpirxie.party.dto.events.outgoing.GameStateEvent;
@@ -16,7 +17,7 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class GameService {
-    private final GameMessagingService gameMessagingService;
+    private final GameMessaging gameMessaging;
     private final GameRepository gameRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
@@ -24,14 +25,14 @@ public class GameService {
     private final AnswerRepository answerRepository;
 
     public GameService(
-        GameMessagingService gameMessagingService,
+        GameMessaging gameMessaging,
         GameRepository gameRepository,
         UserRepository userRepository,
         CategoryRepository categoryRepository,
         QuestionRepository questionRepository,
         AnswerRepository answerRepository
     ) {
-        this.gameMessagingService = gameMessagingService;
+        this.gameMessaging = gameMessaging;
         this.gameRepository = gameRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
@@ -64,6 +65,11 @@ public class GameService {
             gameQuestionIds.add(question.getId());
         }
 
+        var gameCategoryIds = new ArrayList<UUID>();
+        for (var category : randomCategories) {
+            gameCategoryIds.add(category.getId());
+        }
+
         var randomCode = UUID.randomUUID().toString().substring(0, 6);
         while (gameRepository.findByCode(randomCode).isPresent()) {
             randomCode = UUID.randomUUID().toString().substring(0, 6);
@@ -74,9 +80,8 @@ public class GameService {
         newGame.setQuestionIndex(0);
         newGame.setTimeToAnswer(60);
         newGame.setTimeToDraw(120);
-        newGame.setCreatedAt(java.time.LocalDateTime.now());
-        newGame.setUpdatedAt(java.time.LocalDateTime.now());
         newGame.setGameQuestionIds(gameQuestionIds);
+        newGame.setGameCategoryIds(gameCategoryIds);
         newGame.setState(GameState.WAITING);
         gameRepository.save(newGame);
 
@@ -108,19 +113,24 @@ public class GameService {
         var answers = answerRepository.findAllByQuestionIdIn(game.getGameQuestionIds());
 
         var questionsListDto = new ArrayList<QuestionDto>();
-        var categoryIds = new HashSet<UUID>();
-        for (var question : questions) {
-            Set<AnswerDto> questionAnswers = answers
-                .stream()
-                .filter(answer -> answer.getQuestionId().equals(question.getId()))
-                .map(AnswerMapper::toDto)
-                .collect(Collectors.toSet());
 
-            questionsListDto.add(QuestionMapper.toDto(question, questionAnswers));
-            categoryIds.add(question.getCategoryId());
+        for (var category : game.getGameCategoryIds()) {
+            for (var question : questions) {
+                if (!question.getCategoryId().equals(category)) {
+                    continue;
+                }
+
+                Set<AnswerDto> questionAnswers = answers
+                    .stream()
+                    .filter(answer -> answer.getQuestionId().equals(question.getId()))
+                    .map(AnswerMapper::toDto)
+                    .collect(Collectors.toSet());
+
+                questionsListDto.add(QuestionMapper.toDto(question, questionAnswers));
+            }
         }
 
-        var categories = categoryRepository.findAllByIdIn(categoryIds);
+        var categories = categoryRepository.findAllByIdIn(game.getGameCategoryIds());
         var categoriesListDto = new ArrayList<>(categories).stream().map(CategoryMapper::toDto).toList();
 
         var gameDto = GameMapper.toDto(game);
@@ -130,13 +140,13 @@ public class GameService {
         var currentUserDto = UserMapper.toDto(currentUser);
 
         var joinedEvent = new JoinedEvent(gameDto, questionsListDto, categoriesListDto, usersListDto, currentUserDto);
-        gameMessagingService.sendToUser(sessionId, "Joined", joinedEvent);
+        gameMessaging.sendToUser(sessionId, "Joined", joinedEvent);
     }
 
     public void sendUsersState(UUID gameId) {
         var users = userRepository.findAllByGameId(gameId);
         var usersListDto = new ArrayList<>(users).stream().filter(UserEntity::isConnected).map(UserMapper::toDto).toList();
-        gameMessagingService.broadcastToGame(gameId.toString(), "UsersState", new UsersStateEvent(usersListDto));
+        gameMessaging.broadcastToGame(gameId.toString(), "UsersState", new UsersStateEvent(usersListDto));
     }
 
     public void toggleReady(String sessionId) {
@@ -148,12 +158,13 @@ public class GameService {
     public void startGame(UUID gameId) {
         var game = gameRepository.findById(gameId).orElseThrow();
         game.setState(GameState.CATEGORY);
+        game.setQuestionIndex(0);
         gameRepository.save(game);
     }
 
     public void sendGameState(UUID gameId) {
         var game = gameRepository.findById(gameId).orElseThrow();
         var gameDto = GameMapper.toDto(game);
-        gameMessagingService.broadcastToGame(game.getId().toString(), "GameState", new GameStateEvent(gameDto));
+        gameMessaging.broadcastToGame(game.getId().toString(), "GameState", new GameStateEvent(gameDto));
     }
 }
