@@ -1,5 +1,4 @@
 import { Question, User } from "../data/model.ts";
-import { useState } from "react";
 
 export function QuestionWhat({
   question,
@@ -10,11 +9,9 @@ export function QuestionWhat({
   userToAskAbout: User;
   onAnswer: (answerId: string) => void;
 }) {
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-
-  const handleAnswer = () => {
-    if (selectedAnswer === null) return;
-    const answerId = question.answers[selectedAnswer].id;
+  const handleAnswer = (index: number) => {
+    if (index === null) return;
+    const answerId = question.answers[index].id;
     onAnswer(answerId);
   };
 
@@ -22,12 +19,10 @@ export function QuestionWhat({
     <div>
       <h1>{question.content.replace("NICKNAME", userToAskAbout.nickname)}</h1>
       {question.answers.map((answer, index) => (
-        <button key={answer.id} onClick={() => setSelectedAnswer(index)}>
-          {answer.content} {index === selectedAnswer && "✔"}
+        <button key={answer.id} onClick={() => handleAnswer(index)}>
+          {answer.content}
         </button>
       ))}
-      <br />
-      <button onClick={handleAnswer}>Continue</button>
     </div>
   );
 }

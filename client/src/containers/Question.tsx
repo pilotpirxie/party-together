@@ -38,29 +38,34 @@ export function Question() {
           <button onClick={handleContinue}>Go to next question</button>
         </div>
       )}
-      {currentQuestion.type === "WHAT" && (
-        <QuestionWhat
-          question={currentQuestion}
-          onAnswer={handleAnswerWhat}
-          userToAskAbout={userToAskAbout || firstUser}
-        />
-      )}
 
-      {currentQuestion.type === "WHO" && (
-        <QuestionWho
-          question={currentQuestion}
-          onAnswer={handleAnswerWhat}
-          userToAskAbout={userToAskAbout || firstUser}
-          users={gameState.users}
-        />
-      )}
+      {!gameState.currentUser.isReady && (
+        <div>
+          {currentQuestion.type === "WHAT" && (
+            <QuestionWhat
+              question={currentQuestion}
+              onAnswer={handleAnswerWhat}
+              userToAskAbout={userToAskAbout || firstUser}
+            />
+          )}
 
-      {currentQuestion.type === "DRAWING" && (
-        <QuestionDrawing
-          question={currentQuestion}
-          onAnswer={handleAnswerWhat}
-          userToAskAbout={userToAskAbout || firstUser}
-        />
+          {currentQuestion.type === "WHO" && (
+            <QuestionWho
+              question={currentQuestion}
+              onAnswer={handleAnswerWhat}
+              userToAskAbout={userToAskAbout || firstUser}
+              users={gameState.users}
+            />
+          )}
+
+          {currentQuestion.type === "DRAWING" && (
+            <QuestionDrawing
+              question={currentQuestion}
+              onAnswer={handleAnswerWhat}
+              userToAskAbout={userToAskAbout || firstUser}
+            />
+          )}
+        </div>
       )}
     </div>
   );

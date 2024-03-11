@@ -1,5 +1,4 @@
 import { Question, User } from "../data/model.ts";
-import { useState } from "react";
 
 export function QuestionWho({
   question,
@@ -12,11 +11,9 @@ export function QuestionWho({
   onAnswer: (answerId: string) => void;
   users: User[];
 }) {
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-
-  const handleAnswer = () => {
-    if (selectedAnswer === null) return;
-    const userId = users[selectedAnswer].id;
+  const handleAnswer = (index: number) => {
+    if (index === null) return;
+    const userId = users[index].id;
     onAnswer(userId);
   };
 
@@ -24,12 +21,10 @@ export function QuestionWho({
     <div>
       <h1>{question.content.replace("NICKNAME", userToAskAbout.nickname)}</h1>
       {users.map((user, index) => (
-        <button key={user.id} onClick={() => setSelectedAnswer(index)}>
-          {user.nickname} {index === selectedAnswer && "✔"}
+        <button key={user.id} onClick={() => handleAnswer(index)}>
+          {user.nickname}
         </button>
       ))}
-      <br />
-      <button onClick={handleAnswer}>Continue</button>
     </div>
   );
 }
