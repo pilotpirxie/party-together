@@ -226,6 +226,15 @@ public class GameService {
     public void saveAnswer(UUID gameId, String sessionId, String questionId, String answer) {
         var user = userRepository.findBySessionId(sessionId).orElseThrow();
         var question = questionRepository.findById(UUID.fromString(questionId)).orElseThrow();
+
+        var alreadyAnswered = answersHistoryRepository
+            .findByGameIdAndQuestionIdAndUserId(gameId, UUID.fromString(questionId), user.getId())
+            .isPresent();
+
+        if (alreadyAnswered) {
+            return;
+        }
+
         var newAnswer = new AnswersHistoryEntity();
         newAnswer.setGameId(gameId);
         newAnswer.setQuestionId(UUID.fromString(questionId));
