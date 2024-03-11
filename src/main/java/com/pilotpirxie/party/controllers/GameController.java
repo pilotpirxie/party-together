@@ -56,6 +56,15 @@ public class GameController {
         gameService.sendGameState(sessionGame.gameId());
     }
 
+    @MessageMapping("/ContinueToResults")
+    public void continueToQuestion(SimpMessageHeaderAccessor headerAccessor) {
+        var sessionGame = sessionGameMappingService.getGameId(headerAccessor.getSessionId());
+        gameService.setGameState(sessionGame.gameId(), GameState.RESULTS);
+        gameService.sendGameState(sessionGame.gameId());
+        gameService.setEveryoneReady(sessionGame.gameId(), false);
+        gameService.sendUsersState(sessionGame.gameId());
+    }
+
     @MessageMapping("/SendAnswer")
     public void sendAnswer(@Payload SendAnswerEvent event, SimpMessageHeaderAccessor headerAccessor) {
         var sessionGame = sessionGameMappingService.getGameId(headerAccessor.getSessionId());

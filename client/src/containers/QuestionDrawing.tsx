@@ -8,7 +8,6 @@ export function QuestionDrawing({
   question: Question;
   userToAskAbout: User;
   onAnswer: (answerId: string) => void;
-  users: User[];
 }) {
   // const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 

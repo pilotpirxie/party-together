@@ -22,6 +22,10 @@ export type ContinueToQuestionEvent = {
   };
 };
 
+export type ContinueToResultsEvent = {
+  type: "ContinueToResults";
+};
+
 export type SendAnswer = {
   type: "SendAnswer";
   payload: {
@@ -35,4 +39,5 @@ export type OutgoingMessage =
   | ToggleReadyEvent
   | StartGameEvent
   | ContinueToQuestionEvent
-  | SendAnswer;
+  | SendAnswer
+  | ContinueToResultsEvent;

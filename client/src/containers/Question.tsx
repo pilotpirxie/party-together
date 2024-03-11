@@ -2,6 +2,7 @@ import { useAppSelector } from "../data/store.ts";
 import { QuestionWhat } from "./QuestionWhat.tsx";
 import { QuestionWho } from "./QuestionWho.tsx";
 import { useSocket } from "../socket/useSocket.ts";
+import { QuestionDrawing } from "./QuestionDrawing.tsx";
 
 export function Question() {
   const { sendMessage } = useSocket();
@@ -9,7 +10,7 @@ export function Question() {
 
   const currentQuestion = gameState.questions[gameState.game.questionIndex];
   const firstUser = gameState.users[0];
-  const currentUserToAskAbout = gameState.users.at(
+  const userToAskAbout = gameState.users.at(
     (gameState.users.length % (gameState.game.questionIndex + 1)) - 1,
   );
 
@@ -23,13 +24,25 @@ export function Question() {
     });
   };
 
+  const handleContinue = () => {
+    sendMessage({
+      type: "ContinueToResults",
+    });
+  };
+
   return (
     <div>
+      {gameState.currentUser.isReady && (
+        <div>
+          <h1>Waiting for other players...</h1>
+          <button onClick={handleContinue}>Go to next question</button>
+        </div>
+      )}
       {currentQuestion.type === "WHAT" && (
         <QuestionWhat
           question={currentQuestion}
           onAnswer={handleAnswerWhat}
-          userToAskAbout={currentUserToAskAbout || firstUser}
+          userToAskAbout={userToAskAbout || firstUser}
         />
       )}
 
@@ -37,8 +50,16 @@ export function Question() {
         <QuestionWho
           question={currentQuestion}
           onAnswer={handleAnswerWhat}
-          userToAskAbout={currentUserToAskAbout || firstUser}
+          userToAskAbout={userToAskAbout || firstUser}
           users={gameState.users}
+        />
+      )}
+
+      {currentQuestion.type === "DRAWING" && (
+        <QuestionDrawing
+          question={currentQuestion}
+          onAnswer={handleAnswerWhat}
+          userToAskAbout={userToAskAbout || firstUser}
         />
       )}
     </div>

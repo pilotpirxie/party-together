@@ -172,6 +172,14 @@ public class GameService {
         userRepository.save(user);
     }
 
+    public void setEveryoneReady(UUID gameId, boolean ready) {
+        var users = userRepository.findAllByGameId(gameId);
+        for (var user : users) {
+            user.setReady(ready);
+        }
+        userRepository.saveAll(users);
+    }
+
     public void startGame(UUID gameId) {
         var game = gameRepository.findById(gameId).orElseThrow();
         game.setState(GameState.CATEGORY);
