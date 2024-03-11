@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Category, Game, Question, User } from "./model.ts";
+import { AnswerHistory, Category, Game, Question, User } from "./model.ts";
 
 export type GameState = {
   game: Game;
@@ -7,6 +7,7 @@ export type GameState = {
   categories: Category[];
   users: User[];
   currentUser: User;
+  answers: AnswerHistory[];
 };
 
 const initialState: GameState = {
@@ -15,7 +16,6 @@ const initialState: GameState = {
     timeToAnswer: 0,
     timerTo: null,
     questionIndex: 0,
-    currentCategoryId: null,
     state: "WAITING",
     code: "",
     id: "",
@@ -35,6 +35,7 @@ const initialState: GameState = {
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
+  answers: [],
 };
 
 const gameSlice = createSlice({
@@ -69,6 +70,9 @@ const gameSlice = createSlice({
     setCurrentUser: (state, { payload }: PayloadAction<User>) => {
       state.currentUser = payload;
     },
+    setAnswersHistory: (state, { payload }: PayloadAction<AnswerHistory[]>) => {
+      state.answers = payload;
+    },
   },
 });
 
@@ -79,5 +83,6 @@ export const {
   setUsers,
   setCategories,
   setQuestions,
+  setAnswersHistory,
 } = gameSlice.actions;
 export const gameReducer = gameSlice.reducer;

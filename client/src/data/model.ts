@@ -24,7 +24,7 @@ export type Game = {
   id: string;
   code: string;
   questionIndex: number;
-  state: "WAITING" | "QUESTION" | "CATEGORY" | "RESULT" | "FINISHED";
+  state: "WAITING" | "QUESTION" | "CATEGORY" | "RESULTS" | "FINISHED";
   timerTo: null | string;
   timeToAnswer: number;
   timeToDraw: number;
@@ -47,3 +47,12 @@ export type Answer = {
 };
 
 export type QuestionType = "WHAT" | "WHO" | "DRAWING";
+
+export type AnswerHistory = {
+  id: string;
+  questionId: string;
+  userId: string;
+  answerId: string;
+  selectedUserId: string;
+  drawing: string;
+};

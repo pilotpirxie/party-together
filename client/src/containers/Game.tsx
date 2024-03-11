@@ -3,9 +3,9 @@ import { Waiting } from "./Waiting.tsx";
 import { Question } from "./Question.tsx";
 import { Category } from "./Category.tsx";
 import { Finished } from "./Finished.tsx";
-import { Result } from "./Result.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { Results } from "./Results.tsx";
 
 export function Game() {
   const gameState = useAppSelector((state) => state.game);
@@ -28,7 +28,7 @@ export function Game() {
       {gameState.game.state === "WAITING" && <Waiting />}
       {gameState.game.state === "QUESTION" && <Question />}
       {gameState.game.state === "CATEGORY" && <Category />}
-      {gameState.game.state === "RESULT" && <Result />}
+      {gameState.game.state === "RESULTS" && <Results />}
       {gameState.game.state === "FINISHED" && <Finished />}
     </div>
   );

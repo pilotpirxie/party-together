@@ -22,8 +22,17 @@ export type ContinueToQuestionEvent = {
   };
 };
 
+export type SendAnswer = {
+  type: "SendAnswer";
+  payload: {
+    questionId: string;
+    answer: string;
+  };
+};
+
 export type OutgoingMessage =
   | JoinEvent
   | ToggleReadyEvent
   | StartGameEvent
-  | ContinueToQuestionEvent;
+  | ContinueToQuestionEvent
+  | SendAnswer;

@@ -2,6 +2,7 @@ package com.pilotpirxie.party.controllers;
 
 import com.pilotpirxie.party.dto.events.incoming.ContinueToQuestionEvent;
 import com.pilotpirxie.party.dto.events.incoming.JoinEvent;
+import com.pilotpirxie.party.dto.events.incoming.SendAnswerEvent;
 import com.pilotpirxie.party.entities.GameState;
 import com.pilotpirxie.party.services.GameService;
 import com.pilotpirxie.party.services.SessionGameMappingService;
@@ -53,5 +54,14 @@ public class GameController {
         gameService.changeQuestionIndex(sessionGame.gameId(), event.nextQuestionIndex());
         gameService.setGameState(sessionGame.gameId(), GameState.QUESTION);
         gameService.sendGameState(sessionGame.gameId());
+    }
+
+    @MessageMapping("/SendAnswer")
+    public void sendAnswer(@Payload SendAnswerEvent event, SimpMessageHeaderAccessor headerAccessor) {
+        var sessionGame = sessionGameMappingService.getGameId(headerAccessor.getSessionId());
+        gameService.saveAnswer(sessionGame.gameId(), headerAccessor.getSessionId(), event.questionId(), event.answer());
+        gameService.setReady(headerAccessor.getSessionId(), true);
+        gameService.sendAnswersHistoryState(sessionGame.gameId());
+        gameService.sendUsersState(sessionGame.gameId());
     }
 }

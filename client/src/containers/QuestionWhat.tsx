@@ -13,7 +13,7 @@ export function QuestionWhat({
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
   const handleAnswer = () => {
-    if (!selectedAnswer) return;
+    if (selectedAnswer === null) return;
     const answerId = question.answers[selectedAnswer].id;
     onAnswer(answerId);
   };
@@ -27,7 +27,7 @@ export function QuestionWhat({
         </button>
       ))}
       <br />
-      {!!selectedAnswer && <button onClick={handleAnswer}>Continue</button>}
+      <button onClick={handleAnswer}>Continue</button>
     </div>
   );
 }

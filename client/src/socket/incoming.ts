@@ -1,7 +1,13 @@
-import { Category, Game, Question, User } from "../data/model.ts";
+import {
+  AnswerHistory,
+  Category,
+  Game,
+  Question,
+  User,
+} from "../data/model.ts";
 import { Client } from "@stomp/stompjs";
 import { AppDispatch } from "../data/store.ts";
-import { setGame, setUsers } from "../data/gameSlice.ts";
+import { setAnswersHistory, setGame, setUsers } from "../data/gameSlice.ts";
 
 export type JoinedEvent = {
   game: Game;
@@ -17,6 +23,10 @@ export type UsersStateEvent = {
 
 export type GameState = {
   game: Game;
+};
+
+export type AnswersHistoryState = {
+  answers: AnswerHistory[];
 };
 
 export function registerIncomingEventsHandler({
@@ -36,5 +46,10 @@ export function registerIncomingEventsHandler({
   stomp.subscribe(`/topic/${gameId}/GameState`, (message) => {
     const payload = JSON.parse(message.body) as GameState;
     dispatch(setGame(payload.game));
+  });
+
+  stomp.subscribe(`/topic/${gameId}/AnswersHistoryState`, (message) => {
+    const payload = JSON.parse(message.body) as AnswersHistoryState;
+    dispatch(setAnswersHistory(payload.answers));
   });
 }

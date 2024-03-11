@@ -15,9 +15,9 @@ export function QuestionWho({
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
   const handleAnswer = () => {
-    if (!selectedAnswer) return;
-    const answerId = question.answers[selectedAnswer].id;
-    onAnswer(answerId);
+    if (selectedAnswer === null) return;
+    const userId = users[selectedAnswer].id;
+    onAnswer(userId);
   };
 
   return (
@@ -29,7 +29,7 @@ export function QuestionWho({
         </button>
       ))}
       <br />
-      {!!selectedAnswer && <button onClick={handleAnswer}>Continue</button>}
+      <button onClick={handleAnswer}>Continue</button>
     </div>
   );
 }
