@@ -15,6 +15,7 @@ export type JoinedEvent = {
   categories: Category[];
   users: User[];
   currentUser: User;
+  answers: AnswerHistory[];
 };
 
 export type UsersStateEvent = {

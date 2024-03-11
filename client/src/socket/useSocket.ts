@@ -4,6 +4,7 @@ import { setIsSocketConnected, setStompClient } from "../data/configSlice.ts";
 import { JoinedEvent, registerIncomingEventsHandler } from "./incoming.ts";
 import {
   clearGame,
+  setAnswersHistory,
   setCategories,
   setCurrentUser,
   setGame,
@@ -45,6 +46,7 @@ export function useSocket(): SocketHook {
           dispatch(setCurrentUser(payload.currentUser));
           dispatch(setCategories(payload.categories));
           dispatch(setQuestions(payload.questions));
+          dispatch(setAnswersHistory(payload.answers));
 
           registerIncomingEventsHandler({
             stomp: newStompClient,

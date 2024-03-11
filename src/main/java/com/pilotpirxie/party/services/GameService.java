@@ -149,8 +149,9 @@ public class GameService {
         var users = userRepository.findAllByGameId(game.getId());
         var usersListDto = new ArrayList<>(users).stream().filter(UserEntity::isConnected).map(UserMapper::toDto).toList();
         var currentUserDto = UserMapper.toDto(currentUser);
+        var answersHistory = answersHistoryRepository.findAllByGameId(gameId).stream().map(AnswerHistoryMapper::toDto).toList();
 
-        var joinedEvent = new JoinedEvent(gameDto, questionsListDto, categoriesListDto, usersListDto, currentUserDto);
+        var joinedEvent = new JoinedEvent(gameDto, questionsListDto, categoriesListDto, usersListDto, currentUserDto, answersHistory);
         gameMessaging.sendToUser(sessionId, "Joined", joinedEvent);
     }
 
