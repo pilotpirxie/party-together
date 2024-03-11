@@ -14,7 +14,6 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "answers_history")
-@IdClass(AnswersHistoryId.class)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,22 +21,27 @@ import java.util.UUID;
 @BatchSize(size = 50)
 public class AnswersHistoryEntity {
     @Id
-    @Column(name = "user_id", nullable = false)
-    private UUID userId;
+    @GeneratedValue
+    @Column()
+    private UUID id;
 
-    @Id
     @Column(name = "game_id", nullable = false)
     private UUID gameId;
 
-    @Id
     @Column(name = "question_id", nullable = false)
     private UUID questionId;
 
-    @Column(name = "answer_id", nullable = false)
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
+
+    @Column(name = "answer_id")
     private UUID answerId;
 
-    @Column()
-    private String answerUrl;
+    @Column(name = "selected_user_id")
+    private UUID selectedUserId;
+
+    @Column(name = "drawing")
+    private String drawing;
 
     @CreationTimestamp
     @Column(nullable = false)

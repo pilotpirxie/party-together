@@ -12,6 +12,8 @@ CREATE TABLE "game" (
   "updated_at" timestamp NOT NULL DEFAULT now()
 );
 
+CREATE INDEX "game_code_index" ON "game" ("code");
+
 CREATE TABLE "users" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "session_id" varchar NOT NULL,
@@ -23,6 +25,12 @@ CREATE TABLE "users" (
   "created_at" timestamp NOT NULL DEFAULT now(),
   "updated_at" timestamp NOT NULL DEFAULT now()
 );
+
+CREATE INDEX "users_session_id_index" ON "users" ("session_id");
+
+CREATE INDEX "users_game_id_index" ON "users" ("game_id");
+
+CREATE INDEX "users_composite_session_game_id_index" ON "users" ("session_id", "game_id");
 
 CREATE TABLE "categories" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -37,6 +45,8 @@ CREATE TABLE "categories" (
   "updated_at" timestamp NOT NULL DEFAULT now()
 );
 
+CREATE INDEX "categories_language_index" ON "categories" ("language");
+
 CREATE TABLE "questions" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "type" varchar NOT NULL,
@@ -46,6 +56,10 @@ CREATE TABLE "questions" (
   "updated_at" timestamp NOT NULL DEFAULT now()
 );
 
+CREATE INDEX "questions_category_id_index" ON "questions" ("category_id");
+
+CREATE INDEX "questions_type_index" ON "questions" ("type");
+
 CREATE TABLE "answers" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "question_id" uuid NOT NULL,
@@ -54,16 +68,33 @@ CREATE TABLE "answers" (
   "updated_at" timestamp NOT NULL DEFAULT now()
 );
 
+CREATE INDEX "answers_question_id_index" ON "answers" ("question_id");
+
 CREATE TABLE "answers_history" (
-  "user_id" uuid NOT NULL,
+  "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "game_id" uuid NOT NULL,
   "question_id" uuid NOT NULL,
+  "user_id" uuid NOT NULL,
   "answer_id" uuid,
-  "answer_url" varchar,
+  "selected_user_id" uuid,
+  "drawing" text,
   "created_at" timestamp NOT NULL DEFAULT now(),
-  "updated_at" timestamp NOT NULL DEFAULT now(),
-  PRIMARY KEY ("user_id", "game_id", "question_id")
+  "updated_at" timestamp NOT NULL DEFAULT now()
 );
+
+CREATE INDEX "answers_history_game_id_index" ON "answers_history" ("game_id");
+
+CREATE INDEX "answers_history_question_id_index" ON "answers_history" ("question_id");
+
+CREATE INDEX "answers_history_user_id_index" ON "answers_history" ("user_id");
+
+CREATE INDEX "answers_history_answer_id_index" ON "answers_history" ("answer_id");
+
+CREATE INDEX "answers_history_selected_user_id_index" ON "answers_history" ("selected_user_id");
+
+CREATE INDEX "answers_history_composite_game_question_user_index" ON "answers_history" ("game_id", "question_id", "user_id");
+
+CREATE INDEX "answers_history_composite_game_question_index" ON "answers_history" ("game_id", "question_id");
 
 ALTER TABLE "users" ADD FOREIGN KEY ("game_id") REFERENCES "game" ("id");
 
@@ -78,6 +109,8 @@ ALTER TABLE "answers_history" ADD FOREIGN KEY ("answer_id") REFERENCES "answers"
 ALTER TABLE "answers_history" ADD FOREIGN KEY ("game_id") REFERENCES "game" ("id");
 
 ALTER TABLE "answers_history" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+
+ALTER TABLE "answers_history" ADD FOREIGN KEY ("selected_user_id") REFERENCES "users" ("id");
 
 INSERT INTO public.categories VALUES ('0a627905-eea5-4b9d-958a-f7f8a4b81393', 'pl', 'Podróże', 'Wsiąść do pociągu byle jakiego', '', '', '', '', '2024-03-03 19:20:46.52023', '2024-03-03 19:20:46.52023');
 INSERT INTO public.categories VALUES ('85e58c08-6438-4a79-bf7a-b687d994a3d5', 'pl', 'Abstrakcja', 'Nietypowe pytania, nietypowe odpowiedzi', '', '', '', '', '2024-03-03 19:22:06.294808', '2024-03-03 19:22:06.294808');

@@ -1,5 +1,6 @@
 import { useAppSelector } from "../data/store.ts";
 import { QuestionWhat } from "./QuestionWhat.tsx";
+import { QuestionWho } from "./QuestionWho.tsx";
 
 export function Question() {
   const gameState = useAppSelector((state) => state.game);
@@ -21,6 +22,15 @@ export function Question() {
           question={currentQuestion}
           onAnswer={handleAnswerWhat}
           userToAskAbout={currentUserToAskAbout || firstUser}
+        />
+      )}
+
+      {currentQuestion.type === "WHO" && (
+        <QuestionWho
+          question={currentQuestion}
+          onAnswer={handleAnswerWhat}
+          userToAskAbout={currentUserToAskAbout || firstUser}
+          users={gameState.users}
         />
       )}
     </div>
