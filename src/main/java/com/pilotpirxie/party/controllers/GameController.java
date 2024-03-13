@@ -51,8 +51,8 @@ public class GameController {
     @MessageMapping("/ContinueToQuestion")
     public void continueToQuestion(@Payload ContinueToQuestionEvent event, SimpMessageHeaderAccessor headerAccessor) {
         var sessionGame = sessionGameMappingService.getGameId(headerAccessor.getSessionId());
-        gameService.changeQuestionIndex(sessionGame.gameId(), event.nextQuestionIndex());
         gameService.setGameState(sessionGame.gameId(), GameState.QUESTION);
+        gameService.changeQuestionIndex(sessionGame.gameId(), event.nextQuestionIndex());
         gameService.sendGameState(sessionGame.gameId());
     }
 
