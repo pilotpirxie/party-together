@@ -1,7 +1,11 @@
 import { useAppSelector } from "../data/store.ts";
 import { useSocket } from "../socket/useSocket.ts";
+import cx from "classnames";
+import { PlayerAvatar } from "../components/PlayerAvatar.tsx";
+import QRCode from "react-qr-code";
 
 export function Waiting() {
+  const code = useAppSelector((state) => state.game.game.code);
   const gameUsers = useAppSelector((state) => state.game.users);
   const currentUser = useAppSelector((state) => state.game.currentUser);
   const { sendMessage } = useSocket();
@@ -15,23 +19,76 @@ export function Waiting() {
   };
 
   return (
-    <div>
-      <h1>Waiting for players...</h1>
-      <div>
-        <b>Current players</b>
-        {gameUsers.map((user) => (
-          <div key={user.id}>
-            {user.nickname} -{" "}
-            <small>{user.isReady ? "Ready" : "Not ready"}</small>
+    <div className="bg-info vh-100">
+      <div className="container pt-5">
+        <div className="row">
+          <div className="col-12 col-md-8 offset-md-2">
+            <div className="card card-body">
+              <div className="row">
+                <div className="col-12">
+                  <div className="text-center mb-3">
+                    <h1>Waiting for players...</h1>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12 col-md-6">
+                  <div className="text-center">
+                    <div className="fs-3">Scan to join the game</div>
+                    <QRCode value={window.location.href} size={200} />
+                    <div className="mt-1 fs-3">Code: {code.toUpperCase()}</div>
+                  </div>
+                </div>
+                <div className="col-12 col-md-6">
+                  <div>
+                    <div className="justify-content-center d-flex flex-wrap align-items-center justify-content-center">
+                      {gameUsers.map((user) => (
+                        <div key={user.id} className="d-flex mb-3">
+                          <PlayerAvatar
+                            avatarId={user.avatar}
+                            size={48}
+                            backgroundColor={
+                              user.isReady ? "#28a745" : "#dc3545"
+                            }
+                          />
+                          <div className="ms-2 d-flex justify-content-center flex-column">
+                            <b>{user.nickname}</b>
+                            {user.isReady && <div>Ready!</div>}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="d-flex justify-content-center mt-3">
+                      <button
+                        onClick={handleToggleReady}
+                        className={cx("btn", {
+                          "btn-success": currentUser.isReady,
+                          "text-black": currentUser.isReady,
+                          "btn-danger": !currentUser.isReady,
+                        })}
+                      >
+                        {currentUser.isReady
+                          ? "You are ready!"
+                          : "Mark as ready"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="row mt-3">
+                <div className="col-12">
+                  <div className="text-center">
+                    <div>Everyone is ready?</div>
+                    <button className="btn btn-primary" onClick={handleStart}>
+                      Start game
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        ))}
+        </div>
       </div>
-      <br />
-      <div>Everyone is ready?</div>
-      <button onClick={handleToggleReady}>
-        {currentUser.isReady ? "Unready" : "Ready"}
-      </button>
-      <button onClick={handleStart}>Start game</button>
     </div>
   );
 }

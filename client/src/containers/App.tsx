@@ -1,6 +1,7 @@
 import { useSocket } from "../socket/useSocket.ts";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { PlayerAvatar } from "../components/PlayerAvatar.tsx";
 
 function App() {
   const [nickname, setNickname] = useState(
@@ -9,7 +10,7 @@ function App() {
   const [avatar, setAvatar] = useState(Math.floor(Math.random() * 83));
   const [code, setCode] = useState("");
 
-  const { connect, stompClient } = useSocket();
+  const { connect } = useSocket();
   const location = useLocation();
 
   const handleJoinGame = () => {
@@ -59,12 +60,7 @@ function App() {
                 className="text-center cursor-pointer"
                 onClick={handleRollAvatar}
               >
-                <img
-                  src={"/avatars/" + avatar + ".png"}
-                  alt="avatar"
-                  className="img rounded-circle bg-secondary"
-                  style={{ width: "150px", height: "150px" }}
-                />
+                <PlayerAvatar avatarId={avatar} />
                 <div>
                   <i className="ri-refresh-line" /> Roll avatar
                 </div>
@@ -94,8 +90,26 @@ function App() {
               >
                 Create new game
               </button>
-              <div className="d-flex justify-content-end mt-3">
-                {stompClient?.connected ? "Connected" : "Not connected"}
+              <div className="text-center mt-3">
+                {/*{stompClient?.connected ? "Connected" : "Not connected"}*/}
+                Game created by
+                <a
+                  href="https://github.com/pilotpirxie/scrum-tool-client"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mx-1"
+                >
+                  PilotPirxie
+                </a>
+                and
+                <a
+                  href="https://behance.net/krzysztofsojka1"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mx-1"
+                >
+                  Krzysztof Sojka
+                </a>
               </div>
             </div>
           </div>
