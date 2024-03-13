@@ -40,7 +40,7 @@ export function Question() {
       )}
 
       {!gameState.currentUser.isReady && (
-        <div>
+        <>
           {currentQuestion.type === "WHAT" && (
             <QuestionWhat
               question={currentQuestion}
@@ -65,7 +65,7 @@ export function Question() {
               userToAskAbout={userToAskAbout || firstUser}
             />
           )}
-        </div>
+        </>
       )}
     </div>
   );

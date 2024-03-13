@@ -34,21 +34,28 @@ export function Waiting() {
               <div className="row">
                 <div className="col-12 col-md-6">
                   <div className="text-center">
-                    <div className="fs-3">Scan to join the game</div>
-                    <QRCode value={window.location.href} size={200} />
-                    <div className="mt-1 fs-3">Code: {code.toUpperCase()}</div>
+                    <div className="fs-4">Scan to join the game</div>
+                    <QRCode
+                      value={window.location.href}
+                      size={200}
+                      className="my-3"
+                    />
+                    <div className="fs-4">
+                      Code:{" "}
+                      <span className="code-spacing">{code.toUpperCase()}</span>
+                    </div>
                   </div>
                 </div>
                 <div className="col-12 col-md-6">
                   <div>
-                    <div className="justify-content-center d-flex flex-wrap align-items-center justify-content-center">
+                    <div className="justify-content-center d-flex flex-wrap align-items-center justify-content-center mt-3 mt-0">
                       {gameUsers.map((user) => (
-                        <div key={user.id} className="d-flex mb-3">
+                        <div key={user.id} className="d-flex mb-3 mx-1">
                           <PlayerAvatar
                             avatarId={user.avatar}
                             size={48}
                             backgroundColor={
-                              user.isReady ? "#28a745" : "#dc3545"
+                              user.isReady ? "#00fe00" : "#dc3545"
                             }
                           />
                           <div className="ms-2 d-flex justify-content-center flex-column">
@@ -78,7 +85,7 @@ export function Waiting() {
               <div className="row mt-3">
                 <div className="col-12">
                   <div className="text-center">
-                    <div>Everyone is ready?</div>
+                    <div className="mb-1">Everyone is ready?</div>
                     <button className="btn btn-primary" onClick={handleStart}>
                       Start game
                     </button>

@@ -1,3 +1,7 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+.code-spacing {
+    letter-spacing: 4px;
+}

@@ -18,12 +18,26 @@ export function Category() {
   };
 
   return (
-    <div>
-      <h3>Welcome in new category!</h3>
-      <h1>{currentCategory?.name}</h1>
-      <h2>{currentCategory?.description}</h2>
+    <div className="bg-info vh-100">
+      <div className="container pt-5">
+        <div className="row">
+          <div className="col-12 col-md-6 offset-md-3">
+            <div className="card card-body p-5">
+              <div className="text-center">
+                <h1>Category: {currentCategory?.name}</h1>
+                <div className="fs-3 my-4">{currentCategory?.description}</div>
+              </div>
 
-      <button onClick={handleContinue}>Continue</button>
+              <button
+                className="btn btn-warning text-black"
+                onClick={handleContinue}
+              >
+                Show us the first question!
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -11,7 +11,7 @@
  * Copyright 2011-2024 The Bootstrap Authors
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-@import url("https://fonts.googleapis.com/css?family=Neucha|Angkor&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Grandstander:ital,wght@0,100..900;1,100..900&family=Patrick+Hand+SC&display=swap');
 :root,
 [data-bs-theme=light] {
   --bs-blue: #007bff;
@@ -79,7 +79,7 @@
   --bs-dark-border-subtle: #aaa;
   --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
-  --bs-font-sans-serif: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --bs-font-sans-serif: Patrick Hand SC, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
@@ -225,8 +225,8 @@ hr {
 h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
   margin-top: 0;
   margin-bottom: 0.5rem;
-  font-family: "Angkor", cursive;
-  font-weight: 500;
+  font-family: "Grandstander", cursive;
+  font-weight: 800;
   line-height: 1.2;
   color: var(--bs-heading-color);
 }
@@ -470,6 +470,7 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+  text-transform: uppercase;
 }
 
 button,
@@ -2987,7 +2988,7 @@ textarea.form-control-lg {
 .btn {
   --bs-btn-padding-x: 0.75rem;
   --bs-btn-padding-y: 0.375rem;
-  --bs-btn-font-family: "Angkor", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --bs-btn-font-family: "Grandstander", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --bs-btn-font-size: 1rem;
   --bs-btn-font-weight: 400;
   --bs-btn-line-height: 1.5;
@@ -3101,8 +3102,8 @@ textarea.form-control-lg {
 
 .btn-success {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #28a745;
-  --bs-btn-border-color: #28a745;
+  --bs-btn-bg: #00fe00;
+  --bs-btn-border-color: #00fe00;
   --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: #228e3b;
   --bs-btn-hover-border-color: #208637;
@@ -12082,7 +12083,7 @@ textarea.form-control-lg {
   border-radius: 255px 25px 0 25px/25px 225px 25px 0;
 }
 .navbar-brand {
-  font-family: "Angkor", cursive;
+  font-family: "Grandstander", cursive;
   font-weight: 400;
   text-decoration: none;
 }
@@ -12108,12 +12109,12 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: Patrick Hand SC, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 b,
 strong {
-  font-family: "Angkor", cursive;
+  font-family: "Grandstander", cursive;
 }
 
 blockquote {
@@ -12389,7 +12390,7 @@ select.form-control {
   border-radius: 10px 10px 15px 5px/5px 15px 5px 15px;
 }
 .toast-header {
-  font-family: "Angkor", cursive;
+  font-family: "Grandstander", cursive;
 }
 
 .modal-content {

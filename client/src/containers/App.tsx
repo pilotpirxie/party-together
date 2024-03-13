@@ -94,7 +94,7 @@ function App() {
                 {/*{stompClient?.connected ? "Connected" : "Not connected"}*/}
                 Game created by
                 <a
-                  href="https://github.com/pilotpirxie/scrum-tool-client"
+                  href="https://github.com/pilotpirxie/party-together"
                   target="_blank"
                   rel="noreferrer"
                   className="mx-1"
