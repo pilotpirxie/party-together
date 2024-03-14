@@ -32,7 +32,7 @@ export function QuestionWhat({
               <div className="d-flex flex-column">
                 {question.answers.map((answer, index) => (
                   <button
-                    className="btn btn-warning text-black my-2"
+                    className="btn btn-warning btn-lg text-black my-2"
                     key={answer.id}
                     onClick={() => handleAnswer(index)}
                   >

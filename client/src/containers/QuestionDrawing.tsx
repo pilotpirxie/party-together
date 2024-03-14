@@ -1,4 +1,5 @@
 import { Question, User } from "../data/model.ts";
+import { Canvas } from "../components/Canvas.tsx";
 
 export function QuestionDrawing({
   question,
@@ -7,19 +8,29 @@ export function QuestionDrawing({
 }: {
   question: Question;
   userToAskAbout: User;
-  onAnswer: (answerId: string) => void;
+  onAnswer: (answer: string) => void;
 }) {
-  // const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-
-  const handleAnswer = () => {
-    onAnswer("drawing answer");
-  };
-
   return (
-    <div>
-      <h1>{question.content.replace("NICKNAME", userToAskAbout.nickname)}</h1>
-      <br />
-      <button onClick={handleAnswer}>Send answer</button>
+    <div className="bg-info vh-100 overflow-y-auto">
+      <div className="container pt-5">
+        <div className="row">
+          <div className="col-12 col-md-8 offset-md-2">
+            <div className="card card-body">
+              <div className="text-center">
+                <h1>
+                  {question.content.replace(
+                    "NICKNAME",
+                    userToAskAbout.nickname,
+                  )}
+                </h1>
+                <div className="d-flex my-3 justify-content-center">
+                  <Canvas onSubmit={onAnswer} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

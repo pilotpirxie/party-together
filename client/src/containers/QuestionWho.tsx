@@ -1,4 +1,5 @@
 import { Question, User } from "../data/model.ts";
+import { PlayerAvatar } from "../components/PlayerAvatar.tsx";
 
 export function QuestionWho({
   question,
@@ -30,15 +31,16 @@ export function QuestionWho({
                     userToAskAbout.nickname,
                   )}
                 </h1>
-                <div className="d-flex flex-column">
+                <div className="d-flex flex-row gap-3 justify-content-center flex-wrap cursor-pointer">
                   {users.map((user, index) => (
-                    <button
-                      className="btn btn-warning text-black my-2"
+                    <div
+                      className="border-1 rounded-1 text-black"
                       key={user.id}
                       onClick={() => handleAnswer(index)}
                     >
-                      {user.nickname}
-                    </button>
+                      <PlayerAvatar avatarId={user.avatar} size={110} />
+                      <div>{user.nickname}</div>
+                    </div>
                   ))}
                 </div>
               </div>

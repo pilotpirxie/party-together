@@ -32,7 +32,7 @@ export function Category() {
                 className="btn btn-warning text-black"
                 onClick={handleContinue}
               >
-                Show us the first question!
+                Show the first question!
               </button>
             </div>
           </div>
