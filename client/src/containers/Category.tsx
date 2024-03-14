@@ -1,5 +1,6 @@
 import { useAppSelector } from "../data/store.ts";
 import { useSocket } from "../socket/useSocket.ts";
+import { Container } from "../components/Container.tsx";
 
 export function Category() {
   const { sendMessage } = useSocket();
@@ -18,26 +19,15 @@ export function Category() {
   };
 
   return (
-    <div className="bg-info vh-100">
-      <div className="container pt-5">
-        <div className="row">
-          <div className="col-12 col-md-6 offset-md-3">
-            <div className="card card-body p-5">
-              <div className="text-center">
-                <h1>Category: {currentCategory?.name}</h1>
-                <div className="fs-3 my-4">{currentCategory?.description}</div>
-              </div>
-
-              <button
-                className="btn btn-warning text-black"
-                onClick={handleContinue}
-              >
-                Show the first question!
-              </button>
-            </div>
-          </div>
-        </div>
+    <Container>
+      <div className="text-center">
+        <h1>Category: {currentCategory?.name}</h1>
+        <div className="fs-3 my-4">{currentCategory?.description}</div>
       </div>
-    </div>
+
+      <button className="btn btn-warning text-black" onClick={handleContinue}>
+        Show the first question!
+      </button>
+    </Container>
   );
 }

@@ -1,5 +1,5 @@
 import { useAppSelector } from "../data/store.ts";
-import { Waiting } from "./Waiting.tsx";
+import { WaitingLobby } from "./WaitingLobby.tsx";
 import { Question } from "./Question.tsx";
 import { Category } from "./Category.tsx";
 import { Finished } from "./Finished.tsx";
@@ -25,7 +25,7 @@ export function Game() {
 
   return (
     <div>
-      {gameState.game.state === "WAITING" && <Waiting />}
+      {gameState.game.state === "WAITING" && <WaitingLobby />}
       {gameState.game.state === "QUESTION" && <Question />}
       {gameState.game.state === "CATEGORY" && <Category />}
       {gameState.game.state === "RESULTS" && <Results />}
