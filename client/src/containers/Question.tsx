@@ -3,6 +3,7 @@ import { QuestionWhat } from "./QuestionWhat.tsx";
 import { QuestionWho } from "./QuestionWho.tsx";
 import { useSocket } from "../socket/useSocket.ts";
 import { QuestionDrawing } from "./QuestionDrawing.tsx";
+import { WaitingForOther } from "./WaitingForOther.tsx";
 
 export function Question() {
   const { sendMessage } = useSocket();
@@ -33,10 +34,11 @@ export function Question() {
   return (
     <div>
       {gameState.currentUser.isReady && (
-        <div>
-          <h1>Waiting for other players...</h1>
-          <button onClick={handleContinue}>Go to next question</button>
-        </div>
+        <WaitingForOther
+          question={currentQuestion}
+          userToAskAbout={userToAskAbout || firstUser}
+          onContinue={handleContinue}
+        />
       )}
 
       {!gameState.currentUser.isReady && (
