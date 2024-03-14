@@ -159,7 +159,7 @@ export const Canvas = ({ onSubmit }: { onSubmit: (data: string) => void }) => {
           </div>
         </div>
         <div className="col-12 col-md-9">
-          <div style={{ width: "100%", maxWidth: "500px" }}>
+          <div style={{ width: "100%", maxWidth: "100%" }}>
             <canvas
               ref={canvasRef}
               onMouseDown={startDrawing}

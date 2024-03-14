@@ -49,7 +49,7 @@ function App() {
   }, [location.state]);
 
   return (
-    <Container>
+    <Container size="s">
       <div className="text-center">
         <h1>🦄 Party Together</h1>
       </div>

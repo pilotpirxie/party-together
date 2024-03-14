@@ -19,9 +19,9 @@ export function Category() {
   };
 
   return (
-    <Container>
+    <Container size="s">
       <div className="text-center">
-        <h1>Category: {currentCategory?.name}</h1>
+        <h1>{currentCategory?.name}</h1>
         <div className="fs-3 my-4">{currentCategory?.description}</div>
       </div>
 

@@ -17,7 +17,7 @@ export function QuestionWhat({
   };
 
   return (
-    <Container>
+    <Container size="s">
       <div className="text-center">
         <h1>{question.content.replace("NICKNAME", userToAskAbout.nickname)}</h1>
       </div>
