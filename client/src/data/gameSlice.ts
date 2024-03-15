@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AnswerHistory, Category, Game, Question, User } from "./model.ts";
 
 export type GameState = {
-  game: Game;
+  gameRoom: Game;
   questions: Question[];
   categories: Category[];
   users: User[];
@@ -11,7 +11,7 @@ export type GameState = {
 };
 
 const initialState: GameState = {
-  game: {
+  gameRoom: {
     timeToDraw: 0,
     timeToAnswer: 0,
     timerTo: null,
@@ -43,10 +43,10 @@ const gameSlice = createSlice({
   initialState,
   reducers: {
     setGame: (state, { payload }: PayloadAction<Game>) => {
-      state.game = payload;
+      state.gameRoom = payload;
     },
     clearGame: (state) => {
-      state.game = initialState.game;
+      state.gameRoom = initialState.gameRoom;
       state.questions = initialState.questions;
       state.categories = initialState.categories;
       state.users = initialState.users;

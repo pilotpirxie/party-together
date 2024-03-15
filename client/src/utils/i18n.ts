@@ -33,6 +33,8 @@ i18n
           Done: "Gotowe",
           "This player": "Na gracza",
           "got votes from": "zagłosowali",
+          "The End": "Koniec",
+          "Back to home": "Powrót do strony głównej",
         },
       },
       en: {

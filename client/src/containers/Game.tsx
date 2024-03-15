@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { Results } from "./Results.tsx";
 
 export function Game() {
-  const gameState = useAppSelector((state) => state.game.game.state);
+  const gameState = useAppSelector((state) => state.game.gameRoom.state);
   const stompClient = useAppSelector((state) => state.config.stompClient);
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();

@@ -32,8 +32,12 @@ export function useSocket(): SocketHook {
       await stompClient.deactivate();
     }
 
+    const protocol = window.location.protocol === "https:" ? "wss://" : "ws://";
     const newStompClient = new Client({
-      brokerURL: "ws://localhost:8080/ws",
+      brokerURL:
+        process.env.NODE_ENV === "production"
+          ? protocol + window.location.host + "/ws"
+          : "ws://localhost:8080/ws",
       onConnect: () => {
         dispatch(setStompClient(newStompClient));
 

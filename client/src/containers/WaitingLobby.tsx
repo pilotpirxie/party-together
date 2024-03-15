@@ -7,7 +7,7 @@ import { Container } from "../components/Container.tsx";
 import { useTranslation } from "react-i18next";
 
 export function WaitingLobby() {
-  const code = useAppSelector((state) => state.game.game.code);
+  const code = useAppSelector((state) => state.game.gameRoom.code);
   const gameUsers = useAppSelector((state) => state.game.users);
   const currentUser = useAppSelector((state) => state.game.currentUser);
   const { sendMessage } = useSocket();

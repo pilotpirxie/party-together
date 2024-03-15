@@ -7,14 +7,14 @@ import cx from "classnames";
 export function Category() {
   const { sendMessage } = useSocket();
   const currentQuestion = useAppSelector(
-    (state) => state.game.questions[state.game.game.questionIndex],
+    (state) => state.game.questions[state.game.gameRoom.questionIndex],
   );
   const currentCategoryId = currentQuestion.categoryId;
   const currentCategory = useAppSelector((state) =>
     state.game.categories.find((category) => category.id === currentCategoryId),
   );
   const questionIndex = useAppSelector(
-    (state) => state.game.game.questionIndex,
+    (state) => state.game.gameRoom.questionIndex,
   );
   const { t } = useTranslation();
 

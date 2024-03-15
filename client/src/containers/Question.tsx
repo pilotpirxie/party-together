@@ -11,12 +11,12 @@ export function Question() {
   const { t } = useTranslation();
 
   const currentQuestion = useAppSelector(
-    (state) => state.game.questions[state.game.game.questionIndex],
+    (state) => state.game.questions[state.game.gameRoom.questionIndex],
   );
   const firstUser = useAppSelector((state) => state.game.users[0]);
   const userToAskAbout = useAppSelector((state) =>
     state.game.users.at(
-      (state.game.users.length % (state.game.game.questionIndex + 1)) - 1,
+      (state.game.users.length % (state.game.gameRoom.questionIndex + 1)) - 1,
     ),
   );
   const users = useAppSelector((state) => state.game.users);
