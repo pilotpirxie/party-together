@@ -204,6 +204,12 @@ public class GameService {
     public void changeQuestionIndex(UUID gameId, int newQuestionIndex) {
         var game = gameRepository.findById(gameId).orElseThrow();
 
+        if (newQuestionIndex >= game.getGameQuestionIds().size()) {
+            game.setState(GameState.FINISHED);
+            gameRepository.save(game);
+            return;
+        }
+
         var oldQuestion = questionRepository
             .findById(game.getGameQuestionIds().get(game.getQuestionIndex()))
             .orElseThrow();

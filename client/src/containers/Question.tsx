@@ -1,19 +1,26 @@
 import { useAppSelector } from "../data/store.ts";
-import { QuestionWhat } from "./QuestionWhat.tsx";
-import { QuestionWho } from "./QuestionWho.tsx";
+import { QuestionWhat } from "../components/QuestionWhat.tsx";
+import { QuestionWho } from "../components/QuestionWho.tsx";
 import { useSocket } from "../socket/useSocket.ts";
-import { QuestionDrawing } from "./QuestionDrawing.tsx";
+import { QuestionDrawing } from "../components/QuestionDrawing.tsx";
 import { WaitingForOther } from "./WaitingForOther.tsx";
+import { useTranslation } from "react-i18next";
 
 export function Question() {
   const { sendMessage } = useSocket();
-  const gameState = useAppSelector((state) => state.game);
+  const { t } = useTranslation();
 
-  const currentQuestion = gameState.questions[gameState.game.questionIndex];
-  const firstUser = gameState.users[0];
-  const userToAskAbout = gameState.users.at(
-    (gameState.users.length % (gameState.game.questionIndex + 1)) - 1,
+  const currentQuestion = useAppSelector(
+    (state) => state.game.questions[state.game.game.questionIndex],
   );
+  const firstUser = useAppSelector((state) => state.game.users[0]);
+  const userToAskAbout = useAppSelector((state) =>
+    state.game.users.at(
+      (state.game.users.length % (state.game.game.questionIndex + 1)) - 1,
+    ),
+  );
+  const users = useAppSelector((state) => state.game.users);
+  const currentUser = useAppSelector((state) => state.game.currentUser);
 
   const handleAnswerWhat = (answer: string) => {
     sendMessage({
@@ -32,8 +39,8 @@ export function Question() {
   };
 
   return (
-    <div>
-      {gameState.currentUser.isReady && (
+    <>
+      {currentUser.isReady && (
         <WaitingForOther
           question={currentQuestion}
           userToAskAbout={userToAskAbout || firstUser}
@@ -41,7 +48,7 @@ export function Question() {
         />
       )}
 
-      {!gameState.currentUser.isReady && (
+      {!currentUser.isReady && (
         <>
           {currentQuestion.type === "WHAT" && (
             <QuestionWhat
@@ -56,7 +63,7 @@ export function Question() {
               question={currentQuestion}
               onAnswer={handleAnswerWhat}
               userToAskAbout={userToAskAbout || firstUser}
-              users={gameState.users}
+              users={users}
             />
           )}
 
@@ -65,10 +72,13 @@ export function Question() {
               question={currentQuestion}
               onAnswer={handleAnswerWhat}
               userToAskAbout={userToAskAbout || firstUser}
+              labels={{
+                done: t("Done"),
+              }}
             />
           )}
         </>
       )}
-    </div>
+    </>
   );
 }

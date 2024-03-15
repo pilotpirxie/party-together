@@ -8,28 +8,28 @@ import { useEffect } from "react";
 import { Results } from "./Results.tsx";
 
 export function Game() {
-  const gameState = useAppSelector((state) => state.game);
-  const configState = useAppSelector((state) => state.config);
+  const gameState = useAppSelector((state) => state.game.game.state);
+  const stompClient = useAppSelector((state) => state.config.stompClient);
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!configState.stompClient) {
+    if (!stompClient) {
       navigate("/", {
         state: {
           code,
         },
       });
     }
-  }, [code, configState.stompClient, navigate]);
+  }, [code, stompClient, navigate]);
 
   return (
     <div>
-      {gameState.game.state === "WAITING" && <WaitingLobby />}
-      {gameState.game.state === "QUESTION" && <Question />}
-      {gameState.game.state === "CATEGORY" && <Category />}
-      {gameState.game.state === "RESULTS" && <Results />}
-      {gameState.game.state === "FINISHED" && <Finished />}
+      {gameState === "WAITING" && <WaitingLobby />}
+      {gameState === "QUESTION" && <Question />}
+      {gameState === "CATEGORY" && <Category />}
+      {gameState === "RESULTS" && <Results />}
+      {gameState === "FINISHED" && <Finished />}
     </div>
   );
 }

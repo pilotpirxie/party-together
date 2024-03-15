@@ -1,7 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import cx from "classnames";
 
-export const Canvas = ({ onSubmit }: { onSubmit: (data: string) => void }) => {
+export const Canvas = ({
+  onSubmit,
+  labels,
+}: {
+  onSubmit: (data: string) => void;
+  labels: {
+    done: string;
+  };
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [brushColor, setBrushColor] = useState("#000000");
@@ -154,7 +162,7 @@ export const Canvas = ({ onSubmit }: { onSubmit: (data: string) => void }) => {
               onClick={handleSubmit}
               className="btn btn-warning text-black"
             >
-              Done!
+              {labels.done}
             </button>
           </div>
         </div>
@@ -210,7 +218,7 @@ export const Canvas = ({ onSubmit }: { onSubmit: (data: string) => void }) => {
                 onClick={handleSubmit}
                 className="btn btn-warning text-black"
               >
-                Done!
+                {labels.done}
               </button>
             </div>
           </div>

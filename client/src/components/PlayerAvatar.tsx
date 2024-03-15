@@ -1,3 +1,5 @@
+import cx from "classnames";
+
 const colors = [
   "#8ed3b6",
   "#e57373",
@@ -35,17 +37,19 @@ export const PlayerAvatar = ({
   avatarId,
   size = 150,
   backgroundColor,
+  className,
 }: {
   avatarId: number;
   size?: number;
   backgroundColor?: string;
+  className?: string;
 }) => {
   const defaultBackgroundColor = colors[avatarId % colors.length];
   return (
     <img
       src={"/avatars/" + avatarId + ".png"}
       alt="avatar"
-      className="img rounded-circle"
+      className={cx("img rounded-circle", className)}
       style={{
         width: size + "px",
         height: size + "px",

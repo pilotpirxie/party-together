@@ -1,32 +1,58 @@
 import { useAppSelector } from "../data/store.ts";
 import { useSocket } from "../socket/useSocket.ts";
 import { Container } from "../components/Container.tsx";
+import { useTranslation } from "react-i18next";
+import cx from "classnames";
 
 export function Category() {
   const { sendMessage } = useSocket();
-  const gameState = useAppSelector((state) => state.game);
-  const currentQuestion = gameState.questions[gameState.game.questionIndex];
-  const currentCategoryId = currentQuestion.categoryId;
-  const currentCategory = gameState.categories.find(
-    (category) => category.id === currentCategoryId,
+  const currentQuestion = useAppSelector(
+    (state) => state.game.questions[state.game.game.questionIndex],
   );
+  const currentCategoryId = currentQuestion.categoryId;
+  const currentCategory = useAppSelector((state) =>
+    state.game.categories.find((category) => category.id === currentCategoryId),
+  );
+  const questionIndex = useAppSelector(
+    (state) => state.game.game.questionIndex,
+  );
+  const { t } = useTranslation();
 
   const handleContinue = () => {
     sendMessage({
       type: "ContinueToQuestion",
-      payload: { nextQuestionIndex: gameState.game.questionIndex },
+      payload: { nextQuestionIndex: questionIndex },
     });
   };
+
+  const animateIn = [
+    "animate__bounceInRight",
+    "animate__bounceInUp",
+    "animate__bounceInDown",
+    "animate__fadeIn",
+    "animate__fadeInDown",
+    "animate__fadeInUp",
+    "animate__zoomIn",
+    "animate__slideInDown",
+    "animate__backInRight",
+  ];
+
+  const randomAnimateIn =
+    animateIn[Math.floor(Math.random() * animateIn.length)];
 
   return (
     <Container size="s">
       <div className="text-center">
-        <h1>{currentCategory?.name}</h1>
+        <h1
+          className={cx("animate__animated animate__faster", randomAnimateIn)}
+        >
+          {currentCategory?.name}
+        </h1>
         <div className="fs-3 my-4">{currentCategory?.description}</div>
       </div>
 
       <button className="btn btn-warning text-black" onClick={handleContinue}>
-        Show the first question!
+        {t("Show the first question!")}
       </button>
     </Container>
   );

@@ -1,6 +1,6 @@
 import { Question, User } from "../data/model.ts";
-import { PlayerAvatar } from "../components/PlayerAvatar.tsx";
-import { Container } from "../components/Container.tsx";
+import { PlayerAvatar } from "./PlayerAvatar.tsx";
+import { Container } from "./Container.tsx";
 
 export function QuestionWho({
   question,
@@ -13,23 +13,17 @@ export function QuestionWho({
   onAnswer: (answerId: string) => void;
   users: User[];
 }) {
-  const handleAnswer = (index: number) => {
-    if (index === null) return;
-    const userId = users[index].id;
-    onAnswer(userId);
-  };
-
   return (
     <Container>
       <div className="text-center">
         <h1>{question.content.replace("NICKNAME", userToAskAbout.nickname)}</h1>
       </div>
       <div className="d-flex flex-row gap-3 justify-content-center flex-wrap cursor-pointer">
-        {users.map((user, index) => (
+        {users.map((user) => (
           <div
             className="border-1 rounded-1 text-black text-center"
             key={user.id}
-            onClick={() => handleAnswer(index)}
+            onClick={() => onAnswer(user.id)}
           >
             <PlayerAvatar avatarId={user.avatar} size={110} />
             <div>{user.nickname}</div>

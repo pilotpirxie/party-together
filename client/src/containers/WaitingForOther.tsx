@@ -2,6 +2,7 @@ import { Container } from "../components/Container.tsx";
 import { useAppSelector } from "../data/store.ts";
 import { PlayerAvatar } from "../components/PlayerAvatar.tsx";
 import { Question, User } from "../data/model.ts";
+import { useTranslation } from "react-i18next";
 
 export const WaitingForOther = ({
   onContinue,
@@ -12,8 +13,8 @@ export const WaitingForOther = ({
   question: Question;
   userToAskAbout: User;
 }) => {
+  const { t } = useTranslation();
   const gameUsers = useAppSelector((state) => state.game.users);
-
   const anyUserNotReady = gameUsers.some((user) => !user.isReady);
 
   return (
@@ -24,7 +25,7 @@ export const WaitingForOther = ({
 
       {anyUserNotReady && (
         <div className="text-center">
-          <h4>Waiting for other players...</h4>
+          <h4>{t("Waiting for other players...")}</h4>
         </div>
       )}
 
@@ -38,7 +39,7 @@ export const WaitingForOther = ({
             />
             <div className="ms-2 d-flex justify-content-center flex-column">
               <b>{user.nickname}</b>
-              {user.isReady && <div>Ready!</div>}
+              {user.isReady && <div>{t("Ready!")}</div>}
             </div>
           </div>
         ))}
@@ -46,7 +47,7 @@ export const WaitingForOther = ({
 
       <div className="text-center">
         <button className="btn btn-primary" onClick={onContinue}>
-          {anyUserNotReady ? "Don't wait, continue!" : "Continue"}
+          {anyUserNotReady ? t("Don't wait, continue!") : t("Continue")}
         </button>
       </div>
     </Container>

@@ -5,3 +5,123 @@
 .code-spacing {
     letter-spacing: 4px;
 }
+
+.animate_delay_1 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+}
+
+.animate_delay_2 {
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+}
+
+.animate_delay_3 {
+    -webkit-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+
+.animate_delay_4 {
+    -webkit-animation-delay: 0.8s;
+    animation-delay: 0.8s;
+}
+
+.animate_delay_5 {
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+}
+
+.animate_delay_6 {
+    -webkit-animation-delay: 1.2s;
+    animation-delay: 1.2s;
+}
+
+.animate_delay_7 {
+    -webkit-animation-delay: 1.4s;
+    animation-delay: 1.4s;
+}
+
+.animate_delay_8 {
+    -webkit-animation-delay: 1.6s;
+    animation-delay: 1.6s;
+}
+
+.animate_delay_9 {
+    -webkit-animation-delay: 1.8s;
+    animation-delay: 1.8s;
+}
+
+.animate_delay_10 {
+    -webkit-animation-delay: 2s;
+    animation-delay: 2s;
+}
+
+.animate_delay_11 {
+    -webkit-animation-delay: 2.2s;
+    animation-delay: 2.2s;
+}
+
+.animate_delay_12 {
+    -webkit-animation-delay: 2.4s;
+    animation-delay: 2.4s;
+}
+
+.animate_delay_13 {
+    -webkit-animation-delay: 2.6s;
+    animation-delay: 2.6s;
+}
+
+.animate_delay_14 {
+    -webkit-animation-delay: 2.8s;
+    animation-delay: 2.8s;
+}
+
+.animate_delay_15 {
+    -webkit-animation-delay: 3s;
+    animation-delay: 3s;
+}
+
+.animate_delay_16 {
+    -webkit-animation-delay: 3.2s;
+    animation-delay: 3.2s;
+}
+
+.animate_delay_17 {
+    -webkit-animation-delay: 3.4s;
+    animation-delay: 3.4s;
+}
+
+.animate_delay_18 {
+    -webkit-animation-delay: 3.6s;
+    animation-delay: 3.6s;
+}
+
+.animate_delay_19 {
+    -webkit-animation-delay: 3.8s;
+    animation-delay: 3.8s;
+}
+
+.animate_delay_20 {
+    -webkit-animation-delay: 4s;
+    animation-delay: 4s;
+}
+
+.little-swing {
+    -webkit-animation: swing 1s ease-in-out infinite;
+    animation: swing 1s ease-in-out infinite;
+}
+
+@-webkit-keyframes swing {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    50% {
+        -webkit-transform: rotate(10deg);
+        transform: rotate(5deg);
+    }
+    100% {
+        -webkit-transform: rotate(-10deg);
+        transform: rotate(-5deg);
+    }
+}

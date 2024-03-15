@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { store } from "./data/store.ts";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Game } from "./containers/Game.tsx";
+import "./utils/i18n.ts";
 
 const router = createBrowserRouter([
   {

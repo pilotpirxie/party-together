@@ -10,7 +10,7 @@ export const Container = ({
 }) => {
   return (
     <div className="bg-info vh-100 overflow-y-auto">
-      <div className="container pt-5">
+      <div className="container py-3 py-md-5">
         <div className="row">
           <div
             className={cx([

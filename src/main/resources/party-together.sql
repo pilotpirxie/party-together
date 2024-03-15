@@ -289,7 +289,7 @@ INSERT INTO public.answers VALUES (default, '8746101e-5505-4673-ba7f-de0a8454836
 /* Questions - Who would do... */
 INSERT INTO public.questions VALUES (default, 'WHO', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Kto mógłby wygrać konkurs na najdziwniejsze hobby?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Kto zrobiłby żart nawet w środku egzaminu?', default, default);
-INSERT INTO public.questions VALUES (default, 'WHO', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'to mógłby przekształcić katastrofę kulinarną w sztukę kulinarną?', default, default);
+INSERT INTO public.questions VALUES (default, 'WHO', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Kto mógłby przekształcić katastrofę kulinarną w sztukę kulinarną?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Kto mógłby zacząć taniec spontanicznie na środku ulicy?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Kto mógłby przekonać wilka do jedzenia sałatki?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Kto mógłby przetrwać na bezludnej wyspie, mając tylko zestaw do gry w Monopoly?', default, default);

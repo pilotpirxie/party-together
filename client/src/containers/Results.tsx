@@ -1,38 +1,84 @@
 import { useSocket } from "../socket/useSocket.ts";
 import { useAppSelector } from "../data/store.ts";
+import { ResultsWho } from "../components/ResultsWho.tsx";
+import { useTranslation } from "react-i18next";
+import { ResultsWhat } from "../components/ResultsWhat.tsx";
+import { ResultsDrawing } from "../components/ResultsDrawing.tsx";
 
 export function Results() {
   const { sendMessage } = useSocket();
-  const gameState = useAppSelector((state) => state.game);
-  const currentQuestion = gameState.questions[gameState.game.questionIndex];
+  const { t } = useTranslation();
+
+  const currentQuestion = useAppSelector(
+    (state) => state.game.questions[state.game.game.questionIndex],
+  );
+  const firstUser = useAppSelector((state) => state.game.users[0]);
+  const userToAskAbout = useAppSelector((state) =>
+    state.game.users.at(
+      (state.game.users.length % (state.game.game.questionIndex + 1)) - 1,
+    ),
+  );
+  const questionIndex = useAppSelector(
+    (state) => state.game.game.questionIndex,
+  );
+  const users = useAppSelector((state) => state.game.users);
+  const answers = useAppSelector((state) =>
+    state.game.answers.filter(
+      (answer) => answer.questionId === currentQuestion.id,
+    ),
+  );
 
   const handleContinue = () => {
     sendMessage({
       type: "ContinueToQuestion",
       payload: {
-        nextQuestionIndex: gameState.game.questionIndex + 1,
+        nextQuestionIndex: questionIndex + 1,
       },
     });
   };
 
-  const findUser = (userId: string) => {
-    return gameState.users.find((user) => user.id === userId);
-  };
-
   return (
-    <div>
-      <h1>Results</h1>
+    <>
+      {currentQuestion.type === "WHO" && (
+        <ResultsWho
+          question={currentQuestion}
+          onContinue={handleContinue}
+          userToAskAbout={userToAskAbout || firstUser}
+          users={users}
+          answers={answers}
+          labels={{
+            thisPlayer: t("This player"),
+            gotVotesFrom: t("got votes from"),
+            continue: t("Continue"),
+          }}
+        />
+      )}
 
-      {gameState.answers
-        .filter((answer) => answer.questionId === currentQuestion.id)
-        .map((answer) => (
-          <div>
-            <h2>{findUser(answer.userId)?.nickname}</h2>
-            <p>{answer.answerId || answer.selectedUserId || answer.drawing}</p>
-          </div>
-        ))}
+      {currentQuestion.type === "WHAT" && (
+        <ResultsWhat
+          question={currentQuestion}
+          onContinue={handleContinue}
+          userToAskAbout={userToAskAbout || firstUser}
+          users={users}
+          answers={answers}
+          labels={{
+            continue: t("Continue"),
+          }}
+        />
+      )}
 
-      <button onClick={handleContinue}>Continue</button>
-    </div>
+      {currentQuestion.type === "DRAWING" && (
+        <ResultsDrawing
+          question={currentQuestion}
+          onContinue={handleContinue}
+          userToAskAbout={userToAskAbout || firstUser}
+          users={users}
+          answers={answers}
+          labels={{
+            continue: t("Continue"),
+          }}
+        />
+      )}
+    </>
   );
 }
