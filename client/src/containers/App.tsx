@@ -25,7 +25,7 @@ function App() {
     connect({
       nickname,
       avatar,
-      code,
+      code: code.toLowerCase(),
     });
   };
 

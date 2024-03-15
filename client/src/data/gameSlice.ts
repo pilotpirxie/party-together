@@ -59,7 +59,11 @@ const gameSlice = createSlice({
       state.categories = payload;
     },
     setUsers: (state, { payload }: PayloadAction<User[]>) => {
-      state.users = payload;
+      state.users = payload.sort((a, b) => {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      });
 
       if (state.currentUser.id) {
         state.currentUser =
