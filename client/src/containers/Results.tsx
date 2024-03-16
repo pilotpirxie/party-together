@@ -15,7 +15,7 @@ export function Results() {
   const firstUser = useAppSelector((state) => state.game.users[0]);
   const userToAskAbout = useAppSelector((state) =>
     state.game.users.at(
-      (state.game.users.length % (state.game.gameRoom.questionIndex + 1)) - 1,
+      state.game.gameRoom.questionIndex % state.game.users.length,
     ),
   );
   const questionIndex = useAppSelector(

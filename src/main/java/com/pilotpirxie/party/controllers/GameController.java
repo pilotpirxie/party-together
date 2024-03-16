@@ -45,7 +45,9 @@ public class GameController {
     public void startGame(SimpMessageHeaderAccessor headerAccessor) {
         var sessionGame = sessionGameMappingService.getGameId(headerAccessor.getSessionId());
         gameService.startGame(sessionGame.gameId());
+        gameService.setEveryoneReady(sessionGame.gameId(), false);
         gameService.sendGameState(sessionGame.gameId());
+        gameService.sendUsersState(sessionGame.gameId());
     }
 
     @MessageMapping("/ContinueToQuestion")

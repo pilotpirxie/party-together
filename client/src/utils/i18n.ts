@@ -35,6 +35,7 @@ i18n
           "got votes from": "zagłosowali",
           "The End": "Koniec",
           "Back to home": "Powrót do strony głównej",
+          or: "lub",
         },
       },
       en: {

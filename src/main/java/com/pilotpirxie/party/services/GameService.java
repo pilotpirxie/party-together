@@ -13,6 +13,7 @@ import com.pilotpirxie.party.mapper.*;
 import com.pilotpirxie.party.repositories.*;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -221,6 +222,10 @@ public class GameService {
             game.setState(GameState.CATEGORY);
         }
         game.setQuestionIndex(newQuestionIndex);
+        var newTime = newQuestion.getType() == QuestionType.DRAWING
+            ? Instant.now().plusSeconds(game.getTimeToDraw())
+            : Instant.now().plusSeconds(game.getTimeToAnswer());
+        game.setTimerTo(newTime);
         gameRepository.save(game);
     }
 

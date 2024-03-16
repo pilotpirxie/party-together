@@ -1,5 +1,5 @@
 import { useSocket } from "../socket/useSocket.ts";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { PlayerAvatar } from "../components/PlayerAvatar.tsx";
 import { Container } from "../components/Container.tsx";
@@ -16,6 +16,7 @@ function App() {
   const { connect } = useSocket();
   const location = useLocation();
   const { t, i18n } = useTranslation();
+  const avatarRef = useRef<HTMLDivElement>(null);
 
   const handleJoinGame = () => {
     if (!nickname || !code) {
@@ -43,6 +44,10 @@ function App() {
 
   const handleRollAvatar = () => {
     setAvatar(Math.floor(Math.random() * 83));
+    avatarRef.current?.classList.remove("animate__jello");
+    setTimeout(() => {
+      avatarRef.current?.classList.add("animate__jello");
+    }, 10);
   };
 
   useEffect(() => {
@@ -59,10 +64,9 @@ function App() {
         </h1>
       </div>
       <div className="text-center cursor-pointer" onClick={handleRollAvatar}>
-        <PlayerAvatar
-          avatarId={avatar}
-          className="animate__jello animate__animated"
-        />
+        <div ref={avatarRef} className="animate__jello animate__animated">
+          <PlayerAvatar avatarId={avatar} />
+        </div>
         <div>
           <i className="ri-refresh-line" /> {t("Roll avatar")}
         </div>
@@ -85,7 +89,7 @@ function App() {
       >
         {t("Join game")}
       </button>
-      <div className="text-center mt-3">- or -</div>
+      <div className="text-center mt-3">- {t("or")} -</div>
       <button
         className="btn btn-primary fw-bold mt-3"
         onClick={handleCreateGame}

@@ -48,8 +48,13 @@ export const Canvas = ({
     },
   ];
 
-  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    const { offsetX, offsetY } = getMousePos(e);
+  const startDrawing = (
+    e:
+      | React.MouseEvent<HTMLCanvasElement>
+      | React.TouchEvent<HTMLCanvasElement>,
+  ) => {
+    e.preventDefault();
+    const { offsetX, offsetY } = getPosition(e);
     const canvas = canvasRef.current;
     if (canvas) {
       const context = canvas.getContext("2d");
@@ -61,9 +66,14 @@ export const Canvas = ({
     }
   };
 
-  const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const draw = (
+    e:
+      | React.MouseEvent<HTMLCanvasElement>
+      | React.TouchEvent<HTMLCanvasElement>,
+  ) => {
+    e.preventDefault();
     if (!isDrawing) return;
-    const { offsetX, offsetY } = getMousePos(e);
+    const { offsetX, offsetY } = getPosition(e);
     const canvas = canvasRef.current;
     if (canvas) {
       const context = canvas.getContext("2d");
@@ -87,22 +97,39 @@ export const Canvas = ({
     }
   };
 
-  const getMousePos = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const getPosition = (
+    e:
+      | React.MouseEvent<HTMLCanvasElement>
+      | React.TouchEvent<HTMLCanvasElement>,
+  ) => {
     if (!canvasRef.current) return { offsetX: 0, offsetY: 0 };
+
     const rect = canvasRef.current.getBoundingClientRect();
     const scaleX = canvasRef.current.width / rect.width;
     const scaleY = canvasRef.current.height / rect.height;
+
+    let clientX = 0;
+    let clientY = 0;
+
+    if ("touches" in e) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
     return {
-      offsetX: (e.clientX - rect.left) * scaleX,
-      offsetY: (e.clientY - rect.top) * scaleY,
+      offsetX: (clientX - rect.left) * scaleX,
+      offsetY: (clientY - rect.top) * scaleY,
     };
   };
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas) {
-      canvas.width = 300;
-      canvas.height = 300;
+      canvas.width = 150;
+      canvas.height = 150;
       const context = canvas.getContext("2d");
       if (context) {
         context.fillStyle = "#e5f5ff";
@@ -174,7 +201,16 @@ export const Canvas = ({
               onMouseMove={draw}
               onMouseUp={stopDrawing}
               onMouseLeave={stopDrawing}
-              style={{ width: "100%", height: "auto", aspectRatio: "1" }}
+              onTouchStart={startDrawing}
+              onTouchMove={draw}
+              onTouchEnd={stopDrawing}
+              style={{
+                width: "100%",
+                height: "auto",
+                aspectRatio: "1",
+                userSelect: "none",
+                touchAction: "none",
+              }}
             />
           </div>
 
