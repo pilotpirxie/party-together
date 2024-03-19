@@ -14,6 +14,7 @@ export function ResultsWho({
   onContinue,
   userToAskAbout,
   labels,
+  timer,
 }: {
   question: Question;
   users: User[];
@@ -25,6 +26,7 @@ export function ResultsWho({
     gotVotesFrom: string;
     continue: string;
   };
+  timer: number;
 }) {
   const userChoices: UserChoice[] = users.map((user) => {
     const selectedBy = answers
@@ -79,8 +81,9 @@ export function ResultsWho({
         <button
           onClick={onContinue}
           className="btn btn-warning text-black mt-3"
+          disabled={timer > 0}
         >
-          {labels.continue}
+          {labels.continue} {timer > 0 ? `(${timer}s)` : ""}
         </button>
       </div>
     </Container>

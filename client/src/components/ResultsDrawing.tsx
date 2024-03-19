@@ -14,6 +14,7 @@ export function ResultsDrawing({
   onContinue,
   userToAskAbout,
   labels,
+  timer,
 }: {
   question: Question;
   users: User[];
@@ -23,6 +24,7 @@ export function ResultsDrawing({
   labels: {
     continue: string;
   };
+  timer: number;
 }) {
   const usersWithDrawings: UserWithDrawing[] = users.map((user) => ({
     ...user,
@@ -65,8 +67,12 @@ export function ResultsDrawing({
           })}
       </div>
       <div className="text-center">
-        <button onClick={onContinue} className="btn btn-warning text-black">
-          {labels.continue}
+        <button
+          onClick={onContinue}
+          className="btn btn-warning text-black"
+          disabled={timer > 0}
+        >
+          {labels.continue} {timer > 0 ? `(${timer}s)` : ""}
         </button>
       </div>
     </Container>

@@ -4,6 +4,7 @@ import { ResultsWho } from "../components/ResultsWho.tsx";
 import { useTranslation } from "react-i18next";
 import { ResultsWhat } from "../components/ResultsWhat.tsx";
 import { ResultsDrawing } from "../components/ResultsDrawing.tsx";
+import { useEffect, useState } from "react";
 
 export function Results() {
   const { sendMessage } = useSocket();
@@ -27,6 +28,14 @@ export function Results() {
       (answer) => answer.questionId === currentQuestion.id,
     ),
   );
+  const [timer, setTimer] = useState(10);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleContinue = () => {
     sendMessage({
@@ -51,6 +60,7 @@ export function Results() {
             gotVotesFrom: t("got votes from"),
             continue: t("Continue"),
           }}
+          timer={timer}
         />
       )}
 
@@ -64,6 +74,7 @@ export function Results() {
           labels={{
             continue: t("Continue"),
           }}
+          timer={timer}
         />
       )}
 
@@ -77,6 +88,7 @@ export function Results() {
           labels={{
             continue: t("Continue"),
           }}
+          timer={timer}
         />
       )}
     </>

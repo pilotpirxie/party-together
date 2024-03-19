@@ -6,7 +6,7 @@ i18n
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
-    debug: import.meta.env.DEV,
+    // debug: import.meta.env.DEV,
     fallbackLng: "en",
     resources: {
       pl: {

@@ -15,6 +15,7 @@ export function ResultsWhat({
   onContinue,
   userToAskAbout,
   labels,
+  timer,
 }: {
   question: Question;
   users: User[];
@@ -24,6 +25,7 @@ export function ResultsWhat({
   labels: {
     continue: string;
   };
+  timer: number;
 }) {
   const usersWithChoices: UserWithAnswer[] = users.map((user) => {
     const answer = answers.find((answer) => answer.userId === user.id);
@@ -71,8 +73,12 @@ export function ResultsWhat({
           })}
       </div>
       <div className="text-center">
-        <button onClick={onContinue} className="btn btn-warning text-black">
-          {labels.continue}
+        <button
+          onClick={onContinue}
+          className="btn btn-warning text-black"
+          disabled={timer > 0}
+        >
+          {labels.continue} {timer > 0 ? `(${timer}s)` : ""}
         </button>
       </div>
     </Container>

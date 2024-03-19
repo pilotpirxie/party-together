@@ -29,6 +29,10 @@ export function Question() {
   const currentUser = useAppSelector((state) => state.game.currentUser);
   const timerTo = useAppSelector((state) => state.game.gameRoom.timerTo);
   const code = useAppSelector((state) => state.game.gameRoom.code);
+  const questionIndex = useAppSelector(
+    (state) => state.game.gameRoom.questionIndex,
+  );
+  const totalQuestions = useAppSelector((state) => state.game.questions.length);
 
   const handleAnswer = (answer: string) => {
     sendMessage({
@@ -66,6 +70,11 @@ export function Question() {
           question={currentQuestion}
           userToAskAbout={userToAskAbout || firstUser}
           onContinue={handleContinue}
+          questionIndex={questionIndex}
+          totalQuestions={totalQuestions}
+          code={code}
+          users={users}
+          timer={timer}
         />
       )}
 
@@ -78,6 +87,8 @@ export function Question() {
               userToAskAbout={userToAskAbout || firstUser}
               timer={timer}
               code={code}
+              questionIndex={questionIndex}
+              totalQuestions={totalQuestions}
             />
           )}
 
@@ -89,6 +100,8 @@ export function Question() {
               users={users}
               timer={timer}
               code={code}
+              questionIndex={questionIndex}
+              totalQuestions={totalQuestions}
             />
           )}
 
@@ -102,6 +115,8 @@ export function Question() {
               }}
               timer={timer}
               code={code}
+              questionIndex={questionIndex}
+              totalQuestions={totalQuestions}
             />
           )}
         </>

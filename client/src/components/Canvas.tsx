@@ -13,7 +13,7 @@ export const Canvas = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [brushColor, setBrushColor] = useState("#000000");
-  const [brushSize, setBrushSize] = useState(4);
+  const [brushSize, setBrushSize] = useState(8);
 
   const colors = [
     "#ff0000",
@@ -35,15 +35,15 @@ export const Canvas = ({
 
   const brushSizes = [
     {
-      size: 2,
+      size: 4,
       label: "S",
     },
     {
-      size: 4,
+      size: 8,
       label: "M",
     },
     {
-      size: 6,
+      size: 16,
       label: "L",
     },
   ];
@@ -80,7 +80,7 @@ export const Canvas = ({
       if (context) {
         context.strokeStyle = brushColor;
         context.lineWidth = brushSize;
-        context.arc(offsetX, offsetY, brushSize / 2, 0, Math.PI * 2);
+        context.lineTo(offsetX, offsetY);
         context.stroke();
       }
     }
@@ -128,8 +128,8 @@ export const Canvas = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas) {
-      canvas.width = 150;
-      canvas.height = 150;
+      canvas.width = 600;
+      canvas.height = 600;
       const context = canvas.getContext("2d");
       if (context) {
         context.fillStyle = "#e5f5ff";
@@ -140,8 +140,19 @@ export const Canvas = ({
 
   const handleSubmit = () => {
     const canvas = canvasRef.current;
+    // resize to 150x150 before submitting
+    const tempCanvas = document.createElement("canvas");
+    tempCanvas.width = 150;
+    tempCanvas.height = 150;
+    const tempCtx = tempCanvas.getContext("2d");
+    if (tempCtx && canvas) {
+      tempCtx.drawImage(canvas, 0, 0, 150, 150);
+    }
+
     if (canvas) {
-      const data = canvas.toDataURL("image/jpeg", 0.5);
+      // const data = canvas.toDataURL("image/jpeg", 0.5);
+      const data = tempCanvas.toDataURL("image/jpeg", 0.5);
+      tempCanvas.remove();
       onSubmit(data);
     }
   };
