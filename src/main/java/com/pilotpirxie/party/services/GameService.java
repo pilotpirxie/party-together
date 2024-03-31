@@ -104,7 +104,7 @@ public class GameService {
         return gameRepository.findByCode(code).map(GameEntity::getId);
     }
 
-    public void joinGame(String sessionId, String nickname, int avatar, UUID gameId) {
+    public void joinGame(String sessionId, String nickname, String color, int avatar, UUID gameId) {
         var game = gameRepository.findById(gameId).orElseThrow();
 
         var userWithCurrentSession = userRepository.findBySessionId(sessionId);
@@ -116,7 +116,7 @@ public class GameService {
             newUser.setGameId(gameId);
             newUser.setReady(false);
             newUser.setConnected(true);
-            newUser.setColor("000000");
+            newUser.setColor(color);
             userRepository.save(newUser);
             userWithCurrentSession = Optional.of(newUser);
         }

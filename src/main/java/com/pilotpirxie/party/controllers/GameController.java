@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 
 @Controller
 public class GameController {
@@ -25,11 +26,11 @@ public class GameController {
     }
 
     @MessageMapping("/Join")
-    public void joinGame(@Payload JoinEvent event, SimpMessageHeaderAccessor headerAccessor) {
+    public void joinGame(@Payload @Validated JoinEvent event, SimpMessageHeaderAccessor headerAccessor) {
         var gameId = event.code().isEmpty()
             ? gameService.createGame()
             : gameService.getGameId(event.code()).orElseGet(gameService::createGame);
-        gameService.joinGame(headerAccessor.getSessionId(), event.nickname(), event.avatar(), gameId);
+        gameService.joinGame(headerAccessor.getSessionId(), event.nickname(), event.color(), event.avatar(), gameId);
         sessionGameMappingService.mapSessionToGame(headerAccessor.getSessionId(), gameId);
         gameService.sendUsersState(gameId);
     }
