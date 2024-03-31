@@ -13,6 +13,7 @@ import {
 } from "../data/gameSlice.ts";
 import { OutgoingMessage } from "./outgoing.ts";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 type ConnectType = {
   nickname: string;
@@ -62,6 +63,8 @@ export function useSocket(): SocketHook {
             gameId: payload.game.id.toString(),
             dispatch,
           });
+          localStorage.setItem("code", code);
+          localStorage.setItem("codeDate", dayjs().toISOString());
           navigate(`/game/${payload.game.code}`);
         });
 

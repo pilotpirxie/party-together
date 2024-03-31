@@ -7,19 +7,39 @@ import { useTranslation } from "react-i18next";
 import cx from "classnames";
 import { getRandomPastelColor } from "../utils/colors.ts";
 import { getRandomAvatar } from "../utils/avatars.ts";
+import useLocalStorage from "../utils/useLocalStorage.ts";
+import dayjs from "dayjs";
 
 function App() {
-  const [nickname, setNickname] = useState(
+  const [nickname, setNickname] = useLocalStorage(
+    "nickname",
     "Player" + Math.floor(Math.random() * 100),
   );
-  const [avatar, setAvatar] = useState(getRandomAvatar());
-  const [color, setColor] = useState(getRandomPastelColor());
+  const [avatar, setAvatar] = useLocalStorage("avatar", getRandomAvatar());
+  const [color, setColor] = useLocalStorage("color", getRandomPastelColor());
   const [code, setCode] = useState("");
 
   const { connect } = useSocket();
   const location = useLocation();
   const { t, i18n } = useTranslation();
   const avatarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const lastGameCode = localStorage.getItem("code");
+      const lastGameCodeDate = localStorage.getItem("codeDate");
+
+      if (lastGameCode && lastGameCodeDate) {
+        const lastGameCodeDateParsed = dayjs(lastGameCodeDate);
+        const now = dayjs();
+        const diff = now.diff(lastGameCodeDateParsed);
+
+        if (diff < 1000 * 60 * 60) {
+          setCode(lastGameCode);
+        }
+      }
+    }
+  }, []);
 
   const handleJoinGame = () => {
     if (!nickname || !code) {
