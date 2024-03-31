@@ -15,6 +15,7 @@ public class UserMapper {
             entity.getGameId().toString(),
             entity.getNickname(),
             entity.getAvatar(),
+            entity.getColor(),
             entity.isReady(),
             entity.getCreatedAt(),
             entity.getUpdatedAt()

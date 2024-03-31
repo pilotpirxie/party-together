@@ -20,6 +20,7 @@ CREATE TABLE "users" (
   "game_id" uuid NOT NULL,
   "nickname" varchar NOT NULL,
   "avatar" int NOT NULL,
+  "color" varchar NOT NULL,
   "is_ready" bool NOT NULL,
   "connected" bool NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT now(),
@@ -34,18 +35,14 @@ CREATE INDEX "users_composite_session_game_id_index" ON "users" ("session_id", "
 
 CREATE TABLE "categories" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  "language" varchar NOT NULL,
   "name" varchar NOT NULL,
   "description" varchar NOT NULL,
   "background" varchar NOT NULL,
   "primary_color" varchar NOT NULL,
-  "font_family" varchar NOT NULL,
   "audio" varchar NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT now(),
   "updated_at" timestamp NOT NULL DEFAULT now()
 );
-
-CREATE INDEX "categories_language_index" ON "categories" ("language");
 
 CREATE TABLE "questions" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -112,10 +109,10 @@ ALTER TABLE "answers_history" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("i
 
 ALTER TABLE "answers_history" ADD FOREIGN KEY ("selected_user_id") REFERENCES "users" ("id");
 
-INSERT INTO public.categories VALUES ('0a627905-eea5-4b9d-958a-f7f8a4b81393', 'pl', 'Podróże', 'Wsiąść do pociągu byle jakiego', '', '', '', '', '2024-03-03 19:20:46.52023', '2024-03-03 19:20:46.52023');
-INSERT INTO public.categories VALUES ('85e58c08-6438-4a79-bf7a-b687d994a3d5', 'pl', 'Abstrakcja', 'Nietypowe pytania, nietypowe odpowiedzi', '', '', '', '', '2024-03-03 19:22:06.294808', '2024-03-03 19:22:06.294808');
-INSERT INTO public.categories VALUES ('362cd6aa-f040-4dd3-90f1-4c8b96aa6757', 'pl', 'Superbohaterowie', 'O supermocach i stylowych wdziankach', '', '', '', '', '2024-03-03 19:24:52.80822', '2024-03-03 19:24:52.80822');
-INSERT INTO public.categories VALUES ('7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'pl', 'Lifestyle', 'Pogadajmy o stylu życia', '', '', '', '', '2024-03-03 19:23:46.971367', '2024-03-03 19:23:46.971367');
+INSERT INTO public.categories VALUES ('0a627905-eea5-4b9d-958a-f7f8a4b81393', 'Podróże', 'Wsiąść do pociągu byle jakiego', '', '', '', '2024-03-03 19:20:46.52023', '2024-03-03 19:20:46.52023');
+INSERT INTO public.categories VALUES ('85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Abstrakcja', 'Nietypowe pytania, nietypowe odpowiedzi', '', '', '', '2024-03-03 19:22:06.294808', '2024-03-03 19:22:06.294808');
+INSERT INTO public.categories VALUES ('362cd6aa-f040-4dd3-90f1-4c8b96aa6757', 'Superbohaterowie', 'O supermocach i stylowych wdziankach', '', '', '', '2024-03-03 19:24:52.80822', '2024-03-03 19:24:52.80822');
+INSERT INTO public.categories VALUES ('7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Lifestyle', 'Pogadajmy o stylu życia', '', '', '', '2024-03-03 19:23:46.971367', '2024-03-03 19:23:46.971367');
 
 /* Questions - What someone would do... */
 INSERT INTO public.questions VALUES ('c3583998-9f24-4562-a02a-9e234294fae7', 'WHAT', '0a627905-eea5-4b9d-958a-f7f8a4b81393', 'Jakie miejsce wybrałby NICKNAME na wakacje?', default, default);
@@ -123,7 +120,7 @@ INSERT INTO public.answers VALUES (default, 'c3583998-9f24-4562-a02a-9e234294fae
 INSERT INTO public.answers VALUES (default, 'c3583998-9f24-4562-a02a-9e234294fae7', 'Morze',default, default);
 INSERT INTO public.answers VALUES (default, 'c3583998-9f24-4562-a02a-9e234294fae7', 'Plażę',default, default);
 INSERT INTO public.answers VALUES (default, 'c3583998-9f24-4562-a02a-9e234294fae7', 'Park',default, default);
-INSERT INTO public.answers VALUES (default, 'c3583998-9f24-4562-a02a-9e234294fae7', 'Lokalnego kebsa',default, default);
+INSERT INTO public.answers VALUES (default, 'c3583998-9f24-4562-a02a-9e234294fae7', 'Lokalnego fast fooda',default, default);
 INSERT INTO public.answers VALUES (default, 'c3583998-9f24-4562-a02a-9e234294fae7', 'Klub',default, default);
 INSERT INTO public.answers VALUES (default, 'c3583998-9f24-4562-a02a-9e234294fae7', 'Jezioro',default, default);
 INSERT INTO public.questions VALUES ('7cc75cc7-fe7d-465e-b298-c9e275be0de0', 'WHAT', '0a627905-eea5-4b9d-958a-f7f8a4b81393', 'Jakie jest wymarzone miejsce NICKNAME na zimową przerwę?', default, default);
@@ -285,7 +282,6 @@ INSERT INTO public.answers VALUES (default, '8746101e-5505-4673-ba7f-de0a8454836
 INSERT INTO public.answers VALUES (default, '8746101e-5505-4673-ba7f-de0a84548369', 'Sztućce do sushi',default, default);
 INSERT INTO public.answers VALUES (default, '8746101e-5505-4673-ba7f-de0a84548369', 'Siekacz do warzyw',default, default);
 
-
 /* Questions - Who would do... */
 INSERT INTO public.questions VALUES (default, 'WHO', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Kto mógłby wygrać konkurs na najdziwniejsze hobby?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Kto zrobiłby żart nawet w środku egzaminu?', default, default);
@@ -294,7 +290,7 @@ INSERT INTO public.questions VALUES (default, 'WHO', '7fb79242-35f8-48b4-a7e9-dd
 INSERT INTO public.questions VALUES (default, 'WHO', '85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Kto mógłby przekonać wilka do jedzenia sałatki?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Kto mógłby przetrwać na bezludnej wyspie, mając tylko zestaw do gry w Monopoly?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Kto mógłby zrobić selfie nawet w najbardziej absurdalnej sytuacji?', default, default);
-INSERT INTO public.questions VALUES (default, 'WHO', '85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Kto mógłby przekonać swojego kotka, że jest naprawdę Batmanem?', default, default);
+INSERT INTO public.questions VALUES (default, 'WHO', '85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Kto mógłby przekonać swoich rodziców, że jest naprawdę Batmanem?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Kto mógłby spędzać całe dnie oglądając koty na YouTube?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Kto mógłby spróbować wynająć pingwina jako osobistego asystenta?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Kto mógłby oświetlić cały pokój samymi swoimi pomysłami?', default, default);
@@ -308,7 +304,7 @@ INSERT INTO public.questions VALUES (default, 'WHO', '7fb79242-35f8-48b4-a7e9-dd
 INSERT INTO public.questions VALUES (default, 'WHO', '85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Kto miałby największy problem z codziennymi czynnościami, takimi jak zakupy spożywcze?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '362cd6aa-f040-4dd3-90f1-4c8b96aa6757', 'Kto najlepiej sprawdziłby się jako bohater filmu akcji?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Kto mógłby być bohaterem komedii?', default, default);
-INSERT INTO public.questions VALUES (default, 'WHO', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Kto sprzedałby cokolwiek za kebaba?', default, default);
+INSERT INTO public.questions VALUES (default, 'WHO', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Kto sprzedałby cokolwiek za pizze, hot-doga lub kebaba?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Kto jako pierwszy zostałby zombie?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '362cd6aa-f040-4dd3-90f1-4c8b96aa6757', 'Kto zostałby geniuszem zła?', default, default);
 INSERT INTO public.questions VALUES (default, 'WHO', '362cd6aa-f040-4dd3-90f1-4c8b96aa6757', 'Kto zostałby bohaterem Superczupryna?', default, default);

@@ -11,6 +11,7 @@ public record UserDto(
     String gameId,
     String nickname,
     Integer avatar,
+    String color,
     boolean isReady,
     @JsonSerialize(using = LocalDateTimeToUTCStringSerializer.class)
     LocalDateTime createdAt,

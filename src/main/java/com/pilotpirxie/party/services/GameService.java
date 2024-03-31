@@ -116,6 +116,7 @@ public class GameService {
             newUser.setGameId(gameId);
             newUser.setReady(false);
             newUser.setConnected(true);
+            newUser.setColor("000000");
             userRepository.save(newUser);
             userWithCurrentSession = Optional.of(newUser);
         }

@@ -26,9 +26,6 @@ public class CategoryEntity {
     private UUID id;
 
     @Column(nullable = false)
-    private String language;
-
-    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
@@ -39,9 +36,6 @@ public class CategoryEntity {
 
     @Column(nullable = false)
     private String primaryColor;
-
-    @Column(nullable = false)
-    private String fontFamily;
 
     @Column(nullable = false)
     private String audio;

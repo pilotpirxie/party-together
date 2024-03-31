@@ -38,6 +38,9 @@ public class UserEntity {
     private Integer avatar;
 
     @Column(nullable = false)
+    private String color;
+
+    @Column(nullable = false)
     private boolean isReady;
 
     @Column(nullable = false)

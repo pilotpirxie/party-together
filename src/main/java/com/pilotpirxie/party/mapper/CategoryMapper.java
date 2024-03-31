@@ -11,13 +11,11 @@ public class CategoryMapper {
         }
         return new CategoryDto(
             entity.getId().toString(),
-            entity.getLanguage(),
             entity.getName(),
             entity.getDescription(),
             entity.getBackground(),
             entity.getAudio(),
-            entity.getPrimaryColor(),
-            entity.getFontFamily()
+            entity.getPrimaryColor()
         );
     }
 }
