@@ -14,6 +14,7 @@ export type User = {
   sessionId: string;
   gameId: string;
   nickname: string;
+  color: string;
   avatar: number;
   isReady: boolean;
   createdAt: string;

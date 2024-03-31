@@ -52,6 +52,7 @@ export function ResultsWho({
             <div>
               <PlayerAvatar
                 avatarId={userChoice.avatar}
+                backgroundColor={userChoice.color}
                 size={96}
                 className={cx(
                   "animate__animated animate__bounceInLeft",
@@ -65,7 +66,11 @@ export function ResultsWho({
             <div className="d-flex gap-3 justify-content-center mt-3">
               {userChoice.selectedBy.map((selectedBy) => (
                 <div key={selectedBy.id}>
-                  <PlayerAvatar avatarId={selectedBy.avatar} size={48} />
+                  <PlayerAvatar
+                    avatarId={selectedBy.avatar}
+                    size={48}
+                    backgroundColor={selectedBy.color}
+                  />
                   <div key={selectedBy.id}>{selectedBy.nickname}</div>
                 </div>
               ))}

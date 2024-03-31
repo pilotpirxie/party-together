@@ -59,7 +59,11 @@ export function ResultsDrawing({
                   }}
                 />
                 <div>
-                  <PlayerAvatar avatarId={user.avatar} size={48} />
+                  <PlayerAvatar
+                    avatarId={user.avatar}
+                    size={48}
+                    backgroundColor={user.color}
+                  />
                   <div>{user.nickname}</div>
                 </div>
               </div>

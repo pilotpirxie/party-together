@@ -49,7 +49,11 @@ export function ResultsWhat({
               <div className="d-flex align-items-center mb-3" key={user.id}>
                 {direction === "left" && (
                   <div>
-                    <PlayerAvatar avatarId={user.avatar} size={48} />
+                    <PlayerAvatar
+                      avatarId={user.avatar}
+                      size={48}
+                      backgroundColor={user.color}
+                    />
                     <div>{user.nickname}</div>
                   </div>
                 )}
@@ -64,7 +68,11 @@ export function ResultsWhat({
                 </Bubble>
                 {direction === "right" && (
                   <div>
-                    <PlayerAvatar avatarId={user.avatar} size={48} />
+                    <PlayerAvatar
+                      avatarId={user.avatar}
+                      size={48}
+                      backgroundColor={user.color}
+                    />
                     <div>{user.nickname}</div>
                   </div>
                 )}

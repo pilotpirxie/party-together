@@ -27,6 +27,7 @@ export function Finished() {
             avatarId={user.avatar}
             size={120}
             key={user.id}
+            backgroundColor={user.color}
           />
         ))}
       </div>

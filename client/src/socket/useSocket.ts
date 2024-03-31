@@ -14,7 +14,12 @@ import {
 import { OutgoingMessage } from "./outgoing.ts";
 import { useNavigate } from "react-router-dom";
 
-type ConnectType = { nickname: string; avatar: number; code: string };
+type ConnectType = {
+  nickname: string;
+  color: string;
+  avatar: number;
+  code: string;
+};
 
 type SocketHook = {
   connect: (connect: ConnectType) => void;
@@ -27,7 +32,7 @@ export function useSocket(): SocketHook {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const connect = async ({ nickname, code, avatar }: ConnectType) => {
+  const connect = async ({ nickname, color, code, avatar }: ConnectType) => {
     if (stompClient?.connected) {
       await stompClient.deactivate();
     }
@@ -65,6 +70,7 @@ export function useSocket(): SocketHook {
           headers: {},
           body: JSON.stringify({
             nickname,
+            color,
             code,
             avatar,
           }),

@@ -40,7 +40,11 @@ export function QuestionWho({
             key={user.id}
             onClick={() => onAnswer(user.id)}
           >
-            <PlayerAvatar avatarId={user.avatar} size={110} />
+            <PlayerAvatar
+              avatarId={user.avatar}
+              size={110}
+              backgroundColor={user.color}
+            />
             <div>{user.nickname}</div>
           </div>
         ))}

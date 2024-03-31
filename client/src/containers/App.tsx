@@ -5,12 +5,15 @@ import { PlayerAvatar } from "../components/PlayerAvatar.tsx";
 import { Container } from "../components/Container.tsx";
 import { useTranslation } from "react-i18next";
 import cx from "classnames";
+import { getRandomPastelColor } from "../utils/colors.ts";
+import { getRandomAvatar } from "../utils/avatars.ts";
 
 function App() {
   const [nickname, setNickname] = useState(
     "Player" + Math.floor(Math.random() * 100),
   );
-  const [avatar, setAvatar] = useState(Math.floor(Math.random() * 83));
+  const [avatar, setAvatar] = useState(getRandomAvatar());
+  const [color, setColor] = useState(getRandomPastelColor());
   const [code, setCode] = useState("");
 
   const { connect } = useSocket();
@@ -25,6 +28,7 @@ function App() {
 
     connect({
       nickname,
+      color,
       avatar,
       code: code.toLowerCase(),
     });
@@ -37,13 +41,16 @@ function App() {
 
     connect({
       nickname,
+      color,
       avatar,
       code: "",
     });
   };
 
   const handleRollAvatar = () => {
-    setAvatar(Math.floor(Math.random() * 83));
+    setAvatar(getRandomAvatar());
+    setColor(getRandomPastelColor());
+
     avatarRef.current?.classList.remove("animate__jello");
     setTimeout(() => {
       avatarRef.current?.classList.add("animate__jello");
@@ -65,7 +72,7 @@ function App() {
       </div>
       <div className="text-center cursor-pointer" onClick={handleRollAvatar}>
         <div ref={avatarRef} className="animate__jello animate__animated">
-          <PlayerAvatar avatarId={avatar} />
+          <PlayerAvatar avatarId={avatar} backgroundColor={color} />
         </div>
         <div>
           <i className="ri-refresh-line" /> {t("Roll avatar")}
@@ -97,7 +104,6 @@ function App() {
         {t("Create new game")}
       </button>
       <div className="text-center mt-3">
-        {/*{stompClient?.connected ? "Connected" : "Not connected"}*/}
         {t("Game created by")}
         <a
           href="https://github.com/pilotpirxie/party-together"
