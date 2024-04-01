@@ -63,7 +63,7 @@ export function useSocket(): SocketHook {
             gameId: payload.game.id.toString(),
             dispatch,
           });
-          localStorage.setItem("code", code);
+          localStorage.setItem("code", payload.game.code);
           localStorage.setItem("codeDate", dayjs().toISOString());
           navigate(`/game/${payload.game.code}`);
         });

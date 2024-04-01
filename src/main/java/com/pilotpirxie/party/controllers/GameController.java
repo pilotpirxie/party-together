@@ -12,6 +12,9 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Controller
 public class GameController {
     private final SessionGameMappingService sessionGameMappingService;
@@ -27,12 +30,15 @@ public class GameController {
 
     @MessageMapping("/Join")
     public void joinGame(@Payload @Validated JoinEvent event, SimpMessageHeaderAccessor headerAccessor) {
-        var gameId = event.code().isEmpty()
-            ? gameService.createGame()
-            : gameService.getGameId(event.code()).orElseGet(gameService::createGame);
-        gameService.joinGame(headerAccessor.getSessionId(), event.nickname(), event.color(), event.avatar(), gameId);
-        sessionGameMappingService.mapSessionToGame(headerAccessor.getSessionId(), gameId);
-        gameService.sendUsersState(gameId);
+        Optional<UUID> gameIdOptional = event.code().isEmpty()
+            ? Optional.of(gameService.createGame())
+            : gameService.getGameId(event.code());
+
+        gameIdOptional.ifPresent(gameId -> {
+            gameService.joinGame(headerAccessor.getSessionId(), event.nickname(), event.color(), event.avatar(), gameId);
+            sessionGameMappingService.mapSessionToGame(headerAccessor.getSessionId(), gameId);
+            gameService.sendUsersState(gameId);
+        });
     }
 
     @MessageMapping("/ToggleReady")
