@@ -29,6 +29,7 @@ const initialState: GameState = {
     id: "",
     sessionId: "",
     gameId: "",
+    color: "",
     nickname: "",
     avatar: 0,
     isReady: false,

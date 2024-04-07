@@ -332,3 +332,5 @@ INSERT INTO public.questions VALUES (default, 'DRAWING', '362cd6aa-f040-4dd3-90f
 INSERT INTO public.questions VALUES (default, 'DRAWING', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Narysuj NICKNAME na imprezie', default, default);
 INSERT INTO public.questions VALUES (default, 'DRAWING', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Narysuj NICKNAME podczas gotowania', default, default);
 INSERT INTO public.questions VALUES (default, 'DRAWING', '7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Narysuj NICKNAME gdy słucha muzyki', default, default);
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO nickname;
