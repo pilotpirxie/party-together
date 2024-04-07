@@ -31,6 +31,9 @@ export function Results() {
   const [timer, setTimer] = useState(10);
 
   useEffect(() => {
+    const timeToSet = Math.min(users.length * 3, 10);
+    setTimer(timeToSet);
+
     const interval = setInterval(() => {
       setTimer((prev) => prev - 1);
     }, 1000);
