@@ -2,6 +2,7 @@ import { AnswerHistory, Question, User } from "../data/model.ts";
 import { Container } from "./Container.tsx";
 import { PlayerAvatar } from "./PlayerAvatar.tsx";
 import cx from "classnames";
+import { BASE_HOST_URL } from "../utils/config.ts";
 
 type UserWithDrawing = User & {
   drawing: string | undefined;
@@ -51,7 +52,7 @@ export function ResultsDrawing({
                     `animate_delay_${index}`,
                     {},
                   )}
-                  src={user.drawing}
+                  src={`${BASE_HOST_URL}/uploads/${user.drawing}`}
                   alt="drawing"
                   style={{
                     maxWidth: "100%",

@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import { BASE_HOST_URL } from "../utils/config.ts";
 
 dayjs.extend(utc);
 
@@ -48,13 +49,9 @@ export function Question() {
     const formData = new FormData();
     formData.append("file", drawing, "image.jpeg");
     formData.append("sessionId", currentUser.sessionId);
+    formData.append("questionId", currentQuestion.id.toString());
 
-    const url =
-      process.env.NODE_ENV === "production"
-        ? window.location.origin + "/upload"
-        : "http://localhost:8080/upload";
-
-    fetch(url, {
+    fetch(BASE_HOST_URL + "/upload", {
       method: "POST",
       body: formData,
     }).catch((error) => {

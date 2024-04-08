@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class SessionGameMappingService {
-    private final ConcurrentHashMap<String, SessionGame> sessionGameMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, SessionGame> sessionGameMap = new ConcurrentHashMap<>();
 
     public void mapSessionToGame(String sessionId, UUID gameId) {
         var now = java.time.LocalDateTime.now();

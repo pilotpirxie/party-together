@@ -14,6 +14,7 @@ import {
 import { OutgoingMessage } from "./outgoing.ts";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import { BASE_WS_URL } from "../utils/config.ts";
 
 type ConnectType = {
   nickname: string;
@@ -38,12 +39,8 @@ export function useSocket(): SocketHook {
       await stompClient.deactivate();
     }
 
-    const protocol = window.location.protocol === "https:" ? "wss://" : "ws://";
     const newStompClient = new Client({
-      brokerURL:
-        process.env.NODE_ENV === "production"
-          ? protocol + window.location.host + "/ws"
-          : "ws://localhost:8080/ws",
+      brokerURL: BASE_WS_URL,
       onConnect: () => {
         dispatch(setStompClient(newStompClient));
 

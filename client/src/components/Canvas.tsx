@@ -152,7 +152,7 @@ export const Canvas = ({
     }
 
     if (canvas) {
-      const data = await canvasToBlob(canvas);
+      const data = await canvasToBlob(canvas, 0.8);
       tempCanvas.remove();
       onSubmit(data);
     }
