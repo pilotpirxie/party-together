@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import cx from "classnames";
+import { canvasToBlob } from "../utils/canvasToBlob.ts";
 
 export const Canvas = ({
   onSubmit,
   labels,
 }: {
-  onSubmit: (data: string) => void;
+  onSubmit: (data: Blob) => void;
   labels: {
     done: string;
   };
@@ -108,8 +109,8 @@ export const Canvas = ({
     const scaleX = canvasRef.current.width / rect.width;
     const scaleY = canvasRef.current.height / rect.height;
 
-    let clientX = 0;
-    let clientY = 0;
+    let clientX;
+    let clientY;
 
     if ("touches" in e) {
       clientX = e.touches[0].clientX;
@@ -138,20 +139,20 @@ export const Canvas = ({
     }
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const canvas = canvasRef.current;
-    // resize to 150x150 before submitting
+
     const tempCanvas = document.createElement("canvas");
-    tempCanvas.width = 150;
-    tempCanvas.height = 150;
+    tempCanvas.width = 400;
+    tempCanvas.height = 400;
     const tempCtx = tempCanvas.getContext("2d");
+
     if (tempCtx && canvas) {
-      tempCtx.drawImage(canvas, 0, 0, 150, 150);
+      tempCtx.drawImage(canvas, 0, 0, 400, 400);
     }
 
     if (canvas) {
-      // const data = canvas.toDataURL("image/jpeg", 0.5);
-      const data = tempCanvas.toDataURL("image/jpeg", 0.5);
+      const data = await canvasToBlob(canvas);
       tempCanvas.remove();
       onSubmit(data);
     }

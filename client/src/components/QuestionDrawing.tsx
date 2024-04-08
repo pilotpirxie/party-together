@@ -14,7 +14,7 @@ export function QuestionDrawing({
 }: {
   question: Question;
   userToAskAbout: User;
-  onAnswer: (answer: string) => void;
+  onAnswer: (answer: Blob) => void;
   timer: number;
   labels: {
     done: string;

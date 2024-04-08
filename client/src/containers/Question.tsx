@@ -44,6 +44,24 @@ export function Question() {
     });
   };
 
+  const handleDrawingAnswer = (drawing: Blob) => {
+    const formData = new FormData();
+    formData.append("file", drawing, "image.jpeg");
+    formData.append("sessionId", currentUser.sessionId);
+
+    const url =
+      process.env.NODE_ENV === "production"
+        ? window.location.origin + "/upload"
+        : "http://localhost:8080/upload";
+
+    fetch(url, {
+      method: "POST",
+      body: formData,
+    }).catch((error) => {
+      console.error("Error:", error);
+    });
+  };
+
   const handleContinue = () => {
     sendMessage({
       type: "ContinueToResults",
@@ -108,7 +126,7 @@ export function Question() {
           {currentQuestion.type === "DRAWING" && (
             <QuestionDrawing
               question={currentQuestion}
-              onAnswer={handleAnswer}
+              onAnswer={handleDrawingAnswer}
               userToAskAbout={userToAskAbout || firstUser}
               labels={{
                 done: t("Done"),
