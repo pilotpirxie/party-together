@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class GameService {
@@ -46,11 +45,9 @@ public class GameService {
         this.answersHistoryRepository = answersHistoryRepository;
     }
 
-    public UUID createGame() {
-        var categories = categoryRepository.findAll();
-        List<CategoryEntity> categoriesList = StreamSupport
-            .stream(categories.spliterator(), false)
-            .collect(Collectors.toList());
+    public UUID createGame(Integer mode, Integer timeToAnswer, Integer timeToDraw) {
+        var categories = categoryRepository.findAllByMode(mode);
+        List<CategoryEntity> categoriesList = new ArrayList<>(categories);
         Collections.shuffle(categoriesList);
         List<CategoryEntity> randomCategories = categoriesList.subList(0, Math.min(categoriesList.size(), 4));
 
@@ -90,8 +87,8 @@ public class GameService {
         var newGame = new GameEntity();
         newGame.setCode(randomCode);
         newGame.setQuestionIndex(0);
-        newGame.setTimeToAnswer(60);
-        newGame.setTimeToDraw(120);
+        newGame.setTimeToAnswer(timeToAnswer);
+        newGame.setTimeToDraw(timeToDraw);
         newGame.setGameQuestionIds(gameQuestionIds);
         newGame.setGameCategoryIds(gameCategoryIds);
         newGame.setState(GameState.WAITING);

@@ -1,6 +1,7 @@
 export type Category = {
   id: string;
   language: string;
+  mode: number;
   name: string;
   description: string;
   background: string;

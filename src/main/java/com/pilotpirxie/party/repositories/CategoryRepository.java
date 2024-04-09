@@ -9,4 +9,5 @@ import java.util.UUID;
 
 public interface CategoryRepository extends CrudRepository<CategoryEntity, UUID>{
     public Set<CategoryEntity> findAllByIdIn(List<UUID> ids);
+    public Set<CategoryEntity> findAllByMode(Integer mode);
 }

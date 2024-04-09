@@ -37,6 +37,7 @@ CREATE TABLE "categories" (
   "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   "name" varchar NOT NULL,
   "description" varchar NOT NULL,
+  "mode" int NOT NULL,
   "background" varchar NOT NULL,
   "primary_color" varchar NOT NULL,
   "audio" varchar NOT NULL,
@@ -109,10 +110,10 @@ ALTER TABLE "answers_history" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("i
 
 ALTER TABLE "answers_history" ADD FOREIGN KEY ("selected_user_id") REFERENCES "users" ("id");
 
-INSERT INTO public.categories VALUES ('0a627905-eea5-4b9d-958a-f7f8a4b81393', 'Podróże', 'Wsiąść do pociągu byle jakiego', '', '', '', '2024-03-03 19:20:46.52023', '2024-03-03 19:20:46.52023');
-INSERT INTO public.categories VALUES ('85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Abstrakcja', 'Nietypowe pytania, nietypowe odpowiedzi', '', '', '', '2024-03-03 19:22:06.294808', '2024-03-03 19:22:06.294808');
-INSERT INTO public.categories VALUES ('362cd6aa-f040-4dd3-90f1-4c8b96aa6757', 'Superbohaterowie', 'O supermocach i stylowych wdziankach', '', '', '', '2024-03-03 19:24:52.80822', '2024-03-03 19:24:52.80822');
-INSERT INTO public.categories VALUES ('7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Lifestyle', 'Pogadajmy o stylu życia', '', '', '', '2024-03-03 19:23:46.971367', '2024-03-03 19:23:46.971367');
+INSERT INTO public.categories VALUES ('0a627905-eea5-4b9d-958a-f7f8a4b81393', 'Podróże', 'Wsiąść do pociągu byle jakiego', 0, '', '', '', '2024-03-03 19:20:46.52023', '2024-03-03 19:20:46.52023');
+INSERT INTO public.categories VALUES ('85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Abstrakcja', 'Nietypowe pytania, nietypowe odpowiedzi', 0, '', '', '', '2024-03-03 19:22:06.294808', '2024-03-03 19:22:06.294808');
+INSERT INTO public.categories VALUES ('362cd6aa-f040-4dd3-90f1-4c8b96aa6757', 'Superbohaterowie', 'O supermocach i stylowych wdziankach', 0, '', '', '', '2024-03-03 19:24:52.80822', '2024-03-03 19:24:52.80822');
+INSERT INTO public.categories VALUES ('7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Lifestyle', 'Pogadajmy o stylu życia', 0, '', '', '', '2024-03-03 19:23:46.971367', '2024-03-03 19:23:46.971367');
 
 /* Questions - What someone would do... */
 INSERT INTO public.questions VALUES ('c3583998-9f24-4562-a02a-9e234294fae7', 'WHAT', '0a627905-eea5-4b9d-958a-f7f8a4b81393', 'Jakie miejsce wybrałby NICKNAME na wakacje?', default, default);

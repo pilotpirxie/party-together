@@ -32,6 +32,9 @@ public class CategoryEntity {
     private String description;
 
     @Column(nullable = false)
+    private Integer mode;
+
+    @Column(nullable = false)
     private String background;
 
     @Column(nullable = false)

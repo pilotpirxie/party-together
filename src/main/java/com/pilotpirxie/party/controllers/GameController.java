@@ -1,6 +1,7 @@
 package com.pilotpirxie.party.controllers;
 
 import com.pilotpirxie.party.dto.events.incoming.ContinueToQuestionEvent;
+import com.pilotpirxie.party.dto.events.incoming.CreateNewGameEvent;
 import com.pilotpirxie.party.dto.events.incoming.JoinEvent;
 import com.pilotpirxie.party.dto.events.incoming.SendAnswerEvent;
 import com.pilotpirxie.party.entities.GameState;
@@ -30,15 +31,22 @@ public class GameController {
 
     @MessageMapping("/Join")
     public void joinGame(@Payload @Validated JoinEvent event, SimpMessageHeaderAccessor headerAccessor) {
-        Optional<UUID> gameIdOptional = event.code().isEmpty()
-            ? Optional.of(gameService.createGame())
-            : gameService.getGameId(event.code());
+        Optional<UUID> gameIdOptional = gameService.getGameId(event.code());
 
         gameIdOptional.ifPresent(gameId -> {
             gameService.joinGame(headerAccessor.getSessionId(), event.nickname(), event.color(), event.avatar(), gameId);
             sessionGameMappingService.mapSessionToGame(headerAccessor.getSessionId(), gameId);
             gameService.sendUsersState(gameId);
         });
+    }
+
+    @MessageMapping("/CreateNewGame")
+    public void createNewGame(@Payload @Validated CreateNewGameEvent event, SimpMessageHeaderAccessor headerAccessor) {
+        UUID gameId = gameService.createGame(event.mode(), event.timeToAnswer(), event.timeToDraw());
+
+        gameService.joinGame(headerAccessor.getSessionId(), event.nickname(), event.color(), event.avatar(), gameId);
+        sessionGameMappingService.mapSessionToGame(headerAccessor.getSessionId(), gameId);
+        gameService.sendUsersState(gameId);
     }
 
     @MessageMapping("/ToggleReady")
