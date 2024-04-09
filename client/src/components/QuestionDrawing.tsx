@@ -1,11 +1,11 @@
-import { Question, User } from "../data/model.ts";
+import { Question } from "../data/model.ts";
 import { Canvas } from "./Canvas.tsx";
 import { Container } from "./Container.tsx";
 
 export function QuestionDrawing({
   question,
   onAnswer,
-  userToAskAbout,
+  userNicknameToAskAbout,
   labels,
   timer,
   code,
@@ -13,7 +13,7 @@ export function QuestionDrawing({
   questionIndex,
 }: {
   question: Question;
-  userToAskAbout: User;
+  userNicknameToAskAbout: string;
   onAnswer: (answer: Blob) => void;
   timer: number;
   labels: {
@@ -33,7 +33,7 @@ export function QuestionDrawing({
           </div>
           <div>{code}</div>
         </div>
-        <h1>{question.content.replace("NICKNAME", userToAskAbout.nickname)}</h1>
+        <h1>{question.content.replace("NICKNAME", userNicknameToAskAbout)}</h1>
         <Canvas
           onSubmit={onAnswer}
           labels={{

@@ -30,6 +30,7 @@ export type Game = {
   timerTo: null | number;
   timeToAnswer: number;
   timeToDraw: number;
+  nicknamesForQuestions: string[];
   createdAt: string;
   updatedAt: string;
 };

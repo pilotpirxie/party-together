@@ -6,13 +6,13 @@ import { useTranslation } from "react-i18next";
 export const WaitingForOther = ({
   onContinue,
   question,
-  userToAskAbout,
+  userNicknameToAskAbout,
   timer,
   users,
 }: {
   onContinue: () => void;
   question: Question;
-  userToAskAbout: User;
+  userNicknameToAskAbout: string;
   code: string;
   questionIndex: number;
   totalQuestions: number;
@@ -25,7 +25,7 @@ export const WaitingForOther = ({
   return (
     <Container>
       <div className="text-center">
-        <h1>{question.content.replace("NICKNAME", userToAskAbout.nickname)}</h1>
+        <h1>{question.content.replace("NICKNAME", userNicknameToAskAbout)}</h1>
       </div>
 
       {anyUserNotReady && (

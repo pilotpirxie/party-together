@@ -20,12 +20,13 @@ export function Question() {
   const currentQuestion = useAppSelector(
     (state) => state.game.questions[state.game.gameRoom.questionIndex],
   );
-  const firstUser = useAppSelector((state) => state.game.users[0]);
-  const userToAskAbout = useAppSelector((state) =>
-    state.game.users.at(
-      state.game.gameRoom.questionIndex % state.game.users.length,
-    ),
-  );
+  const userNicknameToAskAbout = useAppSelector((state) => {
+    const currentNicknameIndex =
+      state.game.gameRoom.questionIndex %
+      state.game.gameRoom.nicknamesForQuestions.length;
+    return state.game.gameRoom.nicknamesForQuestions[currentNicknameIndex];
+  });
+
   const users = useAppSelector((state) => state.game.users);
   const currentUser = useAppSelector((state) => state.game.currentUser);
   const timerTo = useAppSelector((state) => state.game.gameRoom.timerTo);
@@ -83,7 +84,7 @@ export function Question() {
       {currentUser.isReady && (
         <WaitingForOther
           question={currentQuestion}
-          userToAskAbout={userToAskAbout || firstUser}
+          userNicknameToAskAbout={userNicknameToAskAbout || ""}
           onContinue={handleContinue}
           questionIndex={questionIndex}
           totalQuestions={totalQuestions}
@@ -99,7 +100,7 @@ export function Question() {
             <QuestionWhat
               question={currentQuestion}
               onAnswer={handleAnswer}
-              userToAskAbout={userToAskAbout || firstUser}
+              userNicknameToAskAbout={userNicknameToAskAbout || ""}
               timer={timer}
               code={code}
               questionIndex={questionIndex}
@@ -111,7 +112,7 @@ export function Question() {
             <QuestionWho
               question={currentQuestion}
               onAnswer={handleAnswer}
-              userToAskAbout={userToAskAbout || firstUser}
+              userNicknameToAskAbout={userNicknameToAskAbout || ""}
               users={users}
               timer={timer}
               code={code}
@@ -124,7 +125,7 @@ export function Question() {
             <QuestionDrawing
               question={currentQuestion}
               onAnswer={handleDrawingAnswer}
-              userToAskAbout={userToAskAbout || firstUser}
+              userNicknameToAskAbout={userNicknameToAskAbout || ""}
               labels={{
                 done: t("Done"),
               }}

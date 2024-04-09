@@ -92,6 +92,7 @@ public class GameService {
         newGame.setGameQuestionIds(gameQuestionIds);
         newGame.setGameCategoryIds(gameCategoryIds);
         newGame.setState(GameState.WAITING);
+        newGame.setNicknamesForQuestions(new ArrayList<>());
         gameRepository.save(newGame);
 
         return newGame.getId();
@@ -184,6 +185,13 @@ public class GameService {
         var game = gameRepository.findById(gameId).orElseThrow();
         game.setState(GameState.CATEGORY);
         game.setQuestionIndex(0);
+
+        var users = userRepository.findAllByGameId(gameId);
+        var nicknames = new ArrayList<String>();
+        for (var user : users) {
+            nicknames.add(user.getNickname());
+        }
+        game.setNicknamesForQuestions(nicknames);
         gameRepository.save(game);
     }
 

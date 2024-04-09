@@ -6,6 +6,7 @@ import com.pilotpirxie.party.config.LocalDateTimeToUTCStringSerializer;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record GameDto(
     String id,
@@ -16,6 +17,7 @@ public record GameDto(
     Instant timerTo,
     int timeToAnswer,
     int timeToDraw,
+    List<String> nicknamesForQuestions,
     @JsonSerialize(using = LocalDateTimeToUTCStringSerializer.class)
     LocalDateTime createdAt,
     @JsonSerialize(using = LocalDateTimeToUTCStringSerializer.class)

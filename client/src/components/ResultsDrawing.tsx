@@ -13,14 +13,14 @@ export function ResultsDrawing({
   users,
   answers,
   onContinue,
-  userToAskAbout,
+  userNicknameToAskAbout,
   labels,
   timer,
 }: {
   question: Question;
   users: User[];
   answers: AnswerHistory[];
-  userToAskAbout: User;
+  userNicknameToAskAbout: string;
   onContinue: () => void;
   labels: {
     continue: string;
@@ -35,7 +35,7 @@ export function ResultsDrawing({
   return (
     <Container>
       <div className="text-center">
-        <h1>{question.content.replace("NICKNAME", userToAskAbout.nickname)}</h1>
+        <h1>{question.content.replace("NICKNAME", userNicknameToAskAbout)}</h1>
       </div>
       <div className="d-flex flex-column align-items-center">
         {usersWithDrawings

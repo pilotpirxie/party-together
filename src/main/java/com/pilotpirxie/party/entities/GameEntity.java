@@ -52,6 +52,9 @@ public class GameEntity {
     @Column(name = "game_category_ids", nullable = false)
     private List<UUID> gameCategoryIds;
 
+    @Column(name = "nicknames_for_questions", nullable = false)
+    private List<String> nicknamesForQuestions;
+
     @Column(nullable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;

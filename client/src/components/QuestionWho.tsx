@@ -5,7 +5,7 @@ import { Container } from "./Container.tsx";
 export function QuestionWho({
   question,
   onAnswer,
-  userToAskAbout,
+  userNicknameToAskAbout,
   users,
   timer,
   code,
@@ -13,7 +13,7 @@ export function QuestionWho({
   questionIndex,
 }: {
   question: Question;
-  userToAskAbout: User;
+  userNicknameToAskAbout: string;
   onAnswer: (answerId: string) => void;
   users: User[];
   timer: number;
@@ -31,7 +31,7 @@ export function QuestionWho({
           </div>
           <div>{code}</div>
         </div>
-        <h1>{question.content.replace("NICKNAME", userToAskAbout.nickname)}</h1>
+        <h1>{question.content.replace("NICKNAME", userNicknameToAskAbout)}</h1>
       </div>
       <div className="d-flex flex-row gap-3 justify-content-center flex-wrap cursor-pointer">
         {users.map((user) => (

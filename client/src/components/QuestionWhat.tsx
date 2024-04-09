@@ -1,17 +1,17 @@
-import { Question, User } from "../data/model.ts";
+import { Question } from "../data/model.ts";
 import { Container } from "./Container.tsx";
 
 export function QuestionWhat({
   question,
   onAnswer,
-  userToAskAbout,
+  userNicknameToAskAbout,
   timer,
   code,
   totalQuestions,
   questionIndex,
 }: {
   question: Question;
-  userToAskAbout: User;
+  userNicknameToAskAbout: string;
   onAnswer: (answerId: string) => void;
   timer: number;
   code: string;
@@ -28,7 +28,7 @@ export function QuestionWhat({
           </div>
           <div>{code}</div>
         </div>
-        <h1>{question.content.replace("NICKNAME", userToAskAbout.nickname)}</h1>
+        <h1>{question.content.replace("NICKNAME", userNicknameToAskAbout)}</h1>
       </div>
       <div className="d-flex flex-column">
         {question.answers.map((answer) => (

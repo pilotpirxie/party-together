@@ -12,14 +12,14 @@ export function ResultsWho({
   users,
   answers,
   onContinue,
-  userToAskAbout,
+  userNicknameToAskAbout,
   labels,
   timer,
 }: {
   question: Question;
   users: User[];
   answers: AnswerHistory[];
-  userToAskAbout: User;
+  userNicknameToAskAbout: string;
   onContinue: () => void;
   labels: {
     thisPlayer: string;
@@ -43,7 +43,7 @@ export function ResultsWho({
   return (
     <Container>
       <div className="text-center">
-        <h1>{question.content.replace("NICKNAME", userToAskAbout.nickname)}</h1>
+        <h1>{question.content.replace("NICKNAME", userNicknameToAskAbout)}</h1>
       </div>
       <div className="d-flex flex-row gap-3 justify-content-center flex-wrap cursor-pointer"></div>
       <div className="text-center">

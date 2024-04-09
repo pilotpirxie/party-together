@@ -13,12 +13,13 @@ export function Results() {
   const currentQuestion = useAppSelector(
     (state) => state.game.questions[state.game.gameRoom.questionIndex],
   );
-  const firstUser = useAppSelector((state) => state.game.users[0]);
-  const userToAskAbout = useAppSelector((state) =>
-    state.game.users.at(
-      state.game.gameRoom.questionIndex % state.game.users.length,
-    ),
-  );
+  const userNicknameToAskAbout = useAppSelector((state) => {
+    const currentNicknameIndex =
+      state.game.gameRoom.questionIndex %
+      state.game.gameRoom.nicknamesForQuestions.length;
+    return state.game.gameRoom.nicknamesForQuestions[currentNicknameIndex];
+  });
+
   const questionIndex = useAppSelector(
     (state) => state.game.gameRoom.questionIndex,
   );
@@ -55,7 +56,7 @@ export function Results() {
         <ResultsWho
           question={currentQuestion}
           onContinue={handleContinue}
-          userToAskAbout={userToAskAbout || firstUser}
+          userNicknameToAskAbout={userNicknameToAskAbout || ""}
           users={users}
           answers={answers}
           labels={{
@@ -71,7 +72,7 @@ export function Results() {
         <ResultsWhat
           question={currentQuestion}
           onContinue={handleContinue}
-          userToAskAbout={userToAskAbout || firstUser}
+          userNicknameToAskAbout={userNicknameToAskAbout || ""}
           users={users}
           answers={answers}
           labels={{
@@ -85,7 +86,7 @@ export function Results() {
         <ResultsDrawing
           question={currentQuestion}
           onContinue={handleContinue}
-          userToAskAbout={userToAskAbout || firstUser}
+          userNicknameToAskAbout={userNicknameToAskAbout || ""}
           users={users}
           answers={answers}
           labels={{

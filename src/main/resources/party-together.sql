@@ -8,6 +8,7 @@ CREATE TABLE "game" (
   "time_to_draw" int NOT NULL,
   "game_question_ids" uuid[] NOT NULL,
   "game_category_ids" uuid[] NOT NULL,
+  "nicknames_for_questions" varchar[] NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT now(),
   "updated_at" timestamp NOT NULL DEFAULT now()
 );

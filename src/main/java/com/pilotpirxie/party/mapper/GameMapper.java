@@ -17,6 +17,7 @@ public class GameMapper {
             entity.getTimerTo(),
             entity.getTimeToAnswer(),
             entity.getTimeToDraw(),
+            entity.getNicknamesForQuestions(),
             entity.getCreatedAt(),
             entity.getUpdatedAt()
         );
