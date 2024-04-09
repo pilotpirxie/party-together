@@ -36,6 +36,9 @@ i18n
           "The End": "Koniec",
           "Back to home": "Powrót do strony głównej",
           or: "lub",
+          "Game mode": "Tryb gry",
+          "Play with Friends": "Graj z przyjaciółmi",
+          "Play with Coworkers": "Graj ze współpracownikami",
         },
       },
       en: {

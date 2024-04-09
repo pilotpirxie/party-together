@@ -1,16 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./containers/App.tsx";
 import { Provider } from "react-redux";
 import { store } from "./data/store.ts";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Game } from "./containers/Game.tsx";
 import "./utils/i18n.ts";
+import { Join } from "./containers/Join.tsx";
+import { NewGame } from "./containers/NewGame.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Join />,
+  },
+  {
+    path: "/new",
+    element: <NewGame />,
   },
   {
     path: "/game/:code",

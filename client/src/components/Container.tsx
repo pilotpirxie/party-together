@@ -4,13 +4,23 @@ import cx from "classnames";
 export const Container = ({
   children,
   size = "m",
+  color = "white",
 }: {
   children: ReactNode;
   size?: "s" | "m" | "l" | "xl";
+  color?:
+    | "white"
+    | "dark"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "danger"
+    | "warning"
+    | "info";
 }) => {
   return (
-    <div className="bg-info vh-100 overflow-y-auto">
-      <div className="container py-3 py-md-5">
+    <div className={`bg-info vh-100 overflow-y-auto`}>
+      <div className={`container py-3 py-md-5`}>
         <div className="row">
           <div
             className={cx([
@@ -23,7 +33,7 @@ export const Container = ({
               },
             ])}
           >
-            <div className="card card-body">{children}</div>
+            <div className={`card card-body bg-${color}`}>{children}</div>
           </div>
         </div>
       </div>
