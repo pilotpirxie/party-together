@@ -29,10 +29,14 @@ export function NewGame() {
     }
 
     connect({
+      type: "create",
       nickname,
       color,
       avatar,
       code: "",
+      mode,
+      timeToAnswer,
+      timeToDraw,
     });
   };
 

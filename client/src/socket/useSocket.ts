@@ -16,15 +16,27 @@ import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { BASE_WS_URL } from "../utils/config.ts";
 
-type ConnectType = {
+type ConnectAndJoinType = {
+  type: "join";
   nickname: string;
   color: string;
   avatar: number;
   code: string;
 };
 
+type ConnectAndCreateType = {
+  type: "create";
+  nickname: string;
+  color: string;
+  avatar: number;
+  code: string;
+  mode: number;
+  timeToAnswer: number;
+  timeToDraw: number;
+};
+
 type SocketHook = {
-  connect: (connect: ConnectType) => void;
+  connect: (connect: ConnectAndJoinType | ConnectAndCreateType) => void;
   sendMessage: (message: OutgoingMessage, headers?: StompHeaders) => void;
   stompClient: Client | null;
 };
@@ -34,7 +46,11 @@ export function useSocket(): SocketHook {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const connect = async ({ nickname, color, code, avatar }: ConnectType) => {
+  const connect = async (
+    connectionPayload: ConnectAndJoinType | ConnectAndCreateType,
+  ) => {
+    const { type, nickname, color, avatar, code } = connectionPayload;
+
     if (stompClient?.connected) {
       await stompClient.deactivate();
     }
@@ -65,16 +81,32 @@ export function useSocket(): SocketHook {
           navigate(`/game/${payload.game.code}`);
         });
 
-        newStompClient?.publish({
-          destination: "/app/Join",
-          headers: {},
-          body: JSON.stringify({
-            nickname,
-            color,
-            code,
-            avatar,
-          }),
-        });
+        if (type === "join") {
+          newStompClient?.publish({
+            destination: "/app/Join",
+            headers: {},
+            body: JSON.stringify({
+              nickname,
+              color,
+              code,
+              avatar,
+            }),
+          });
+        } else {
+          newStompClient?.publish({
+            destination: "/app/CreateNewGame",
+            headers: {},
+            body: JSON.stringify({
+              nickname,
+              color,
+              code,
+              avatar,
+              mode: connectionPayload.mode,
+              timeToAnswer: connectionPayload.timeToAnswer,
+              timeToDraw: connectionPayload.timeToDraw,
+            }),
+          });
+        }
       },
     });
 

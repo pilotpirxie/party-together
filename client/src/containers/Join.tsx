@@ -46,6 +46,7 @@ export function Join() {
     }
 
     connect({
+      type: "join",
       nickname,
       color,
       avatar,
