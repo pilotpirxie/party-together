@@ -1,9 +1,9 @@
-import { useAppSelector } from "../data/store.ts";
-import { useSocket } from "../socket/useSocket.ts";
+import { useAppSelector } from "../../data/store.ts";
+import { useSocket } from "../../socket/useSocket.ts";
 import cx from "classnames";
-import { PlayerAvatar } from "../components/PlayerAvatar.tsx";
+import { PlayerAvatar } from "../../components/PlayerAvatar.tsx";
 import QRCode from "react-qr-code";
-import { Container } from "../components/Container.tsx";
+import { Container } from "../../components/Container.tsx";
 import { useTranslation } from "react-i18next";
 
 export function WaitingLobby() {
@@ -85,7 +85,11 @@ export function WaitingLobby() {
         <div className="col-12">
           <div className="text-center">
             <div className="mb-1">{t("Everyone is ready?")}</div>
-            <button className="btn btn-primary" onClick={handleStart}>
+            <button
+              className="btn btn-primary"
+              onClick={handleStart}
+              disabled={gameUsers.length === 0}
+            >
               {t("Start the game!")}
             </button>
           </div>
@@ -97,7 +101,7 @@ export function WaitingLobby() {
             className="text-decoration-underline small cursor-pointer"
             onClick={handleToggleTVMode}
           >
-            Turn on Tv mode
+            {currentUser.isTv ? t("Exit TV mode") : t("Enter TV mode")}
           </div>
         </div>
       </div>

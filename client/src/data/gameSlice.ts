@@ -18,6 +18,7 @@ const initialState: GameState = {
     questionIndex: 0,
     state: "WAITING",
     code: "",
+    nicknamesForQuestions: [],
     id: "",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -33,6 +34,7 @@ const initialState: GameState = {
     nickname: "",
     avatar: 0,
     isReady: false,
+    isTv: false,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -60,11 +62,13 @@ const gameSlice = createSlice({
       state.categories = payload;
     },
     setUsers: (state, { payload }: PayloadAction<User[]>) => {
-      state.users = payload.sort((a, b) => {
-        return (
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-      });
+      state.users = payload
+        .filter((user) => !user.isTv)
+        .sort((a, b) => {
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        });
 
       if (state.currentUser.id) {
         state.currentUser =

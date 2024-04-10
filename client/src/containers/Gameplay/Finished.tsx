@@ -1,8 +1,8 @@
-import { Container } from "../components/Container.tsx";
+import { Container } from "../../components/Container.tsx";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../data/store.ts";
-import { PlayerAvatar } from "../components/PlayerAvatar.tsx";
+import { useAppSelector } from "../../data/store.ts";
+import { PlayerAvatar } from "../../components/PlayerAvatar.tsx";
 import cx from "classnames";
 
 export function Finished() {

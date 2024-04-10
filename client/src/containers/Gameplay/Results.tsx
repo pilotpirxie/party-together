@@ -1,9 +1,9 @@
-import { useSocket } from "../socket/useSocket.ts";
-import { useAppSelector } from "../data/store.ts";
-import { ResultsWho } from "../components/ResultsWho.tsx";
+import { useSocket } from "../../socket/useSocket.ts";
+import { useAppSelector } from "../../data/store.ts";
+import { ResultsWho } from "../../components/ResultsWho.tsx";
 import { useTranslation } from "react-i18next";
-import { ResultsWhat } from "../components/ResultsWhat.tsx";
-import { ResultsDrawing } from "../components/ResultsDrawing.tsx";
+import { ResultsWhat } from "../../components/ResultsWhat.tsx";
+import { ResultsDrawing } from "../../components/ResultsDrawing.tsx";
 import { useEffect, useState } from "react";
 
 export function Results() {

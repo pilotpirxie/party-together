@@ -1,11 +1,11 @@
 import { useAppSelector } from "../data/store.ts";
-import { WaitingLobby } from "./WaitingLobby.tsx";
-import { Question } from "./Question.tsx";
-import { Category } from "./Category.tsx";
-import { Finished } from "./Finished.tsx";
+import { WaitingLobby } from "./Gameplay/WaitingLobby.tsx";
+import { Question } from "./Gameplay/Question.tsx";
+import { Category } from "./Gameplay/Category.tsx";
+import { Finished } from "./Gameplay/Finished.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { Results } from "./Results.tsx";
+import { Results } from "./Gameplay/Results.tsx";
 
 export function Game() {
   const gameState = useAppSelector((state) => state.game.gameRoom.state);

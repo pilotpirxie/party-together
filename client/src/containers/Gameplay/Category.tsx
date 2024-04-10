@@ -1,6 +1,6 @@
-import { useAppSelector } from "../data/store.ts";
-import { useSocket } from "../socket/useSocket.ts";
-import { Container } from "../components/Container.tsx";
+import { useAppSelector } from "../../data/store.ts";
+import { useSocket } from "../../socket/useSocket.ts";
+import { Container } from "../../components/Container.tsx";
 import { useTranslation } from "react-i18next";
 import cx from "classnames";
 

@@ -39,6 +39,8 @@ i18n
           "Game mode": "Tryb gry",
           "Play with Friends": "Graj z przyjaciółmi",
           "Play with Coworkers": "Graj ze współpracownikami",
+          "Enter TV mode": "Włącz tryb TV",
+          "Exit TV mode": "Wyjdź z trybu TV",
         },
       },
       en: {

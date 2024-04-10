@@ -1,16 +1,17 @@
-import { Container } from "../components/Container.tsx";
-import { PlayerAvatar } from "../components/PlayerAvatar.tsx";
+import { Container } from "./Container.tsx";
+import { PlayerAvatar } from "./PlayerAvatar.tsx";
 import { Question, User } from "../data/model.ts";
 import { useTranslation } from "react-i18next";
 
-export const WaitingForOther = ({
-  onContinue,
+export const QuestionTv = ({
   question,
   userNicknameToAskAbout,
   timer,
   users,
+  totalQuestions,
+  questionIndex,
+  code,
 }: {
-  onContinue: () => void;
   question: Question;
   userNicknameToAskAbout: string;
   code: string;
@@ -25,12 +26,21 @@ export const WaitingForOther = ({
   return (
     <Container>
       <div className="text-center">
-        <h1>{question.content.replace("NICKNAME", userNicknameToAskAbout)}</h1>
+        <div className="d-flex justify-content-between">
+          <div>{timer > 0 ? timer + "s" : "0s"}</div>
+          <div>
+            {questionIndex + 1}/{totalQuestions}
+          </div>
+          <div>{code}</div>
+        </div>
+        <h1 className="text-large">
+          {question.content.replace("NICKNAME", userNicknameToAskAbout)}
+        </h1>
       </div>
 
       {anyUserNotReady && (
         <div className="text-center">
-          <h4>{t("Waiting for other players...")}</h4>
+          <h4>{t("Waiting for players...")}</h4>
         </div>
       )}
 
@@ -48,16 +58,6 @@ export const WaitingForOther = ({
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="text-center">
-        <button
-          className="btn btn-primary"
-          onClick={() => onContinue()}
-          disabled={anyUserNotReady && timer > 0}
-        >
-          {t("Continue")} {anyUserNotReady && timer > 0 ? `(${timer}s)` : ""}
-        </button>
       </div>
     </Container>
   );
