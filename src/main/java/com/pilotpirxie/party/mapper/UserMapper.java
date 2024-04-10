@@ -17,6 +17,7 @@ public class UserMapper {
             entity.getAvatar(),
             entity.getColor(),
             entity.isReady(),
+            entity.isTv(),
             entity.getCreatedAt(),
             entity.getUpdatedAt()
         );

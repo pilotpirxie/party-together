@@ -56,6 +56,13 @@ public class GameController {
         gameService.sendUsersState(sessionGame.gameId());
     }
 
+    @MessageMapping("/ToggleTv")
+    public void toggleTv(SimpMessageHeaderAccessor headerAccessor) {
+        gameService.toggleTv(headerAccessor.getSessionId());
+        var sessionGame = sessionGameMappingService.getGameId(headerAccessor.getSessionId());
+        gameService.sendUsersState(sessionGame.gameId());
+    }
+
     @MessageMapping("/StartGame")
     public void startGame(SimpMessageHeaderAccessor headerAccessor) {
         var sessionGame = sessionGameMappingService.getGameId(headerAccessor.getSessionId());

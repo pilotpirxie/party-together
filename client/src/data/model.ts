@@ -18,6 +18,7 @@ export type User = {
   color: string;
   avatar: number;
   isReady: boolean;
+  isTv: boolean;
   createdAt: string;
   updatedAt: string;
 };

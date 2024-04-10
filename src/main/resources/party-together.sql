@@ -23,6 +23,7 @@ CREATE TABLE "users" (
   "avatar" int NOT NULL,
   "color" varchar NOT NULL,
   "is_ready" bool NOT NULL,
+  "is_tv" bool NOT NULL,
   "connected" bool NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT now(),
   "updated_at" timestamp NOT NULL DEFAULT now()

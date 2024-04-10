@@ -113,6 +113,7 @@ public class GameService {
             newUser.setAvatar(avatar);
             newUser.setGameId(gameId);
             newUser.setReady(false);
+            newUser.setTv(false);
             newUser.setConnected(true);
             newUser.setColor(color);
             userRepository.save(newUser);
@@ -164,6 +165,12 @@ public class GameService {
     public void toggleReady(String sessionId) {
         var user = userRepository.findBySessionId(sessionId).orElseThrow();
         user.setReady(!user.isReady());
+        userRepository.save(user);
+    }
+
+    public void toggleTv(String sessionId) {
+        var user = userRepository.findBySessionId(sessionId).orElseThrow();
+        user.setTv(!user.isTv());
         userRepository.save(user);
     }
 

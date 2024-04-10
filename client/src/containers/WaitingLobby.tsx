@@ -21,6 +21,10 @@ export function WaitingLobby() {
     sendMessage({ type: "ToggleReady" });
   };
 
+  const handleToggleTVMode = () => {
+    sendMessage({ type: "ToggleTv" });
+  };
+
   return (
     <Container>
       <div className="row">
@@ -84,6 +88,16 @@ export function WaitingLobby() {
             <button className="btn btn-primary" onClick={handleStart}>
               {t("Start the game!")}
             </button>
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="mt-1">
+          <div
+            className="text-decoration-underline small cursor-pointer"
+            onClick={handleToggleTVMode}
+          >
+            Turn on Tv mode
           </div>
         </div>
       </div>

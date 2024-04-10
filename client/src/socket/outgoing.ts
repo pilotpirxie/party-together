@@ -11,6 +11,10 @@ export type ToggleReadyEvent = {
   type: "ToggleReady";
 };
 
+export type ToggleTvEvent = {
+  type: "ToggleTv";
+};
+
 export type StartGameEvent = {
   type: "StartGame";
 };
@@ -40,4 +44,5 @@ export type OutgoingMessage =
   | StartGameEvent
   | ContinueToQuestionEvent
   | SendAnswer
-  | ContinueToResultsEvent;
+  | ContinueToResultsEvent
+  | ToggleTvEvent;

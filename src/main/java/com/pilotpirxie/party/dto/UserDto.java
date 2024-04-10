@@ -13,6 +13,7 @@ public record UserDto(
     Integer avatar,
     String color,
     boolean isReady,
+    boolean isTv,
     @JsonSerialize(using = LocalDateTimeToUTCStringSerializer.class)
     LocalDateTime createdAt,
     @JsonSerialize(using = LocalDateTimeToUTCStringSerializer.class)

@@ -44,6 +44,9 @@ public class UserEntity {
     private boolean isReady;
 
     @Column(nullable = false)
+    private boolean isTv;
+
+    @Column(nullable = false)
     private boolean connected;
 
     @CreationTimestamp
