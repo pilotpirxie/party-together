@@ -16,6 +16,7 @@ export function ResultsWhat({
   userNicknameToAskAbout,
   labels,
   timer,
+  isTv,
 }: {
   question: Question;
   users: User[];
@@ -26,6 +27,7 @@ export function ResultsWhat({
     continue: string;
   };
   timer: number;
+  isTv: boolean;
 }) {
   const usersWithChoices: UserWithAnswer[] = users.map((user) => {
     const answer = answers.find((answer) => answer.userId === user.id);
@@ -79,15 +81,16 @@ export function ResultsWhat({
               </div>
             );
           })}
-      </div>
-      <div className="text-center">
-        <button
-          onClick={onContinue}
-          className="btn btn-warning text-black"
-          disabled={timer > 0}
-        >
-          {labels.continue} {timer > 0 ? `(${timer}s)` : ""}
-        </button>
+
+        {!isTv && (
+          <button
+            onClick={onContinue}
+            className="btn btn-warning text-black"
+            disabled={timer > 0}
+          >
+            {labels.continue} {timer > 0 ? `(${timer}s)` : ""}
+          </button>
+        )}
       </div>
     </Container>
   );

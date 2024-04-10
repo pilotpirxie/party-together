@@ -10,6 +10,7 @@ export function Results() {
   const { sendMessage } = useSocket();
   const { t } = useTranslation();
 
+  const currentUser = useAppSelector((state) => state.game.currentUser);
   const currentQuestion = useAppSelector(
     (state) => state.game.questions[state.game.gameRoom.questionIndex],
   );
@@ -50,51 +51,56 @@ export function Results() {
     });
   };
 
-  return (
-    <>
-      {currentQuestion.type === "WHO" && (
-        <ResultsWho
-          question={currentQuestion}
-          onContinue={handleContinue}
-          userNicknameToAskAbout={userNicknameToAskAbout || ""}
-          users={users}
-          answers={answers}
-          labels={{
-            thisPlayer: t("This player"),
-            gotVotesFrom: t("got votes from"),
-            continue: t("Continue"),
-          }}
-          timer={timer}
-        />
-      )}
+  if (currentQuestion.type === "WHO") {
+    return (
+      <ResultsWho
+        isTv={currentUser.isTv}
+        question={currentQuestion}
+        onContinue={handleContinue}
+        userNicknameToAskAbout={userNicknameToAskAbout || ""}
+        users={users}
+        answers={answers}
+        labels={{
+          thisPlayer: t("This player"),
+          gotVotesFrom: t("got votes from"),
+          continue: t("Continue"),
+        }}
+        timer={timer}
+      />
+    );
+  }
 
-      {currentQuestion.type === "WHAT" && (
-        <ResultsWhat
-          question={currentQuestion}
-          onContinue={handleContinue}
-          userNicknameToAskAbout={userNicknameToAskAbout || ""}
-          users={users}
-          answers={answers}
-          labels={{
-            continue: t("Continue"),
-          }}
-          timer={timer}
-        />
-      )}
+  if (currentQuestion.type === "WHAT") {
+    return (
+      <ResultsWhat
+        isTv={currentUser.isTv}
+        question={currentQuestion}
+        onContinue={handleContinue}
+        userNicknameToAskAbout={userNicknameToAskAbout || ""}
+        users={users}
+        answers={answers}
+        labels={{
+          continue: t("Continue"),
+        }}
+        timer={timer}
+      />
+    );
+  }
 
-      {currentQuestion.type === "DRAWING" && (
-        <ResultsDrawing
-          question={currentQuestion}
-          onContinue={handleContinue}
-          userNicknameToAskAbout={userNicknameToAskAbout || ""}
-          users={users}
-          answers={answers}
-          labels={{
-            continue: t("Continue"),
-          }}
-          timer={timer}
-        />
-      )}
-    </>
-  );
+  if (currentQuestion.type === "DRAWING") {
+    return (
+      <ResultsDrawing
+        isTv={currentUser.isTv}
+        question={currentQuestion}
+        onContinue={handleContinue}
+        userNicknameToAskAbout={userNicknameToAskAbout || ""}
+        users={users}
+        answers={answers}
+        labels={{
+          continue: t("Continue"),
+        }}
+        timer={timer}
+      />
+    );
+  }
 }

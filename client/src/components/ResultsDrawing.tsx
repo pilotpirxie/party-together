@@ -16,6 +16,7 @@ export function ResultsDrawing({
   userNicknameToAskAbout,
   labels,
   timer,
+  isTv,
 }: {
   question: Question;
   users: User[];
@@ -26,6 +27,7 @@ export function ResultsDrawing({
     continue: string;
   };
   timer: number;
+  isTv: boolean;
 }) {
   const usersWithDrawings: UserWithDrawing[] = users.map((user) => ({
     ...user,
@@ -70,15 +72,16 @@ export function ResultsDrawing({
               </div>
             );
           })}
-      </div>
-      <div className="text-center">
-        <button
-          onClick={onContinue}
-          className="btn btn-warning text-black"
-          disabled={timer > 0}
-        >
-          {labels.continue} {timer > 0 ? `(${timer}s)` : ""}
-        </button>
+
+        {!isTv && (
+          <button
+            onClick={onContinue}
+            className="btn btn-warning text-black"
+            disabled={timer > 0}
+          >
+            {labels.continue} {timer > 0 ? `(${timer}s)` : ""}
+          </button>
+        )}
       </div>
     </Container>
   );

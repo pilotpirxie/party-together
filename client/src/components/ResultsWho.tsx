@@ -15,6 +15,7 @@ export function ResultsWho({
   userNicknameToAskAbout,
   labels,
   timer,
+  isTv,
 }: {
   question: Question;
   users: User[];
@@ -27,6 +28,7 @@ export function ResultsWho({
     continue: string;
   };
   timer: number;
+  isTv: boolean;
 }) {
   const userChoices: UserChoice[] = users.map((user) => {
     const selectedBy = answers
@@ -83,13 +85,15 @@ export function ResultsWho({
           </div>
         ))}
 
-        <button
-          onClick={onContinue}
-          className="btn btn-warning text-black mt-3"
-          disabled={timer > 0}
-        >
-          {labels.continue} {timer > 0 ? `(${timer}s)` : ""}
-        </button>
+        {!isTv && (
+          <button
+            onClick={onContinue}
+            className="btn btn-warning text-black mt-3"
+            disabled={timer > 0}
+          >
+            {labels.continue} {timer > 0 ? `(${timer}s)` : ""}
+          </button>
+        )}
       </div>
     </Container>
   );
