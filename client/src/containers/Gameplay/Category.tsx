@@ -6,6 +6,7 @@ import cx from "classnames";
 
 export function Category() {
   const { sendMessage } = useSocket();
+  const currentUser = useAppSelector((state) => state.game.currentUser);
   const currentQuestion = useAppSelector(
     (state) => state.game.questions[state.game.gameRoom.questionIndex],
   );
@@ -51,9 +52,11 @@ export function Category() {
         <div className="fs-3 my-4">{currentCategory?.description}</div>
       </div>
 
-      <button className="btn btn-warning text-black" onClick={handleContinue}>
-        {t("Show the first question!")}
-      </button>
+      {!currentUser.isTv && (
+        <button className="btn btn-warning text-black" onClick={handleContinue}>
+          {t("Show the first question!")}
+        </button>
+      )}
     </Container>
   );
 }

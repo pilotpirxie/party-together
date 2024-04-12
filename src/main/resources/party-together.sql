@@ -116,6 +116,8 @@ INSERT INTO public.categories VALUES ('0a627905-eea5-4b9d-958a-f7f8a4b81393', 'P
 INSERT INTO public.categories VALUES ('85e58c08-6438-4a79-bf7a-b687d994a3d5', 'Abstrakcja', 'Nietypowe pytania, nietypowe odpowiedzi', 0, '', '', '', '2024-03-03 19:22:06.294808', '2024-03-03 19:22:06.294808');
 INSERT INTO public.categories VALUES ('362cd6aa-f040-4dd3-90f1-4c8b96aa6757', 'Superbohaterowie', 'O supermocach i stylowych wdziankach', 0, '', '', '', '2024-03-03 19:24:52.80822', '2024-03-03 19:24:52.80822');
 INSERT INTO public.categories VALUES ('7fb79242-35f8-48b4-a7e9-ddf7f959b5af', 'Lifestyle', 'Pogadajmy o stylu życia', 0, '', '', '', '2024-03-03 19:23:46.971367', '2024-03-03 19:23:46.971367');
+-- INSERT INTO public.categories VALUES ('92b1b3b4-1b3b-4b3b-8b3b-1b3b4b3b4b3b', 'Sprawy sercowe', 'O miłości, przyjaźni i zdradzie', 0, '', '', '', '2024-03-03 19:24:52.80822', '2024-03-03 19:24:52.80822');
+-- INSERT INTO public.categories VALUES ('f7b1b3b4-1b3b-4b3b-8b3b-1b3b4b3b4b3b', 'Kultura', 'O sztuce, muzyce i filmie', 0, '', '', '', '2024-03-03 19:24:52.80822', '2024-03-03 19:24:52.80822');
 
 /* Questions - What someone would do... */
 INSERT INTO public.questions VALUES ('c3583998-9f24-4562-a02a-9e234294fae7', 'WHAT', '0a627905-eea5-4b9d-958a-f7f8a4b81393', 'Jakie miejsce wybrałby NICKNAME na wakacje?', default, default);

@@ -41,6 +41,8 @@ i18n
           "Play with Coworkers": "Graj ze współpracownikami",
           "Enter TV mode": "Włącz tryb TV",
           "Exit TV mode": "Wyjdź z trybu TV",
+          "Time to answer": "Czas na odpowiedź",
+          "Time to draw": "Czas na rysowanie",
         },
       },
       en: {
